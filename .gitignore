@@ -4,3 +4,10 @@ composer.json
 composer.lock
 /bootstrap
 .env
+.settings
+.project
+.idea
+composer.lock
+/nbproject
+/node_modules
+npm-debug.log
