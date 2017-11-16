@@ -1,4 +1,4 @@
-@extends('layout.backend')
+@extends('backend.layout')
 @section('content')
 <div class="content-wrapper">
 <!-- Content Header (Page header) -->
@@ -66,19 +66,19 @@
               <th style="width: 1%">#</th>             
               <th style="text-align:left">Sản phẩm</th>
               <th style="white-space:nowrap; text-align:right">
-                <img src="{{ URL::asset('uploads/images/icho.jpg')}}" width="100" />
+                <img src="{{ URL::asset('public/uploads/images/icho.jpg')}}" width="100" />
               </th>                           
               <th style="white-space:nowrap; text-align:right">
-                <img src="{{ URL::asset('uploads/images/tiki.jpg')}}" width="80" />
+                <img src="{{ URL::asset('public/uploads/images/tiki.jpg')}}" width="80" />
               </th>
               <th style="white-space:nowrap; text-align:right">
-                <img src="{{ URL::asset('uploads/images/lazada.jpg')}}" width="80" />
+                <img src="{{ URL::asset('public/uploads/images/lazada.jpg')}}" width="80" />
               </th>
               <th style="white-space:nowrap; text-align:right">
-                <img src="{{ URL::asset('uploads/images/adayroi.jpg')}}" width="80" />
+                <img src="{{ URL::asset('public/uploads/images/adayroi.jpg')}}" width="80" />
               </th>
               <!--<th style="white-space:nowrap; text-align:right">
-                <img src="{{ URL::asset('uploads/images/sendo.jpg')}}" width="80" />
+                <img src="{{ URL::asset('public/uploads/images/sendo.jpg')}}" width="80" />
               </th>-->
               <th width="white-space:nowrap">Thao tác</th>
             </tr>

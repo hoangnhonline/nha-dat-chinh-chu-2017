@@ -93,8 +93,8 @@ class CustomerController extends Controller
             function($message) use ($email) {
                 $message->subject('Yêu cầu thay đổi mật khẩu');
                 $message->to($email);
-                $message->from('icho.vn@gmail.com', 'NhaDat');
-                $message->sender('icho.vn@gmail.com', 'NhaDat');
+                $message->from('nhadat.vn@gmail.com', 'NhaDat');
+                $message->sender('nhadat.vn@gmail.com', 'NhaDat');
         });
     }
     public function resetPassword(Request $request){
