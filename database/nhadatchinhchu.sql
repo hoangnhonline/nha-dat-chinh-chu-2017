@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 16, 2017 at 10:35 AM
+-- Generation Time: Nov 16, 2017 at 03:16 PM
 -- Server version: 5.5.58-0ubuntu0.14.04.1
 -- PHP Version: 7.2.0RC6
 
@@ -66,13 +66,16 @@ CREATE TABLE IF NOT EXISTS `area` (
 DROP TABLE IF EXISTS `articles`;
 CREATE TABLE IF NOT EXISTS `articles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(500) NOT NULL,
+  `title_vi` varchar(500) NOT NULL,
+  `title_en` varchar(500) NOT NULL,
   `slug` varchar(500) NOT NULL,
   `alias` varchar(500) NOT NULL,
-  `description` text,
+  `description_vi` text,
+  `description_en` text,
   `image_url` varchar(255) DEFAULT NULL,
   `cate_id` int(11) NOT NULL COMMENT '999 : landing page',
-  `content` text,
+  `content_vi` text,
+  `content_en` text,
   `is_hot` tinyint(1) NOT NULL,
   `project_id` int(11) DEFAULT NULL,
   `tab_id` int(11) DEFAULT NULL,
@@ -95,10 +98,12 @@ CREATE TABLE IF NOT EXISTS `articles` (
 DROP TABLE IF EXISTS `articles_cate`;
 CREATE TABLE IF NOT EXISTS `articles_cate` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `name_vi` varchar(255) NOT NULL,
+  `name_en` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
-  `description` varchar(500) DEFAULT NULL,
+  `description_vi` varchar(500) DEFAULT NULL,
+  `description_en` varchar(500) DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -106,6 +111,7 @@ CREATE TABLE IF NOT EXISTS `articles_cate` (
   `updated_user` tinyint(4) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `display_order` tinyint(4) NOT NULL,
+  `meta_id` bigint(20) NOT NULL,
   `meta_title` varchar(255) DEFAULT NULL,
   `meta_description` varchar(255) DEFAULT NULL,
   `meta_keywords` varchar(255) DEFAULT NULL,
@@ -288,6 +294,39 @@ CREATE TABLE IF NOT EXISTS `contact` (
   KEY `phone` (`phone`),
   KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `counter_ips`
+--
+
+DROP TABLE IF EXISTS `counter_ips`;
+CREATE TABLE IF NOT EXISTS `counter_ips` (
+  `ip` varchar(15) NOT NULL,
+  `object_id` int(11) NOT NULL,
+  `object_type` tinyint(4) NOT NULL COMMENT '1 : product 2: articles 3 :home',
+  `visit` int(11) NOT NULL DEFAULT '0',
+  UNIQUE KEY `ip` (`ip`,`object_id`,`object_type`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `counter_values`
+--
+
+DROP TABLE IF EXISTS `counter_values`;
+CREATE TABLE IF NOT EXISTS `counter_values` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `object_id` int(11) NOT NULL,
+  `object_type` tinyint(4) NOT NULL COMMENT '1 : product 2: articles 3 :home',
+  `day_id` bigint(11) NOT NULL,
+  `day_value` bigint(11) NOT NULL,
+  `all_value` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `object_id` (`object_id`,`object_type`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -621,9 +660,10 @@ CREATE TABLE IF NOT EXISTS `price_unit` (
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE IF NOT EXISTS `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
+  `title_vi` varchar(255) NOT NULL,
+  `title_en` varchar(255) NOT NULL,
   `slug` varchar(255) DEFAULT NULL,
-  `description` text NOT NULL,
+  `description_vi` text NOT NULL,
   `type` int(11) NOT NULL COMMENT '1 : buy 2 : rent',
   `thumbnail_id` bigint(20) NOT NULL,
   `cate_id` int(11) DEFAULT NULL,
@@ -635,21 +675,30 @@ CREATE TABLE IF NOT EXISTS `product` (
   `project_id` int(11) NOT NULL,
   `price` varchar(50) NOT NULL,
   `price_unit_id` smallint(6) NOT NULL,
-  `area` varchar(100) NOT NULL,
-  `full_address` varchar(255) DEFAULT NULL,
-  `front_face` varchar(20) DEFAULT NULL,
-  `street_wide` varchar(20) DEFAULT NULL,
+  `area_vi` varchar(100) NOT NULL,
+  `area_en` varchar(100) NOT NULL,
+  `full_address_vi` varchar(255) DEFAULT NULL,
+  `full_address_en` varchar(255) DEFAULT NULL,
+  `front_face_vi` varchar(20) DEFAULT NULL,
+  `front_face_en` varchar(20) DEFAULT NULL,
+  `street_wide_vi` varchar(20) DEFAULT NULL,
+  `street_wide_en` varchar(20) DEFAULT NULL,
   `no_floor` smallint(6) NOT NULL,
   `no_room` smallint(6) NOT NULL,
   `direction_id` smallint(6) NOT NULL,
   `no_wc` smallint(6) NOT NULL,
   `image_url` varchar(255) DEFAULT NULL,
   `video_url` int(11) DEFAULT NULL,
-  `contact_name` varchar(255) DEFAULT NULL,
-  `contact_address` varchar(255) DEFAULT NULL,
-  `contact_phone` varchar(20) DEFAULT NULL,
-  `contact_mobile` varchar(20) DEFAULT NULL,
-  `contact_email` varchar(255) DEFAULT NULL,
+  `contact_name_vi` varchar(255) DEFAULT NULL,
+  `contact_name_en` varchar(255) DEFAULT NULL,
+  `contact_address_vi` varchar(255) DEFAULT NULL,
+  `contact_address_en` varchar(255) DEFAULT NULL,
+  `contact_phone_vi` varchar(20) DEFAULT NULL,
+  `contact_phone_en` varchar(20) DEFAULT NULL,
+  `contact_mobile_vi` varchar(20) DEFAULT NULL,
+  `contact_mobile_en` varchar(20) DEFAULT NULL,
+  `contact_email_vi` varchar(255) DEFAULT NULL,
+  `contact_email_en` varchar(255) DEFAULT NULL,
   `url_dothi` varchar(255) NOT NULL,
   `price_id` int(11) DEFAULT NULL,
   `area_id` int(11) DEFAULT NULL,
@@ -741,7 +790,8 @@ CREATE TABLE IF NOT EXISTS `project_tab` (
 DROP TABLE IF EXISTS `project_type`;
 CREATE TABLE IF NOT EXISTS `project_type` (
   `project_type_id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_type_name` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `project_type_name_vi` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `product_type_name_en` varchar(255) NOT NULL,
   `project_type_alias` varchar(255) NOT NULL,
   `display_order` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
