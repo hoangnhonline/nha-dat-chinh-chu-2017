@@ -4,6 +4,8 @@ use App\Helpers\simple_html_dom;
 use App\Models\City;
 use App\Models\Price;
 use App\Models\Area;
+use App\Models\CounterValues;
+use App\Models\CounterIps;
 use DB, Image;
 
 class Helper
@@ -13,6 +15,12 @@ class Helper
     public static function shout(string $string)
     {
         return strtoupper($string);
+    }
+    public static function getNextOrder($table, $where = []){
+        return DB::table($table)->where($where)->max('display_order') + 1;
+    }
+    public static function setting(){
+        return Settings::whereRaw('1')->lists('value', 'name');
     }
     public static function getChild($table, $column, $parent_id){
         $listData = DB::table($table)->where($column, $parent_id)->get();
@@ -36,9 +44,7 @@ class Helper
             }
         }
     }
-    public static function getNextOrder($table){
-        return DB::table($table)->max('display_order') + 1;
-    }
+    
     public static function getPriceId($price, $price_unit_id, $type){
         $rs = Price::where('value_from', '<=', $price)
                     ->where('value_to', '>=', $price)
@@ -64,8 +70,8 @@ class Helper
     }
     public static function showImage($image_url, $type = 'original'){
 
-        //return strpos($image_url, 'http') === false ? config('icho.upload_url') . $type . '/' . $image_url : $image_url;        
-        return strpos($image_url, 'http') === false ? config('icho.upload_url') . $image_url : $image_url;        
+        //return strpos($image_url, 'http') === false ? config('nhadat.upload_url') . $type . '/' . $image_url : $image_url;        
+        return strpos($image_url, 'http') === false ? config('nhadat.upload_url') . $image_url : $image_url;        
 
     }
     public static function showImageThumb($image_url, $object_type = 1, $folder = ''){             
@@ -73,11 +79,11 @@ class Helper
         //object_type = 1 : product, 2 :article  3: project             
         if(strpos($image_url, 'http') === false){
             if($object_type == 1){
-                return config('icho.upload_url') . 'thumbs/' . $folder. '/' . $image_url;
+                return config('nhadat.upload_url') . 'thumbs/' . $folder. '/' . $image_url;
             }elseif($object_type == 2){
-                return config('icho.upload_url') . 'thumbs/articles/'. $folder. '/' . $image_url;
+                return config('nhadat.upload_url') . 'thumbs/articles/'. $folder. '/' . $image_url;
             }else{
-                return config('icho.upload_url') . 'thumbs/projects/'. $folder. '/' . $image_url;
+                return config('nhadat.upload_url') . 'thumbs/projects/'. $folder. '/' . $image_url;
             }    
         }else{
             return $image_url;
@@ -133,6 +139,126 @@ class Helper
                 break;
         }
         return $arr = ['date_from' => date('Y-m-d', $from_date), 'date_to' => date('Y-m-d', $to_date)];
+    }
+    public static function view($object_id, $object_type, $day_id = null){
+        $rs = CounterValues::where(['object_id' => $object_id, 'object_type' => $object_type])->first();
+
+        if($rs){
+            return $day_id ? $rs->day_value : $rs->all_value;
+        }else{
+            return 0;
+        }
+    }
+    public static function counter( $object_id, $object_type){
+        // ip-protection in seconds
+        $counter_expire = 600;
+
+        // ignore agent list
+        $counter_ignore_agents = array('bot', 'bot1', 'bot3');
+
+        // ignore ip list
+        //$counter_ignore_ips = array('127.0.0.2', '127.0.0.3');
+        $counter_ignore_ips = [];
+        // get basic information
+        $counter_agent = $_SERVER['HTTP_USER_AGENT'];
+        $counter_ip = $_SERVER['REMOTE_ADDR']; 
+        $counter_time = time();
+
+        $ignore = false; 
+           
+        // get counter information   
+        $rs1 = CounterValues::where(['object_id' => $object_id, 'object_type' => $object_type])->first();   
+
+        // fill when empty
+        if (!$rs1)
+        {   
+
+            $tmpArr = [
+                'object_id' => $object_id,
+                'object_type' => $object_type,
+                'day_id' => date("z"),
+                'day_value' => 1,
+                'all_value' => 1
+            ];
+          CounterValues::create($tmpArr);
+          $rs1 = CounterValues::where(['object_id' => $object_id, 'object_type' => $object_type])->first();
+          
+          $ignore = true;
+        }   
+        
+        $day_id = $rs1->day_id;
+        $day_value = $rs1->day_value;
+        $all_value = $rs1->all_value;
+        // check ignore lists
+        $length = sizeof($counter_ignore_agents);
+        for ($i = 0; $i < $length; $i++)
+        {
+          if (substr_count($counter_agent, strtolower($counter_ignore_agents[$i])))
+          {
+             $ignore = true;
+             break;
+          }
+        }
+
+        $length = sizeof($counter_ignore_ips);
+        for ($i = 0; $i < $length; $i++)
+        {
+          if ($counter_ip == $counter_ignore_ips[$i])
+          {
+             $ignore = true;
+             break;
+          }
+        }
+
+        
+        // delete free ips
+        if ($ignore == false)
+        {           
+            $time = time();
+            CounterIps::where(['object_id' =>$object_id, 'object_type' => $object_type, 'ip' => $counter_ip])->whereRaw("$time-visit >= $counter_expire")->delete();
+        }
+ 
+        // check for entry
+        if ($ignore == false)
+        {
+            $rs2 = CounterIps::where(['ip' => $counter_ip, 'object_id' => $object_id, 'object_type' => $object_type])->get();
+          
+          if ( $rs2->count() > 0)
+          {
+            $modelCouterIps = CounterIps::where('ip', $counter_ip)->where(['object_id' => $object_id, 'object_type' => $object_type]);
+            $modelCouterIps->update(['visit' => time()]);   
+            $ignore = true;          
+          }
+          else
+          {
+             // insert ip
+             CounterIps::create(['ip' => $counter_ip, 'visit' => time(), 'object_id' => $object_id, 'object_type' => $object_type]);
+          }       
+        }
+        // add counter
+        if ($ignore == false)
+        {
+          // day
+          if ($day_id == date("z")) 
+          {
+             $day_value++; 
+          }
+          else 
+          {
+             $day_value = 1;
+             $day_id = date("z");
+          }
+          // all
+          $all_value++; 
+
+        $modelCouterValues = CounterValues::where(['object_id' => $object_id, 'object_type' => $object_type]);
+        $modelCouterValues->update([
+                'day_id' => $day_id,
+                'day_value' => $day_value,
+                'all_value' => $all_value
+        ]);
+         
+        }
     }
     public static function getName( $id, $table){
         $rs = DB::table($table)->where('id', $id)->first();
@@ -356,8 +482,8 @@ class Helper
 
         $basePath = $date_dir == true ? $basePath .= date('Y/m/d'). '/'  : $basePath = $basePath;        
         
-        $desPath = config('icho.upload_path'). $basePath;
-        $desThumbsPath = config('icho.upload_thumbs_path'). $basePath;
+        $desPath = config('nhadat.upload_path'). $basePath;
+        $desThumbsPath = config('nhadat.upload_thumbs_path'). $basePath;
         //set name for file
         $fileName = $file->getClientOriginalName();
         
