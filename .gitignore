@@ -1,8 +1,6 @@
-/vendor
 /storage
 composer.json
 composer.lock
-/bootstrap
 .env
 .settings
 .project
