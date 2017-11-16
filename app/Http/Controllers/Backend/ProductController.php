@@ -381,7 +381,7 @@ class ProductController extends Controller
         {
             foreach ($hinhXoaArr as $image_id_xoa) {
                 $model = ProductImg::find($image_id_xoa);
-                $urlXoa = config('icho.upload_path')."/".$model->image_url;
+                $urlXoa = config('nhadat.upload_path')."/".$model->image_url;
                 if(is_file($urlXoa)){
                     unlink($urlXoa);
                 }
@@ -411,25 +411,25 @@ class ProductController extends Controller
                         }
 
                         $destionation = date('Y/m/d'). '/'. end($tmp);
-                        //var_dump(config('icho.upload_path').$image_url, config('icho.upload_path').$destionation);die;
-                        File::move(config('icho.upload_path').$image_url, config('icho.upload_path').$destionation);
+                        //var_dump(config('nhadat.upload_path').$image_url, config('nhadat.upload_path').$destionation);die;
+                        File::move(config('nhadat.upload_path').$image_url, config('nhadat.upload_path').$destionation);
 
                         $imageArr['is_thumbnail'][] = $is_thumbnail = $dataArr['thumbnail_id'] == $image_url  ? 1 : 0;
 
                         if($is_thumbnail == 1){
-                            $img = Image::make(config('icho.upload_path').$destionation);
+                            $img = Image::make(config('nhadat.upload_path').$destionation);
                             $w_img = $img->width();
                             $h_img = $img->height();
                             $tile = 170/105;
                          
                             if($w_img/$h_img <= $tile){
-                                Image::make(config('icho.upload_path').$destionation)->resize(170, null, function ($constraint) {
+                                Image::make(config('nhadat.upload_path').$destionation)->resize(170, null, function ($constraint) {
                                         $constraint->aspectRatio();
-                                })->crop(170, 105)->save(config('icho.upload_thumbs_path').$destionation);
+                                })->crop(170, 105)->save(config('nhadat.upload_thumbs_path').$destionation);
                             }else{
-                                Image::make(config('icho.upload_path').$destionation)->resize(null, 105, function ($constraint) {
+                                Image::make(config('nhadat.upload_path').$destionation)->resize(null, 105, function ($constraint) {
                                         $constraint->aspectRatio();
-                                })->crop(170, 105)->save(config('icho.upload_thumbs_path').$destionation);
+                                })->crop(170, 105)->save(config('nhadat.upload_thumbs_path').$destionation);
                             }
 
                         }

@@ -202,7 +202,7 @@ class EventsController extends Controller
 
             $destionation = date('Y/m/d'). '/'. end($tmp);
             
-            File::move(config('icho.upload_path').$dataArr['small_banner'], config('icho.upload_path').$destionation);
+            File::move(config('nhadat.upload_path').$dataArr['small_banner'], config('nhadat.upload_path').$destionation);
             
             $dataArr['small_banner'] = $destionation;
         }  
@@ -216,7 +216,7 @@ class EventsController extends Controller
 
             $destionation = date('Y/m/d'). '/'. end($tmp);
             
-            File::move(config('icho.upload_path').$dataArr['large_banner'], config('icho.upload_path').$destionation);
+            File::move(config('nhadat.upload_path').$dataArr['large_banner'], config('nhadat.upload_path').$destionation);
             
             $dataArr['large_banner'] = $destionation;
         }
@@ -321,7 +321,7 @@ class EventsController extends Controller
 
             $destionation = date('Y/m/d'). '/'. end($tmp);
             
-            File::move(config('icho.upload_path').$dataArr['small_banner'], config('icho.upload_path').$destionation);
+            File::move(config('nhadat.upload_path').$dataArr['small_banner'], config('nhadat.upload_path').$destionation);
             
             $dataArr['small_banner'] = $destionation;
         }  
@@ -336,7 +336,7 @@ class EventsController extends Controller
 
             $destionation = date('Y/m/d'). '/'. end($tmp);
             
-            File::move(config('icho.upload_path').$dataArr['large_banner'], config('icho.upload_path').$destionation);
+            File::move(config('nhadat.upload_path').$dataArr['large_banner'], config('nhadat.upload_path').$destionation);
             
             $dataArr['large_banner'] = $destionation;            
         }

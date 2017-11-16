@@ -3,7 +3,7 @@
     <head>
         <title>Laravel</title>        
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-        <link type="text/css" href="{{ URL::asset('/css/style.css') }}">
+        <link type="text/css" href="{{ URL::asset('public//css/style.css') }}">
         <style>
             html, body {
                 height: 100%;

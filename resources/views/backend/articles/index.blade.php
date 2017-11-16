@@ -1,4 +1,4 @@
-@extends('layout.backend')
+@extends('backend.layout')
 @section('content')
 <div class="content-wrapper">
 <!-- Content Header (Page header) -->
@@ -26,7 +26,7 @@
           <h3 class="panel-title">Bộ lọc</h3>
         </div>
         <div class="panel-body">
-          <form class="form-inline" role="form" method="GET" action="{{ route('articles.index') }}">            
+          <form class="form-inline" role="form" method="GET" action="{{ route('articles.index') }}" id="searchForm">            
             <div class="form-group">
               <label for="email">Danh mục </label>
               <select class="form-control" name="cate_id" id="cate_id">
@@ -60,7 +60,7 @@
           <table class="table table-bordered" id="table-list-data">
             <tr>
               <th style="width: 1%">#</th>              
-              <th>Thumbnail</th>
+              <th width="200">Thumbnail</th>
               <th>Tiêu đề</th>
               <th width="1%;white-space:nowrap">Thao tác</th>
             </tr>
@@ -72,19 +72,38 @@
               <tr id="row-{{ $item->id }}">
                 <td><span class="order">{{ $i }}</span></td>       
                 <td>
-                  <img class="img-thumbnail lazy" data-original="{{ Helper::showImage($item->image_url)}}" width="145">
+                  <img class="img-thumbnail" src="{{ Helper::showImageThumb($item->image_url, 2)}}" width="145">
                 </td>        
                 <td>                  
-                  <a href="{{ route( 'articles.edit', [ 'id' => $item->id ]) }}">{{ $item->title }}</a>
+                  <a style="font-size:17px" href="{{ route( 'articles.edit', [ 'id' => $item->id ]) }}">{{ $item->title }}</a>                
                   
                   @if( $item->is_hot == 1 )
-                  <img class="img-thumbnail" src="{{ URL::asset('backend/dist/img/star.png')}}" alt="Nổi bật" title="Nổi bật" />
+                  <label class="label label-danger">HOT</label>
                   @endif
-
+                  <div class="block-author">
+                      <ul>
+                        <li>
+                          <span>Tác giả:</span>
+                          <span class="name">{!! $item->createdUser->display_name !!}</span>
+                        </li>
+                        <li>
+                            <span>Ngày tạo:</span>
+                          <span class="name">{!! date('d/m/Y H:i', strtotime($item->created_at)) !!}</span>
+                          
+                        </li>
+                         <li>
+                            <span>Cập nhật:</span>
+                          <span class="name">{!! $item->updatedUser->display_name !!} ( {!! date('d/m/Y H:i', strtotime($item->updated_at)) !!} )</span>          
+                        </li>  
+                        <li>
+                          {!! Helper::view($item->id, 2) !!} lượt xem
+                        </li>
+                      </ul>
+                    </div>
                   <p>{{ $item->description }}</p>
                 </td>
                 <td style="white-space:nowrap"> 
-                  <a class="btn btn-default btn-sm" href="{{ route('news-detail', [$item->slug, $item->id ]) }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Xem</a>                 
+                  <a class="btn btn-default btn-sm" href="{{ route('news-detail', [$item->cate->slug, $item->slug, $item->id ]) }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Xem</a>                 
                   <a href="{{ route( 'articles.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span></a>                 
                   
                   <a onclick="return callDelete('{{ $item->title }}','{{ route( 'articles.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
@@ -112,9 +131,9 @@
 </section>
 <!-- /.content -->
 </div>
+<input type="hidden" id="table_name" value="articles">
 @stop
 @section('javascript_page')
-
 <script type="text/javascript">
 function callDelete(name, url){  
   swal({
@@ -130,61 +149,11 @@ function callDelete(name, url){
   })
   return flag;
 }
-$(document).ready(function(){
-  $('#parent_id').change(function(){
-    $.ajax({
-        url: $('#route_get_cate_by_parent').val(),
-        type: "POST",
-        async: false,
-        data: {          
-            parent_id : $(this).val(),
-            type : 'list'
-        },
-        success: function(data){
-            $('#cate_id').html(data).select2('refresh');                      
-        }
+  $(document).ready(function(){
+    $('#cate_id').change(function(){
+      $(this).parents('form').submit();
     });
+	
   });
-  $('.select2').select2();
-
-  $('#table-list-data tbody').sortable({
-        placeholder: 'placeholder',
-        handle: ".move",
-        start: function (event, ui) {
-                ui.item.toggleClass("highlight");
-        },
-        stop: function (event, ui) {
-                ui.item.toggleClass("highlight");
-        },          
-        axis: "y",
-        update: function() {
-            var rows = $('#table-list-data tbody tr');
-            var strOrder = '';
-            var strTemp = '';
-            for (var i=0; i<rows.length; i++) {
-                strTemp = rows[i].id;
-                strOrder += strTemp.replace('row-','') + ";";
-            }     
-            updateOrder("loai_sp", strOrder);
-        }
-    });
-});
-function updateOrder(table, strOrder){
-  $.ajax({
-      url: $('#route_update_order').val(),
-      type: "POST",
-      async: false,
-      data: {          
-          str_order : strOrder,
-          table : table
-      },
-      success: function(data){
-          var countRow = $('#table-list-data tbody tr span.order').length;
-          for(var i = 0 ; i < countRow ; i ++ ){
-              $('span.order').eq(i).html(i+1);
-          }                        
-      }
-  });
-}
 </script>
 @stop
