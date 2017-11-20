@@ -60,6 +60,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::group(['middleware' => ['auth:web'], 'prefix' => 'thanh-vien'], function () {
         Route::get('/tai-khoan', ['as' => 'member.detail', 'uses' => 'MemberController@index']);
         Route::put('/tai-khoan/cap-nhat', ['as' => 'member.detail.update', 'uses' => 'MemberController@updateInfo']);
+        Route::get('/tai-khoan/bat-dong-san', ['as' => 'member.land', 'uses' => 'MemberController@land']);
         Route::match(['get', 'post'], '/dang-tin-bat-dong-san', ['as' => 'member.register-land', 'uses' => 'MemberController@registerLand']);
     });
 });
