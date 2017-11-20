@@ -1,0 +1,102 @@
+.section-common {
+  position: relative;
+  padding: 1.5% 0;
+}
+.bg-image-fix {
+  background-attachment: fixed;
+}
+.mb-cm {
+  margin-bottom: 10px;
+}
+.fs12 {
+	font-size: 12px !important;
+}
+.fs11 {
+	font-size: 11px !important;
+}
+.text-red {
+  color: #c70f19;
+}
+.text-small {
+  font-size: 11px;
+  color: #666;
+}
+.text-italic {
+  font-style: italic;
+}
+.text-black {
+  color: #444 !important;
+}
+.show {
+  width: 100% !important;
+}
+.btn {
+  border-radius: 0;
+  color: #fff;
+  position: relative;
+  min-width: 200px;
+}
+.btn.add_arrow:before {
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(27, 162, 133, 0);
+  border-bottom-color: #ff7f27;
+  border-width: 10px;
+  position: absolute;
+  top: -11px; right: -11px;
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.btn-primary {
+  border-color: #114a82;
+  color: #fff;
+}
+.btn-primary:hover {
+  color: #fff;
+}
+.btn-main {
+  background: #114a82;
+  background-color: #114a82;
+  border: 1px solid #114a82;
+  color: #fff;
+}
+.btn-main:hover,
+.btn-main:focus {
+  background: #13599e;
+  background-color: #13599e;
+  border: 1px solid #13599e;
+  color: #fff !important;
+}
+
+.form-row {
+  margin-bottom: 12px;
+}
+.form-row .note, .form-group .note {
+  color: #777;
+  font-size: 13px;
+}
+.form-row-bot, .boxBtnSubmit {
+  margin-top: 25px;
+}
+.form-control {
+  border-radius: 0;
+  box-shadow: none;
+  height: 40px;
+}
+
+.login-by {
+  margin-bottom: 30px;
+}
+.login-by strong {
+  display: inline-block;
+  margin-right: 15px;
+}
+.login-by span img {
+  border-radius: 5px;
+}

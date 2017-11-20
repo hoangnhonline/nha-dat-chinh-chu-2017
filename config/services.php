@@ -36,15 +36,21 @@ return [
     ],
 
     'facebook' => [
-        'client_id' => '1747775502156188',
-        'client_secret' => '740c067c814a3f8799b635e03dc2f700',
-        'redirect' => env('APP_URL') . '/social-auth/facebook/callback/',
+        'client_id' => env('FACEBOOK_ID'),
+        'client_secret' => env('FACEBOOK_SECRET'),
+        'redirect' => env('FACEBOOK_REDIRECT')
     ],
 
     'google' => [
-        'client_id' => '1091007214947-l06nvreo6imqsqs7bkaao52afkchfkh0.apps.googleusercontent.com',
-        'client_secret' => '-wUqrEtYf0MHxUrBc5FVw8FD',
-        'redirect' => 'http://icho.dev/social-auth/google/callback',
+        'client_id' => env('GOOGLE_ID'),
+        'client_secret' => env('GOOGLE_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT')
+    ],
+
+    'twitter' => [
+        'client_id' => env('TWITTER_ID'),
+        'client_secret' => env('TWITTER_SECRET'),
+        'redirect' => env('TWITTER_REDIRECT')
     ],
 
 ];

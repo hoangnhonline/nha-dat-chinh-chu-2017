@@ -1027,6 +1027,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `full_name` varchar(255) NOT NULL,
   `username` varchar(100) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `address` varchar(500) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `role` tinyint(1) NOT NULL,
   `leader_id` int(11) DEFAULT NULL,

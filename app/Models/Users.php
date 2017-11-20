@@ -1,10 +1,9 @@
 <?php namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Traits\BasicBehavior;
-use Illuminate\Database\Eloquent\Model;
 
-
-class Users extends Model
+class Users extends Authenticatable
 {
 
     use BasicBehavior;
@@ -32,7 +31,8 @@ class Users extends Model
         'full_name',
         'username',
         'email',
-        'password',
+        'phone',
+        'address',
         'password',
         'role',
         'leader_id',
