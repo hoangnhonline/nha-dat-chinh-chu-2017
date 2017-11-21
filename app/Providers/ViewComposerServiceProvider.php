@@ -1,6 +1,7 @@
 <?php
 namespace App\Providers;
 
+use App\Models\Groups;
 use Illuminate\Support\ServiceProvider;
 use Hash;
 use App\Models\Settings;
@@ -47,41 +48,17 @@ class ViewComposerServiceProvider extends ServiceProvider
 	 */
 	private function composerMenu()
 	{
-		
-		view()->composer( '*' , function( $view ){		
-			$banList = $thueList = [];	
-			$tmp = EstateType::where('status', 1)->get();
-			foreach($tmp as $est){
-				if($est->type == 1){
-					$banList[] = $est;
-				}else{
-					$thueList[] = $est;
-				}
-			}
-	        $settingArr = Settings::whereRaw('1')->lists('value', 'name');
-	        $articleCate = ArticlesCate::orderBy('display_order', 'desc')->get();	     
-	        $cityList = City::whereIn('id', [1, 6])->get();
-	        $districtList = District::where('city_id', 1)->where('status',1)->get();
-	        $tinRandom = Articles::whereRaw(1);
-	        if($tinRandom->count() > 0){
-	        	$tinRandom = $tinRandom->limit(5)->get();
-	        }
-	        $customLink = CustomLink::where('block_id', 1)->orderBy('display_order', 'asc')->get();
-	        $landingList = LandingProjects::where('is_hot', 1)->orderBy('id', 'desc')->offset(0)->limit(2)->get();
-	        $landing2List = LandingProjects::where('is_hot', 1)->orderBy('id', 'desc')->offset(2)->limit(5)->get();
-	        $priceList = Price::where('type', 1)->get();
-        	$areaList = Area::all();
-        	$directionList = Direction::all();
-        	$footerLink = CustomLink::where('block_id', 2)->orderBy('display_order', 'asc')->get();
-        	$supportList = Support::orderBy('display_order', 'asc')->get();
-        	$menuList = Menu::where('menu_id', 1)->orderBy('display_order', 'asc')->get();
-			$view->with( ['settingArr' => $settingArr, 
-			'banList' => $banList, 'thueList' => $thueList, 'articleCate' => $articleCate, 'districtList' => $districtList, 'tinRandom' => $tinRandom, 'customLink' => $customLink, 'landingList' => $landingList, 'landing2List' => $landing2List, 'priceList' => $priceList, 'areaList' => $areaList,
-			'directionList' => $directionList, 'footerLink' => $footerLink, 'supportList' => $supportList,
-			'menuList' => $menuList,
-			'cityList' => $cityList
-			] );
-			
+
+		view()->composer( 'frontend.partials.member_level' , function( $view ){
+		    $modelGroups = new Groups();
+            $arrListGroup = $modelGroups->getByAttributes([
+                'type' => 'member',
+                'status' => 1
+            ]);
+
+			$view->with([
+			    'arrListGroup' => $arrListGroup
+            ]);
 		});
 	}
 	

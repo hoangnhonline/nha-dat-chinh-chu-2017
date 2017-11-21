@@ -18,7 +18,6 @@
     </div><!-- /block-breadcrumb -->
     <div class="main-content container">
         <div class="main-content-wrap">
-
             <div class="row my-account-page">
                 <div class="col-sm-3 block-col-sidebar">
                     <div class="block-module">
@@ -42,28 +41,7 @@
                             </form>
                         </div>
                     </div><!-- /block-module -->
-                    <div class="block-module">
-                        <div class="block-title">
-                            <h2 class="title">Cấp độ thành viên của</h2>
-                        </div>
-                        <div class="block-content">
-                            <form method="" action="" class="frm-">
-                                <div class="form-group">
-                                    <select name="" class="form-control select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                                        <option value="0">Miễn phí - Vip - Supper Vip</option>
-                                    </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 238px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2--container"><span class="select2-selection__rendered" id="select2--container" title="Miễn phí - Vip - Supper Vip">Miễn phí - Vip - Supper Vip</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                </div>
-                                <div class="form-group">
-                                    <div class="btn-submit">
-                                        <button type="submit" class="btn btn-main btn-lg show add_arrow">Thanh toán ngay</button>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <p><a href="#"><i class="fa fa-angle-double-right"></i> Chi tiết các loại cấp độ thành viên</a></p>
-                                </div>
-                            </form>
-                        </div>
-                    </div><!-- /block-module -->
+                    @include('frontend.partials.member_level')
                 </div>
                 <div class="col-sm-9 block-col-main">
                     <div class="block-register-bds block-common">

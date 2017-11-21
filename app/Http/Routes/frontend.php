@@ -1,5 +1,7 @@
 <?php
 
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -10,7 +12,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::group(['namespace' => 'Frontend'], function () {
+Route::group(['namespace' => 'Frontend', 'prefix' => LaravelLocalization::setLocale()], function () {
     Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
     /*Route::get('/nha-dat-ban', ['as' => 'ban', 'uses' => 'ProductController@ban']);
     Route::get('/nha-dat-cho-thue', ['as' => 'cho-thue', 'uses' => 'ProductController@choThue']);
@@ -60,7 +62,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::group(['middleware' => ['auth:web'], 'prefix' => 'thanh-vien'], function () {
         Route::get('/tai-khoan', ['as' => 'member.detail', 'uses' => 'MemberController@index']);
         Route::put('/tai-khoan/cap-nhat', ['as' => 'member.detail.update', 'uses' => 'MemberController@updateInfo']);
-        Route::get('/tai-khoan/bat-dong-san', ['as' => 'member.land', 'uses' => 'MemberController@land']);
+        Route::get('/bat-dong-san-cua-toi', ['as' => 'member.land', 'uses' => 'MemberController@land']);
         Route::match(['get', 'post'], '/dang-tin-bat-dong-san', ['as' => 'member.register-land', 'uses' => 'MemberController@registerLand']);
     });
 });

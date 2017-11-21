@@ -88,10 +88,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-8">
-                                                <input type="password" class="form-control" id="re_password" name="re_password" placeholder="Điền xác nhận mật khẩu tại đây...">
+                                                <input type="password_confirmed" class="form-control" id="password_confirmed" name="password_confirmed" placeholder="Điền xác nhận mật khẩu tại đây...">
                                                 <p class="note">Vui lòng xác nhận mật khẩu của bạn lần nữa</p>
-                                                @if ($errors->has('re_password'))
-                                                    <label class="error" for="re_password">{{ $errors->first('re_password') }}</label>
+                                                @if ($errors->has('password_confirmed'))
+                                                    <label class="error" for="password_confirmed">{{ $errors->first('password_confirmed') }}</label>
                                                 @endif
                                             </div>
                                         </div>
@@ -103,7 +103,9 @@
                                             </div>
                                             <div class="col-sm-8">
                                                 <select id="group_id" name="group_id" class="form-control select2" style="width: 100%;">
-                                                    <option value="0">Chính chủ / Nhà môi giới / Tìm kiếm BĐS</option>
+                                                    @foreach ($arrListGroup as $group)
+                                                        <option value="{{ $group->id }}">{{ $group->{'name_' . config('app.locale')} }}</option>
+                                                    @endforeach
                                                 </select>
                                                 <p class="note">Chọn loại thành viên bạn muốn đăng ký</p>
                                                 @if ($errors->has('group_id'))

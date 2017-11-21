@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend\Auth;
 
+use App\Models\Groups;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -89,7 +90,13 @@ class IndexController extends Controller
 
     public function getRegister()
     {
-        return view('frontend.auth.register');
+        $modelGroups = new Groups();
+        $arrListGroup = $modelGroups->getByAttributes([
+            'type' => 'member',
+            'status' => 1
+        ]);
+
+        return view('frontend.auth.register', compact('arrListGroup'));
     }
 
     public function postRegister(Request $request)
@@ -97,13 +104,14 @@ class IndexController extends Controller
         $this->validate($request, [
             'full_name' => 'required|max:200',
             'email' => 'required|email|max:200|unique:users,email,null,id',
-            'password' => 'required|between:6,20|regex:[^[a-z0-9\-]+$]',
-            're_password' => 'same:password',
-            'phone' => 'max:20',
+            'password' => 'required|between:6,20|regex:[((?=.*\d).{6,20})]',
+            'password_confirmed' => 'same:password',
+            'group_id' => 'required',
+            'phone' => 'regex:[^([\+1-9]{3})?([0])?([1,9,8])([0-9]{8,9})$]',
             'agree_term' => 'required'
         ], [
-            'full_name.required' => 'Bạn chưa nhập họ và tên.',
-            'full_name.max' => 'Họ và tên không được dài hơn :max ký tự.',
+            'full_name.required' => 'Bạn chưa nhập tên đầy đủ.',
+            'full_name.max' => 'Tên đầy đủ không được dài hơn :max ký tự.',
             'email.required' => 'Bạn chưa nhập email.',
             'email.email' => 'Email không hợp lệ.',
             'email.max' => 'Email không được dài hơn :max ký tự.',
@@ -111,8 +119,9 @@ class IndexController extends Controller
             'password.required' => 'Bạn chưa nhập mật khẩu.',
             'password.between' => 'Mật khẩu phải nằm trong khoảng từ :min đến :max ký tự.',
             'password.regex' => 'Mật khẩu không hợp lệ.',
-            're_password.same' => 'Nhập lại mật khẩu không khớp với mật khẩu.',
-            'phone.max' => 'Di động không được dài hơn :max ký tự.',
+            'password_confirmed.same' => 'Xác nhận mật khẩu không khớp với mật khẩu.',
+            'group_id.required' => 'Vui lòng chọn loại thành viên.',
+            'phone.regex' => 'Số điện thoại không hợp lệ.',
             'agree_term.required' => 'Vui lòng chọn đồng ý với các điều khoản của dịch vụ.',
         ]);
 

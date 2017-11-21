@@ -59,7 +59,9 @@
 							<li class="social-icon"><a href=""><i class="fa fa-google"></i></a></li>
 							<li class="social-icon"><a href=""><i class="fa fa-youtube"></i></a></li>
 							<li class="lang">
-								<a href="">English<br>Vietnamese</a>
+								@foreach (config('laravellocalization.supportedLocales') as $language => $data)
+									<a href="{{ config('app.locale') == $language ? url()->current() : change_language(url()->current(), $language) }}" title="{{ $data['native'] }}" data-language="{!! $language !!}">{{ $data['native'] }}</a>
+								@endforeach
 							</li>
 						</ul>
 					</div>

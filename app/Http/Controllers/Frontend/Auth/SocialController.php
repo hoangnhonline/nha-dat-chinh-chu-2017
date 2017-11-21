@@ -47,6 +47,7 @@ class SocialController extends Controller
                 'email' => $user->email,
                 'full_name' => $user->name,
                 'password' => bcrypt('Aa@123456'),
+                'group_id' => 1,
                 'status' => 1
             ]);
 

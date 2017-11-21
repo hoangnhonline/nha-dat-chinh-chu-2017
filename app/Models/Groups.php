@@ -29,8 +29,10 @@ class Groups extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'description',
+        'name_vi',
+        'name_en',
+        'description_vi',
+        'description_en',
         'type',
         'status',
         'created_user',
