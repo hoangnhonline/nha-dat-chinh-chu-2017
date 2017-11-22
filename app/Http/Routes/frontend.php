@@ -65,5 +65,14 @@ Route::group(['namespace' => 'Frontend', 'prefix' => LaravelLocalization::setLoc
         Route::get('/bat-dong-san-cua-toi', ['as' => 'member.land', 'uses' => 'MemberController@land']);
         Route::match(['get', 'post'], '/dang-tin-bat-dong-san', ['as' => 'member.register-land', 'uses' => 'MemberController@registerLand']);
     });
+
+    Route::get('cap-do-thanh-vien.html', ['as' => 'cap-do-thanh-vien', 'uses' => 'HomeController@listMember']);
+
+    //route ajax to get info
+    Route::group(['prefix' => 'ajax'], function () {
+        Route::get('/get-estate-type/{type}', ['as' => 'ajax.get-estate-type', 'uses' => 'AjaxController@getEstateType']);
+        Route::get('/get-district/{city_id}', ['as' => 'ajax.get-district', 'uses' => 'AjaxController@getDistrict']);
+        Route::get('/get-ward/{district_id}', ['as' => 'ajax.get-ward', 'uses' => 'AjaxController@getWard']);
+    });
 });
 

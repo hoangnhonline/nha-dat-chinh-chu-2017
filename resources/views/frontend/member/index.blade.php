@@ -41,7 +41,7 @@
                             </form>
                         </div>
                     </div><!-- /block-module -->
-                    @include('frontend.partials.member_level')
+                    @include('frontend.partials.member_level', ['group_id' => auth('web')->user()->group_id])
                 </div>
                 <div class="col-sm-9 block-col-main">
                     <div class="block-register-bds block-common">

@@ -416,7 +416,8 @@ CREATE TABLE IF NOT EXISTS `district` (
 DROP TABLE IF EXISTS `estate_type`;
 CREATE TABLE IF NOT EXISTS `estate_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `name_vi` varchar(255) NOT NULL,
+  `name_en` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
   `type` tinyint(1) NOT NULL COMMENT '1 : ban 2 : cho thue',
   `display_order` int(11) NOT NULL,
@@ -666,6 +667,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `title_en` varchar(255) NOT NULL,
   `slug` varchar(255) DEFAULT NULL,
   `description_vi` text NOT NULL,
+  `description_en` text NOT NULL,
   `type` int(11) NOT NULL COMMENT '1 : buy 2 : rent',
   `thumbnail_id` bigint(20) NOT NULL,
   `cate_id` int(11) DEFAULT NULL,
@@ -673,7 +675,9 @@ CREATE TABLE IF NOT EXISTS `product` (
   `city_id` int(11) NOT NULL,
   `district_id` int(11) NOT NULL,
   `ward_id` int(11) NOT NULL,
-  `street_id` int(11) NOT NULL,
+  `street_name_vi` varchar(255) NOT NULL,
+  `street_name_en` varchar(255) NOT NULL,
+  `street_num` varchar(50) NOT NULL,
   `project_id` int(11) NOT NULL,
   `price` varchar(50) NOT NULL,
   `price_unit_id` smallint(6) NOT NULL,

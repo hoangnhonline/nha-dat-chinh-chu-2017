@@ -1,18 +1,21 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BasicBehavior;
 use Illuminate\Database\Eloquent\Model;
 
 
-class City extends Model  {
+class City extends Model
+{
+    use BasicBehavior;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'city';	
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'city';
 
-	/**
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
@@ -25,7 +28,8 @@ class City extends Model  {
      */
     protected $fillable = ['name', 'alias', 'display_order'];
 
-    public function district(){
+    public function district()
+    {
         return $this->hasMany('App\Models\District', 'city_id');
     }
 }

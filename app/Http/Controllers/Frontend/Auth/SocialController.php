@@ -47,7 +47,7 @@ class SocialController extends Controller
                 'email' => $user->email,
                 'full_name' => $user->name,
                 'password' => bcrypt('Aa@123456'),
-                'group_id' => 1,
+                'group_id' => config('nhadat.default_group_member'),
                 'status' => 1
             ]);
 

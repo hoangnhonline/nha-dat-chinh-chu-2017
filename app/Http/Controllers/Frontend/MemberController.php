@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -47,7 +48,12 @@ class MemberController extends Controller
     public function registerLand(Request $request)
     {
         if ($request->isMethod('get')) {
-            return view('frontend.member.register_land');
+            $modelCity = new City();
+            $arrListCity = $modelCity->getByAttributes([
+                'name' => ['<>', '']
+            ], 'display_order', 'desc');
+
+            return view('frontend.member.register_land', compact('arrListCity'));
         } else {
 
         }

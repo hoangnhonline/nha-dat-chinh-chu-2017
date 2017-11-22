@@ -1,18 +1,21 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BasicBehavior;
 use Illuminate\Database\Eloquent\Model;
 
 
-class District extends Model  {
+class District extends Model
+{
+    use BasicBehavior;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'district';	
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'district';
 
-	/**
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
@@ -23,9 +26,10 @@ class District extends Model  {
      *
      * @var array
      */
-    protected $fillable = [ 'name', 'slug', 'city_id', 'display_order', 'meta_id'];
+    protected $fillable = ['name', 'slug', 'city_id', 'display_order', 'meta_id'];
 
-    public function ward(){
+    public function ward()
+    {
         return $this->hasMany('App\Models\Ward', 'district_id');
     }
 }

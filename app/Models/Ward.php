@@ -1,18 +1,21 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BasicBehavior;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Ward extends Model  {
+class Ward extends Model
+{
+    use BasicBehavior;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'ward';	
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'ward';
 
-	/**
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool

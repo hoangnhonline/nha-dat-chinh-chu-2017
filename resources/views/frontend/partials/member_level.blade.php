@@ -1,12 +1,14 @@
 <div class="block-module">
     <div class="block-title">
-        <h2 class="title">Cấp độ thành viên của</h2>
+        <h2 class="title">Cấp độ thành viên của bạn</h2>
     </div>
     <div class="block-content">
-        <form method="" action="" class="frm-">
+        <form method="post" action="" class="frm-">
             <div class="form-group">
-                <select id="" name="" class="form-control select2">
-                    <option value="0">Miễn phí - Vip - Supper Vip</option>
+                <select id="group_id" name="group_id" class="form-control select2">
+                    @foreach ($arrListGroup as $group)
+                        <option value="{{ $group->id }}"{!! $group->id == $group_id ? ' selected="selected"' : '' !!}>{{ $group->{'name_' . config('app.locale')} }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-group">
@@ -15,7 +17,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <p><a href="#"><i class="fa fa-angle-double-right"></i> Chi tiết các loại cấp độ thành viên</a></p>
+                <p><a href="{{ route('cap-do-thanh-vien') }}"><i class="fa fa-angle-double-right"></i> Chi tiết các loại cấp độ thành viên</a></p>
             </div>
         </form>
     </div>

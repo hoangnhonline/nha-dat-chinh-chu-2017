@@ -1,16 +1,19 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BasicBehavior;
 use Illuminate\Database\Eloquent\Model;
 
 
-class EstateType extends Model  {
+class EstateType extends Model
+{
+    use BasicBehavior;
 
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'estate_type';   
+    protected $table = 'estate_type';
 
     /**
      * Indicates if the model should be timestamped.
@@ -23,8 +26,16 @@ class EstateType extends Model  {
      *
      * @var array
      */
-    protected $fillable = [ 'name', 'slug', 'type', 'display_order', 'status', 'meta_id'];
-    
+    protected $fillable = [
+        'name_vi',
+        'name_en',
+        'slug',
+        'type',
+        'display_order',
+        'status',
+        'meta_id'
+    ];
+
     public function cate()
     {
         return $this->hasMany('App\Models\Cate', 'estate_type_id');

@@ -235,6 +235,7 @@
 		<script src="{!! asset('public/assets/lib/sticky/jquery.sticky.js') !!}"></script>
 		<!-- Js Common -->
 		<script src="{!! asset('public/assets/js/common.js') !!}"></script>
+		<script src="{!! asset('public/assets/js/frontend.js') !!}"></script>
 		@yield('javascript')
 	</body>
 </html>
