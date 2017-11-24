@@ -73,6 +73,7 @@ Route::group(['namespace' => 'Frontend', 'prefix' => LaravelLocalization::setLoc
         Route::get('/get-estate-type/{type}', ['as' => 'ajax.get-estate-type', 'uses' => 'AjaxController@getEstateType']);
         Route::get('/get-district/{city_id}', ['as' => 'ajax.get-district', 'uses' => 'AjaxController@getDistrict']);
         Route::get('/get-ward/{district_id}', ['as' => 'ajax.get-ward', 'uses' => 'AjaxController@getWard']);
+        Route::post('/upload', ['as' => 'ajax.upload', 'uses' => 'AjaxController@upload']);
     });
 });
 

@@ -1,4 +1,5 @@
 /storage
+/public/uploads
 composer.json
 composer.lock
 .env

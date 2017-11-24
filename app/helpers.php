@@ -53,3 +53,24 @@ if (!function_exists('change_language')) {
         }
     }
 }
+
+if (!function_exists('image_url')) {
+
+    /**
+     * Function show image
+     *
+     * @param string $file_name
+     *
+     * @return string
+     */
+    function image_url($file_name)
+    {
+        $file_name = ltrim($file_name, '/');
+
+        if (!filter_var($file_name, FILTER_VALIDATE_URL) === false) {
+            return $file_name;
+        } else {
+            return config('nhadat.upload_url') . $file_name;
+        }
+    }
+}

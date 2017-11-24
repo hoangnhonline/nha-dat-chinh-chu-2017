@@ -56,6 +56,9 @@
                                             <option value="1"{!! old('type') == 1 ? ' selected="selected"' : '' !!}>Bán</option>
                                             <option value="2"{!! old('type') == 2 ? ' selected="selected"' : '' !!}>Cho thuê</option>
                                         </select>
+                                        @if ($errors->has('type'))
+                                            <label class="error" for="type">{{ $errors->first('type') }}</label>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -66,6 +69,9 @@
                                         <select id="estate_type_id" name="estate_type_id" data-id="{{ old('estate_type_id', 0) }}" class="form-control select2">
                                             <option value="">--Chọn loại bất động sản--</option>
                                         </select>
+                                        @if ($errors->has('estate_type_id'))
+                                            <label class="error" for="estate_type_id">{{ $errors->first('estate_type_id') }}</label>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -74,6 +80,9 @@
                                             <label for="price">Giá</label>
                                         </div>
                                         <input type="text" class="form-control" id="price" name="price" value="{{ old('price') }}">
+                                        @if ($errors->has('price'))
+                                            <label class="error" for="price">{{ $errors->first('price') }}</label>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -84,6 +93,9 @@
                                             <label for="street_num">Địa chỉ</label>
                                         </div>
                                         <input type="text" class="form-control" id="street_num" name="street_num" value="{{ old('street_num') }}" placeholder="Số">
+                                        @if ($errors->has('street_num'))
+                                            <label class="error" for="street_num">{{ $errors->first('street_num') }}</label>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-5">
@@ -92,6 +104,9 @@
                                             <label for="street_name">&nbsp;</label>
                                         </div>
                                         <input type="text" class="form-control" id="street_name" name="street_name" value="{{ old('street_name') }}" placeholder="Đường">
+                                        @if ($errors->has('street_name'))
+                                            <label class="error" for="street_name">{{ $errors->first('street_name') }}</label>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-5">
@@ -105,6 +120,9 @@
                                                 <option value="{{ $city->id }}"{!! old('city_id', 0) == $city->id ? ' selected="selected"' : '' !!}>{{ $city->name }}</option>
                                             @endforeach
                                         </select>
+                                        @if ($errors->has('city_id'))
+                                            <label class="error" for="city_id">{{ $errors->first('city_id') }}</label>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -113,12 +131,18 @@
                                     <select id="district_id" name="district_id" class="form-control select2 load-ajax" data-href="{{ route('ajax.get-ward', [0]) }}" data-for="#ward_id">
                                         <option value="">--Chọn quận--</option>
                                     </select>
+                                    @if ($errors->has('district_id'))
+                                        <label class="error" for="district_id">{{ $errors->first('district_id') }}</label>
+                                    @endif
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <select id="ward_id" name="ward_id" class="form-control select2">
                                             <option value="">--Chọn phường--</option>
                                         </select>
+                                        @if ($errors->has('ward_id'))
+                                            <label class="error" for="ward_id">{{ $errors->first('ward_id') }}</label>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -129,6 +153,9 @@
                                             <label for="">Mô tả thêm bất động sản</label>
                                         </div>
                                         <textarea id="description" name="description" class="form-control" rows="8" cols="80" placeholder="Mô tả bất động sản...">{{ old('description') }}</textarea>
+                                        @if ($errors->has('description'))
+                                            <label class="error" for="description">{{ $errors->first('description') }}</label>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -139,13 +166,31 @@
                                             <label for="">Tải hình ảnh cho bất động sản của bạn</label>
                                         </div>
                                         <div class="upload-photo">
-                                            <div class="upload-photo-wrap">
+                                            <div class="upload-photo-wrap" id="photo_panel" style="overflow: scroll-y;">
+                                                @if (old('image_url'))
+                                                    <div class="row">
+                                                        @foreach (old('image_url') as $index => $image_url)
+                                                            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                                                                <div class="thumbnail">
+                                                                    <img src="{{ image_url($image_url) }}" class="img-responsive" style="height: 90px;" />
+                                                                    <div class="text-center" style="margin-top: 5px;">
+                                                                        <input type="hidden" name="image_url[]" value="{{ $image_url }}">
+                                                                        <input type="radio" name="thumbnail" value="{{ $image_url }}"{!! old('thumbnail') == $image_url ? ' checked="checked"' : '' !!}>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
                                             </div>
                                             <div class="box-btn">
-                                                <button type="submit" class="btn btn-main btn-lg add_arrow">Tải Hình Ảnh</button>
+                                                <div id="fileUploader">Tải Hình Ảnh</div>
                                             </div>
                                         </div>
                                     </div>
+                                    @if ($errors->has('image_url'))
+                                        <label class="error">{{ $errors->first('image_url') }}</label>
+                                    @endif
                                     <p>Ít nhất một hình ảnh sẽ được yêu cầu để tạo giá trị cho đăng tin. Hình ảnh sẽ được sử dụng để được hiện thị trong phần danh sách bất động sản trên trang web</p>
                                 </div>
                             </div>
@@ -156,7 +201,7 @@
                                             <label for="">Cài đặt địa chỉ trên bản đồ</label>
                                         </div>
                                         <div class="map-wrap">
-                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3280.5197902619793!2d135.5042122155558!3d34.6920673911877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31157a4d736a1e5f%3A0xb03bb0c9e2fe62be!2zVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1510627098695" frameborder="0" style="border:0;" allowfullscreen></iframe>
+                                            <!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3280.5197902619793!2d135.5042122155558!3d34.6920673911877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31157a4d736a1e5f%3A0xb03bb0c9e2fe62be!2zVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1510627098695" frameborder="0" style="border:0;" allowfullscreen></iframe>-->
                                         </div>
                                     </div>
                                 </div>
@@ -180,9 +225,36 @@
 
 @section('javascript')
 <!-- js link here -->
+<script type="text/javascript" src="{!! asset('public/assets/js/jquery.uploadfile.js') !!}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         Common.loadDataAjax();
+
+        var mediaUrl = '{{ config('nhadat.upload_url') . '/' }}';
+
+        $('#fileUploader').uploadFile({
+            url: '{!! route('ajax.upload') !!}',
+            uploadPanel: $('#photo_panel'),
+            maxFileAllowed: 10,
+            allowedTypes: 'jpeg,jpg,png', //seperate with ','
+            maxFileSize: '5242880', //in byte
+            onSuccess: function(instance, panel, files, data, xhr) {
+                if (instance.fileCounter > 0) {
+                    instance.fileCounter--;
+                }
+
+                if (panel.find('.row').size() <= 0) {
+                    var row = $('<div class="row"></div>').appendTo(panel);
+                } else {
+                    var row = panel.find('.row');
+                }
+
+                $(row).append('<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6"><div class="thumbnail"><img src="' + mediaUrl + data.info.filename + '" class="img-responsive" style="height: 90px;" /><div class="text-center" style="margin-top: 5px;"><input type="hidden" name="image_url[]" value="' + data.info.filename + '"><input type="radio" name="thumbnail" value="' + data.info.filename + '"></div></div></div>');
+            },
+            onDelete: function(obj, instance, panel) {
+                instance.fileCounter--;
+            }
+        });
     });
 </script>
 @stop

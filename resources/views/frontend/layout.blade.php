@@ -236,6 +236,13 @@
 		<!-- Js Common -->
 		<script src="{!! asset('public/assets/js/common.js') !!}"></script>
 		<script src="{!! asset('public/assets/js/frontend.js') !!}"></script>
+		<script type="text/javascript">
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+		</script>
 		@yield('javascript')
 	</body>
 </html>
