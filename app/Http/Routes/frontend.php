@@ -66,7 +66,7 @@ Route::group(['namespace' => 'Frontend', 'prefix' => LaravelLocalization::setLoc
         Route::match(['get', 'post'], '/dang-tin-bat-dong-san', ['as' => 'member.register-land', 'uses' => 'MemberController@registerLand']);
     });
 
-    Route::get('cap-do-thanh-vien.html', ['as' => 'cap-do-thanh-vien', 'uses' => 'HomeController@listMember']);
+    Route::get('goi-dich-vu-bds.html', ['as' => 'package-service', 'uses' => 'HomeController@packageService']);
 
     //route ajax to get info
     Route::group(['prefix' => 'ajax'], function () {

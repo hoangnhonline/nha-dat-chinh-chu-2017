@@ -55,7 +55,7 @@ class MemberController extends Controller
 
     public function myLand(Request $request)
     {
-
+        return view('frontend.member.my_land');
     }
 
     public function registerLand(Request $request)

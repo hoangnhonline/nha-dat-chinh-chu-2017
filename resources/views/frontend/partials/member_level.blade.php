@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <p><a href="{{ route('cap-do-thanh-vien') }}"><i class="fa fa-angle-double-right"></i> Chi tiết các loại cấp độ thành viên</a></p>
+                <p><a href="{{ route('package-service') }}"><i class="fa fa-angle-double-right"></i> Chi tiết các loại cấp độ thành viên</a></p>
             </div>
         </form>
     </div>
