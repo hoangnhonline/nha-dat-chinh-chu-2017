@@ -113,7 +113,7 @@ $.extend(Array.prototype, {
     }
 });
 
-var Common = {
+var Frontend = {
     loadDataAjax: function() {
         $(document).on('change', 'select.load-ajax', function() {
             var val = $(this).val();

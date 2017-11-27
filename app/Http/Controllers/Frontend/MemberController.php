@@ -34,9 +34,15 @@ class MemberController extends Controller
         $userInfo = auth('web')->user();
         $params = [
             'full_name' => $request->full_name,
-            'address' => $request->address,
+            'address' => $request->address ?? null,
             'phone' => $request->phone,
         ];
+
+        if ($request->avatar) {
+            $params['avatar'] = $request->avatar;
+        } else {
+            $params['avatar'] = '';
+        }
 
         if (!empty($request->new_password)) {
             $params['password'] = bcrypt($request->new_password);
@@ -45,6 +51,11 @@ class MemberController extends Controller
         $userInfo->update($params);
 
         return redirect(route('member.detail'));
+    }
+
+    public function myLand(Request $request)
+    {
+
     }
 
     public function registerLand(Request $request)
@@ -92,13 +103,15 @@ class MemberController extends Controller
                 'city_id' => $request->city_id,
                 'district_id' => $request->district_id,
                 'ward_id' => $request->ward_id,
+                'longt' => $request->longt,
+                'latt' => $request->latt,
                 'created_user' => auth('web')->user()->id,
                 'updated_user' => auth('web')->user()->id,
             ];
 
             foreach (config('laravellocalization.supportedLocales') as $language => $data) {
                 $arrParams['street_name_' . $language] = $request->street_name;
-                $arrParams['description_' . $language] = strip_tags($request->description);
+                $arrParams['description_' . $language] = $request->description;
             }
 
             $productInfo = $modelProduct->create($arrParams);

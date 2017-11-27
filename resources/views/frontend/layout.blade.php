@@ -70,7 +70,7 @@
 			<div class="block-header">
 				<div class="row">
 					<div class="col-sm-3 col-xs-12 block-logo">
-						<a href="index.html" title="Logo">
+						<a href="{{ route('home') }}" title="Logo">
 							<img src="{!! asset('public/assets/images/logo.png') !!}" alt="Logo Housland">
 						</a>
 					</div><!-- /block-logo -->
@@ -81,20 +81,16 @@
 							</div>
 							<nav class="menu-top">
 								<ul class="nav-menu">
-									<li class="level0 active"><a href="index.html">Trang Chủ</a></li>
-									<li class="level0"><a href="about.html">Đất</a></li>
-									<li class="level0"><a href="">Nhà</a></li>
-									<li class="level0"><a href="">Căn Hộ</a></li>
-									<li class="level0"><a href="">Văn Phòng</a></li>
-									<li class="level0"><a href="">Phòng</a></li>
-									<li class="level0"><a href="">Xây Dựng - Sữa Chữa</a></li>
-									<!-- <li class="level0 menu_more">
-                                        <a href=""><span>&nbsp;</span></a>
-                                    </li> -->
+									<li class="level0 active"><a href="{{ route('home') }}">Trang Chủ</a></li>
+									<li class="level0"><a href="#">Đất</a></li>
+									<li class="level0"><a href="#">Nhà</a></li>
+									<li class="level0"><a href="#">Căn Hộ</a></li>
+									<li class="level0"><a href="#">Văn Phòng</a></li>
+									<li class="level0"><a href="#">Phòng</a></li>
+									<li class="level0"><a href="#">Xây Dựng - Sữa Chữa</a></li>
 								</ul>
 							</nav><!-- /menu-top -->
 						</div><!-- /menu -->
-
 					</div><!-- /bblock-info -->
 					<div class="hdr-btn-post">
 						<a href="{{ route('member.register-land') }}" class="btn">Đăng tin miễn phí</a>

@@ -20,25 +20,7 @@
         <div class="main-content-wrap">
             <div class="row my-account-page">
                 <div class="col-sm-3 block-col-sidebar">
-                    <div class="block-module">
-                        <div class="box-avatar"></div>
-                        <div class="block-content">
-                            <form method="" action="">
-                                <div class="form-group">
-                                    <ul class="menu-my-account">
-                                        <li><a href="{{ route('member.register-land') }}"><i class="fa fa-cog"></i> Đăng tin bđs</a></li>
-                                        <li><a href="{{ route('member.detail') }}"><i class="fa fa-user"></i> Tài khoản của bạn</a></li>
-                                        <li><a href="{{ route('member.land') }}"><i class="fa fa-home"></i> Bất động sản của bạn</a></li>
-                                    </ul>
-                                </div>
-                                <div class="form-group">
-                                    <div class="btn-submit">
-                                        <a role="button" class="btn btn-main btn-lg show add_arrow" href="{{ route('auth.logout') }}">Đăng xuất</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div><!-- /block-module -->
+                    @include('frontend.partials.member_info')
                     @include('frontend.partials.member_level', ['group_id' => auth('web')->user()->group_id])
                 </div>
                 <div class="col-sm-9">
@@ -152,7 +134,7 @@
                                         <div class="label-group">
                                             <label for="">Mô tả thêm bất động sản</label>
                                         </div>
-                                        <textarea id="description" name="description" class="form-control" rows="8" cols="80" placeholder="Mô tả bất động sản...">{{ old('description') }}</textarea>
+                                        <textarea id="description" name="description" class="form-control editorBasic" rows="8" cols="80" placeholder="Mô tả bất động sản...">{{ old('description') }}</textarea>
                                         @if ($errors->has('description'))
                                             <label class="error" for="description">{{ $errors->first('description') }}</label>
                                         @endif
@@ -163,15 +145,16 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="label-group">
-                                            <label for="">Tải hình ảnh cho bất động sản của bạn</label>
+                                            <label>Tải hình ảnh cho bất động sản của bạn</label>
                                         </div>
                                         <div class="upload-photo">
-                                            <div class="upload-photo-wrap" id="photo_panel" style="overflow: scroll-y;">
+                                            <div class="upload-photo-wrap" id="photo_panel" style="height: auto; line-height: normal; overflow: scroll-y;">
                                                 @if (old('image_url'))
                                                     <div class="row">
                                                         @foreach (old('image_url') as $index => $image_url)
                                                             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
-                                                                <div class="thumbnail">
+                                                                <div class="thumbnail" style="position: relative;">
+                                                                    <a href="#" class="delete" style="position: absolute; top: -6px; left: -2px; z-index: 99; color: #ff7f27;"><i class="fa fa-times"></i></a>
                                                                     <img src="{{ image_url($image_url) }}" class="img-responsive" style="height: 90px;" />
                                                                     <div class="text-center" style="margin-top: 5px;">
                                                                         <input type="hidden" name="image_url[]" value="{{ $image_url }}">
@@ -201,6 +184,8 @@
                                             <label for="">Cài đặt địa chỉ trên bản đồ</label>
                                         </div>
                                         <div class="map-wrap">
+                                            <input type="hidden" id="longt" name="longt" value="{{ old('longt') }}">
+                                            <input type="hidden" id="latt" name="latt" value="{{ old('latt') }}">
                                             <!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3280.5197902619793!2d135.5042122155558!3d34.6920673911877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31157a4d736a1e5f%3A0xb03bb0c9e2fe62be!2zVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1510627098695" frameborder="0" style="border:0;" allowfullscreen></iframe>-->
                                         </div>
                                     </div>
@@ -225,15 +210,29 @@
 
 @section('javascript')
 <!-- js link here -->
+<script type="text/javascript" src="{!! asset('public/assets/lib/tinymce/tinymce.min.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('public/assets/js/jquery.uploadfile.js') !!}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        Common.loadDataAjax();
+        tinymce.init({
+            selector: '.editorBasic',
+            plugins: [
+                "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak spellchecker",
+                "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                "table contextmenu directionality emoticons template textcolor paste fullpage textcolor colorpicker textpattern"
+            ],
+
+            toolbar1: "undo redo | bold italic | styleselect | forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link unlink",
+
+            menubar: 'false'
+        });
+
+        Frontend.loadDataAjax();
 
         var mediaUrl = '{{ config('nhadat.upload_url') . '/' }}';
 
         $('#fileUploader').uploadFile({
-            url: '{!! route('ajax.upload') !!}',
+            url: '{!! route('ajax.upload-image') !!}',
             uploadPanel: $('#photo_panel'),
             maxFileAllowed: 10,
             allowedTypes: 'jpeg,jpg,png', //seperate with ','
@@ -249,9 +248,10 @@
                     var row = panel.find('.row');
                 }
 
-                $(row).append('<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6"><div class="thumbnail"><img src="' + mediaUrl + data.info.filename + '" class="img-responsive" style="height: 90px;" /><div class="text-center" style="margin-top: 5px;"><input type="hidden" name="image_url[]" value="' + data.info.filename + '"><input type="radio" name="thumbnail" value="' + data.info.filename + '"></div></div></div>');
+                $(row).append('<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6"><div class="thumbnail" style="position: relative;"><a href="#" class="delete" style="position: absolute; top: -6px; left: -2px; z-index: 99; color: #ff7f27;"><i class="fa fa-times"></i></a><img src="' + mediaUrl + data.info.filename + '" class="img-responsive" style="height: 90px;" /><div class="text-center" style="margin-top: 5px;"><input type="hidden" name="image_url[]" value="' + data.info.filename + '"><input type="radio" name="thumbnail" value="' + data.info.filename + '"></div></div></div>');
             },
             onDelete: function(obj, instance, panel) {
+                $(obj).parent().parent().remove();
                 instance.fileCounter--;
             }
         });

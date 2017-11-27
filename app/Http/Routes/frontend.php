@@ -62,7 +62,7 @@ Route::group(['namespace' => 'Frontend', 'prefix' => LaravelLocalization::setLoc
     Route::group(['middleware' => ['auth:web'], 'prefix' => 'thanh-vien'], function () {
         Route::get('/tai-khoan', ['as' => 'member.detail', 'uses' => 'MemberController@index']);
         Route::put('/tai-khoan/cap-nhat', ['as' => 'member.detail.update', 'uses' => 'MemberController@updateInfo']);
-        Route::get('/bat-dong-san-cua-toi', ['as' => 'member.land', 'uses' => 'MemberController@land']);
+        Route::get('/bat-dong-san-cua-toi', ['as' => 'member.land', 'uses' => 'MemberController@myLand']);
         Route::match(['get', 'post'], '/dang-tin-bat-dong-san', ['as' => 'member.register-land', 'uses' => 'MemberController@registerLand']);
     });
 
@@ -73,7 +73,8 @@ Route::group(['namespace' => 'Frontend', 'prefix' => LaravelLocalization::setLoc
         Route::get('/get-estate-type/{type}', ['as' => 'ajax.get-estate-type', 'uses' => 'AjaxController@getEstateType']);
         Route::get('/get-district/{city_id}', ['as' => 'ajax.get-district', 'uses' => 'AjaxController@getDistrict']);
         Route::get('/get-ward/{district_id}', ['as' => 'ajax.get-ward', 'uses' => 'AjaxController@getWard']);
-        Route::post('/upload', ['as' => 'ajax.upload', 'uses' => 'AjaxController@upload']);
+        Route::post('/upload-image', ['as' => 'ajax.upload-image', 'uses' => 'AjaxController@uploadImage']);
+        Route::get('/delete-image/{filename}', ['as' => 'ajax.delete-image', 'uses' => 'AjaxController@deleteImage'])->where(['filename' => '[ \w\\.\\/\\-\\@\(\)]+']);
     });
 });
 

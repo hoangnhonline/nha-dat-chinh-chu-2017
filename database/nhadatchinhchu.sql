@@ -1035,6 +1035,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) NOT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `address` varchar(500) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `role` tinyint(1) NOT NULL,
   `leader_id` int(11) DEFAULT NULL,

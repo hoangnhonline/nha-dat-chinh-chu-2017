@@ -1,6 +1,6 @@
 .section-common {
   position: relative;
-  padding: 1.5% 0;
+  padding: 3% 0;
 }
 .bg-image-fix {
   background-attachment: fixed;
@@ -16,6 +16,9 @@
 }
 .text-red {
   color: #c70f19;
+}
+.text-large {
+  font-size: 18px;
 }
 .text-small {
   font-size: 11px;
@@ -34,7 +37,6 @@
   border-radius: 0;
   color: #fff;
   position: relative;
-  min-width: 200px;
 }
 .btn.add_arrow:before {
   border: solid transparent;

@@ -1,0 +1,279 @@
+// JavaScript Document
+
+$(function() {
+  
+  /* Mditor Tinymce */
+  tinymce.init({
+    selector: '.editorBasic',
+    plugins: [
+      "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak spellchecker",
+      "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+      "table contextmenu directionality emoticons template textcolor paste fullpage textcolor colorpicker textpattern"
+    ],
+    
+    toolbar1: "undo redo | bold italic | styleselect | forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link unlink",
+  
+    menubar: 'false'
+  });
+
+  /* Show Panel Select Icon */
+  
+  $("#btnAddSelectIcon").click(function(){
+    $("#frmUploadJPGPanel").hide();
+    $("#frmTariffCodePanel").hide(); 
+    $("#frmSelectQAPanel").hide();   
+	$("#frmUploadJPG").hide();  
+	
+    
+    $("#frmSelectCategoryPanel").hide();   
+    $("#frmSelectIconPanel").show(); 
+    
+    $("#frmSelectWebContentsBasicPanel").hide();
+    $("#frmCopyContentsDetailPanel").hide();
+	$("#frmUploadJPG").hide();  
+  });
+  
+  $("#btnAddSelectIcon2").click(function(){
+    $("#frmUploadJPGPanel").hide();
+    $("#frmTariffCodePanel").hide(); 
+    $("#frmSelectQAPanel").hide();   
+    
+    $("#frmSelectCategoryPanel").hide();   
+    $("#frmSelectIconPanel").show(); 
+    
+    $("#frmSelectWebContentsBasicPanel").hide();
+    $("#frmCopyContentsDetailPanel").hide();
+	$("#frmUploadJPG").hide();  
+  });
+  
+  /* Show Panel Select Q&A */
+  
+  $("#btnAddSelectQA").click(function(){
+    $("#frmUploadJPGPanel").hide();
+    $("#frmTariffCodePanel").hide();  
+    $("#frmSelectQAPanel").show();  
+    
+    $("#frmSelectCategoryPanel").hide();   
+    $("#frmSelectIconPanel").hide(); 
+    
+    $("#frmSelectWebContentsBasicPanel").hide();
+    $("#frmCopyContentsDetailPanel").hide();
+	$("#frmUploadJPG").hide();  
+  });
+  
+  $("#btnAddSelectQA2").click(function(){
+    $("#frmUploadJPGPanel").hide();
+    $("#frmTariffCodePanel").hide();  
+    $("#frmSelectQAPanel").show();  
+    
+    $("#frmSelectCategoryPanel").hide();   
+    $("#frmSelectIconPanel").hide(); 
+    
+    $("#frmSelectWebContentsBasicPanel").hide();
+    $("#frmCopyContentsDetailPanel").hide();
+	$("#frmUploadJPG").hide();  
+  });
+  
+  /* Show Panel Select Tariff Code */
+  
+  $("#btnShowSelectTariffCodePanel, #btnShowSelectTariffCodePanel2").click(function(){
+    $("#frmUploadJPGPanel").hide();
+    $("#frmTariffCodePanel").show();  
+    $("#frmSelectQAPanel").hide();  
+    
+    $("#frmSelectCategoryPanel").hide();   
+    $("#frmSelectIconPanel").hide(); 
+    
+    $("#frmSelectWebContentsBasicPanel").hide();
+    $("#frmCopyContentsDetailPanel").hide();
+	$("#frmUploadJPG").hide();  
+  });
+  
+
+  /* Show Panel Upload JPG */
+  
+  $(".btnShowUploadJPG").click(function(){
+    $("#frmUploadJPGPanel").show();
+    $("#frmTariffCodePanel").hide();  
+    $("#frmSelectQAPanel").hide();  
+    
+    $("#frmSelectCategoryPanel").hide();   
+    $("#frmSelectIconPanel").hide(); 
+    
+    $("#frmSelectWebContentsBasicPanel").hide();
+    $("#frmCopyContentsDetailPanel").hide();
+	$("#frmUploadJPG").hide();  
+  });
+  
+  
+  /* Show Panel Upload JPG  */
+  
+  $("#btnAddUploadJPG").click(function(){
+    $("#frmUploadJPGPanel").show();
+    $("#frmTariffCodePanel").hide(); 
+    $("#frmSelectQAPanel").hide();   
+    
+    $("#frmSelectCategoryPanel").hide();   
+    $("#frmSelectIconPanel").hide(); 
+    
+    $("#frmSelectWebContentsBasicPanel").hide();
+    $("#frmCopyContentsDetailPanel").hide();
+	$("#frmUploadJPG").hide();  
+  });
+  
+  $("#btnAddUploadJPG2").click(function(){
+    $("#frmUploadJPGPanel").show();
+    $("#frmTariffCodePanel").hide(); 
+    $("#frmSelectQAPanel").hide();   
+    
+    $("#frmSelectCategoryPanel").hide();   
+    $("#frmSelectIconPanel").hide(); 
+    
+    $("#frmSelectWebContentsBasicPanel").hide();
+    $("#frmCopyContentsDetailPanel").hide();
+	$("#frmUploadJPG").hide();  
+  });
+  
+  /* Show Panel Select Web Contents Basic - Sidebar Common */
+  
+  $("#btnShowSelectWebContentsBasic").click(function(){
+    $("#frmUploadJPGPanel").hide();
+    $("#frmTariffCodePanel").hide(); 
+    $("#frmSelectQAPanel").hide();   
+    
+    $("#frmSelectCategoryPanel").hide();   
+    $("#frmSelectIconPanel").hide(); 
+    
+    $("#frmSelectWebContentsBasicPanel").show();
+    $("#frmCopyContentsDetailPanel").hide();
+	$("#frmUploadJPG").hide();  
+  });
+
+  $("#btnCopyContentsDetailPanel").click(function(){
+    $("#frmUploadJPGPanel").hide();
+    $("#frmTariffCodePanel").hide(); 
+    $("#frmSelectQAPanel").hide();   
+    
+    $("#frmSelectCategoryPanel").hide();   
+    $("#frmSelectIconPanel").hide(); 
+    
+    $("#frmSelectWebContentsBasicPanel").hide();
+    $("#frmCopyContentsDetailPanel").show();
+	$("#frmUploadJPG").hide();  
+  });
+  
+   $("#btn-Uploadipg").click(function(){
+	   $("#frmUploadJPG").show(); 
+    $("#frmUploadJPGPanel").hide();
+    $("#frmTariffCodePanel").hide(); 
+    $("#frmSelectQAPanel").hide();   
+    
+    $("#frmSelectCategoryPanel").hide();   
+    $("#frmSelectIconPanel").hide(); 
+    
+    $("#frmSelectWebContentsBasicPanel").hide();
+    $("#frmCopyContentsDetailPanel").hide();
+	 
+  });
+  
+  /* Tooltip show label text */  
+  $('.qTip-Hiop-Title').qtip({ 
+    content: {
+        text: '<div class="qtip-long-text">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>'
+    },
+    position : {
+      my: 'bottom left',
+      at: 'bottom left',
+      target: 'mouse',
+      adjust: { x: -7, y: -7 }
+    },
+    style : { classes: 'qtip-youtube' },
+  }) 
+  
+  /* Tooltip show label text */  
+  $('.qTip-Tariff-Name').qtip({ 
+    content: {
+        text: '<div class="qtip-long-text">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>'
+    },
+    position : {
+      my: 'bottom right',
+      at: 'bottom right',
+      target: 'mouse',
+      adjust: { x: -7, y: -7 }
+    },
+    style : { classes: 'qtip-youtube' },
+  }) 
+  
+  /* Tooltip show label text */  
+  $('.qTip-Web-Contents-Basic-Title').qtip({ 
+    content: {
+        text: '<div class="qtip-long-text">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>'
+    },
+    position : {
+      my: 'bottom right',
+      at: 'bottom right',
+      target: 'mouse',
+      adjust: { x: -7, y: -7 }
+    },
+    style : { classes: 'qtip-youtube' },
+  }) 
+  
+  /* Tooltip show label text */  
+  $('.qTip-Qa-Contents').qtip({ 
+    content: {
+        text: '<div class="qtip-long-text">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>'
+    },
+    position : {
+      my: 'bottom right',
+      at: 'bottom right',
+      target: 'mouse',
+      adjust: { x: -7, y: -7 }
+    },
+    style : { classes: 'qtip-youtube' },
+  }) 
+  
+  /* Tooltip show label text */  
+  $('.qTip-Tariff-Name-Panel').qtip({ 
+    content: {
+        text: '<div class="qtip-long-text">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>'
+    },
+    position : {
+      my: 'bottom right',
+      at: 'bottom right',
+      target: 'mouse',
+      adjust: { x: -7, y: -7 }
+    },
+    style : { classes: 'qtip-youtube' },
+  }) 
+  
+  /* Tooltip show label text */  
+  $('.qTip-Plan-Title-Panel').qtip({ 
+    content: {
+        text: '<div class="qtip-long-text">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>'
+    },
+    position : {
+      my: 'bottom right',
+      at: 'bottom right',
+      target: 'mouse',
+      adjust: { x: -7, y: -7 }
+    },
+    style : { classes: 'qtip-youtube' },
+  }) 
+
+  
+  /* Tab Category, Icon */
+  
+  $(".tag-list .item .icon-del").on("click", function(){
+    $(this).parent().remove();  
+  });
+
+  /* Sort */
+  
+  $('#tableItinerary tbody').sortable();
+  
+
+  /* Switch checkbox */
+  
+  $(".switch-checkbox").bootstrapSwitch();
+  
+});<!-- end Function -->

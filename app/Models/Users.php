@@ -33,6 +33,7 @@ class Users extends Authenticatable
         'email',
         'phone',
         'address',
+        'avatar',
         'password',
         'role',
         'leader_id',

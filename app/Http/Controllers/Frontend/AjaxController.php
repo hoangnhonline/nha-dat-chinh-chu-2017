@@ -78,7 +78,7 @@ class AjaxController extends Controller
         return response()->json(['error' => 0, 'html' => $sHTML]);
     }
 
-    public function upload(Request $request)
+    public function uploadImage(Request $request)
     {
         if ($request->isMethod('post')) {
             $file = $request->file('file');
@@ -133,5 +133,18 @@ class AjaxController extends Controller
         }
 
         return redirect(route('backend.index'));
+    }
+
+    public function deleteImage(Request $request, $filename)
+    {
+        $disk = Storage::disk('local');
+
+        if (!$disk->exists('images/' . $filename)) {
+            return response()->json(['error' => 1, 'message' => 'File not exists!']);
+        }
+
+        $disk->delete('images/' . $filename);
+
+        return response()->json(['error' => 0, 'message' => 'Done.']);
     }
 }
