@@ -56,13 +56,14 @@
                                         <div class="form-row row">
                                             <div class="col-sm-4">
                                                 <div class="label-group">
-                                                    <label>Địa chỉ email</label>
+                                                    <label>Tên đăng nhập</label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Vui lòng điền email của bạn tại đây">
-                                                @if ($errors->has('email'))
-                                                    <label class="error" for="email">{{ $errors->first('email') }}</label>
+                                                <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" placeholder="Điền tên đăng nhập tại đây...">
+                                                <p class="note">Có ít nhất 6 ký tự, bao gồm chữ cái và số</p>
+                                                @if ($errors->has('username'))
+                                                    <label class="error" for="username">{{ $errors->first('username') }}</label>
                                                 @endif
                                             </div>
                                         </div>
@@ -110,6 +111,19 @@
                                                 <p class="note">Chọn loại thành viên bạn muốn đăng ký</p>
                                                 @if ($errors->has('group_id'))
                                                     <label class="error" for="group_id">{{ $errors->first('group_id') }}</label>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-row row">
+                                            <div class="col-sm-4">
+                                                <div class="label-group">
+                                                    <label>Địa chỉ email</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Vui lòng điền email của bạn tại đây">
+                                                @if ($errors->has('email'))
+                                                    <label class="error" for="email">{{ $errors->first('email') }}</label>
                                                 @endif
                                             </div>
                                         </div>

@@ -42,14 +42,14 @@
                                         <div class="form-row row">
                                             <div class="col-sm-4">
                                                 <div class="label-group">
-                                                    <label>EMAIL</label>
+                                                    <label>TÊN ĐĂNG NHẬP</label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-8">
                                                 <div class="form-group">
-                                                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Điền email của bạn vào đây...">
-                                                    @if ($errors->has('email'))
-                                                        <label class="error" for="email">{{ $errors->first('email') }}</label>
+                                                    <input type="username" class="form-control" id="username" name="username" value="{{ old('username') }}" placeholder="Điền tên đăng nhập của bạn vào đây...">
+                                                    @if ($errors->has('username'))
+                                                        <label class="error" for="username">{{ $errors->first('username') }}</label>
                                                     @endif
                                                 </div>
                                             </div>

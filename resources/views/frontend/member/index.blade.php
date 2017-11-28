@@ -42,7 +42,10 @@
                                         <div class="label-group">
                                             <label for="email">Email</label>
                                         </div>
-                                        <input type="email" class="form-control" value="{{ old('email', auth('web')->user()->email) }}" readonly="readonly">
+                                        <input type="email" class="form-control" id="email" name="email" value="{{ old('email', auth('web')->user()->email) }}">
+                                        @if ($errors->has('email'))
+                                            <label class="error" for="email">{{ $errors->first('email') }}</label>
+                                        @endif
                                     </div>
                                     <div class="form-group">
                                         <div class="label-group">
@@ -55,6 +58,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="label-group">
+                                            <label for="username">Tên truy cập</label>
+                                        </div>
+                                        <input type="username" class="form-control" id="username" name="username" value="{{ old('username', auth('web')->user()->username) }}">
+                                        @if ($errors->has('username'))
+                                            <label class="error" for="username">{{ $errors->first('username') }}</label>
+                                        @endif
+                                    </div>
                                     <div class="form-group">
                                         <div class="label-group">
                                             <label for="avatar">Hình đại diện</label>

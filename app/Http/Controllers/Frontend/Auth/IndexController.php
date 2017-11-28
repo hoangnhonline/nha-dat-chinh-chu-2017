@@ -47,11 +47,10 @@ class IndexController extends Controller
     public function postLogin(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required'
         ], [
-            'email.required' => 'Bạn chưa nhập email.',
-            'email.email' => 'Email không hợp lệ.',
+            'username.required' => 'Bạn chưa nhập tên đăng nhập.',
             'password.required' => 'Bạn chưa nhập mật khẩu.'
         ]);
         
@@ -64,7 +63,7 @@ class IndexController extends Controller
             return $this->sendLockoutResponse($request);
         }
         
-        if (Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 1], $request->has('remember'))) {
+        if (Auth::guard('user')->attempt(['username' => $request->username, 'password' => $request->password, 'type' => 'member', 'status' => 1], $request->has('remember'))) {
             // Authentication passed...
             return $this->sendLoginResponse($request);
         }
@@ -76,7 +75,7 @@ class IndexController extends Controller
             $this->incrementLoginAttempts($request);
         }
         
-        return redirect()->back()->withInput()->withErrors(['email' => ['Email hoặc mật khẩu không đúng.']]);
+        return redirect()->back()->withInput()->withErrors(['username' => ['Tên đăng nhập hoặc mật khẩu không đúng.']]);
     }
 
     public function logout(Request $request)
@@ -101,24 +100,27 @@ class IndexController extends Controller
     {
         $this->validate($request, [
             'full_name' => 'required|max:200',
-            'email' => 'required|email|max:200|unique:users,email,null,id',
-            'password' => 'required|between:6,20|regex:[((?=.*\d).{6,20})]',
+            'username' => 'required|regex:[^(?=.{6,20}$)[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$]',
+            'password' => 'required|regex:[((?=.*\d).{6,20})]',
             'password_confirmed' => 'same:password',
             'group_id' => 'required',
+            'email' => 'required|email|max:200|unique:users,email,null,id,type,member',
             'phone' => 'regex:[^([\+1-9]{3})?([0])?([1,9,8])([0-9]{8,9})$]',
             'agree_term' => 'required'
         ], [
             'full_name.required' => 'Bạn chưa nhập tên đầy đủ.',
             'full_name.max' => 'Tên đầy đủ không được dài hơn :max ký tự.',
+            'username.required' => 'Bạn chưa nhập tên đăng nhập.',
+            'username.regex' => 'Tên đăng nhập không hợp lệ.',
+            'username.unique' => 'Tên đăng nhập này đã tồn tại, vui lòng chọn tên đăng nhập khác.',
+            'password.required' => 'Bạn chưa nhập mật khẩu.',
+            'password.regex' => 'Mật khẩu không hợp lệ.',
+            'password_confirmed.same' => 'Xác nhận mật khẩu không khớp với mật khẩu.',
+            'group_id.required' => 'Vui lòng chọn loại thành viên.',
             'email.required' => 'Bạn chưa nhập email.',
             'email.email' => 'Email không hợp lệ.',
             'email.max' => 'Email không được dài hơn :max ký tự.',
             'email.unique' => 'Email này đã tồn tại, vui lòng chọn email khác.',
-            'password.required' => 'Bạn chưa nhập mật khẩu.',
-            'password.between' => 'Mật khẩu phải nằm trong khoảng từ :min đến :max ký tự.',
-            'password.regex' => 'Mật khẩu không hợp lệ.',
-            'password_confirmed.same' => 'Xác nhận mật khẩu không khớp với mật khẩu.',
-            'group_id.required' => 'Vui lòng chọn loại thành viên.',
             'phone.regex' => 'Số điện thoại không hợp lệ.',
             'agree_term.required' => 'Vui lòng chọn đồng ý với các điều khoản của dịch vụ.',
         ]);
@@ -128,10 +130,12 @@ class IndexController extends Controller
 
         $modelUsers->create([
             'full_name' => $request->full_name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'group_id' => $request->group_id,
             'phone' => $request->phone,
+            'type' => 'member',
             'status' => 1
         ]);
 

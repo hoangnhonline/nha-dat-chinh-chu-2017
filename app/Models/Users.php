@@ -35,6 +35,7 @@ class Users extends Authenticatable
         'address',
         'avatar',
         'password',
+        'type',
         'role',
         'leader_id',
         'group_id',

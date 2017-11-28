@@ -36,7 +36,8 @@ class SocialController extends Controller
 
         //check user exists
         $userCheck = $modelUsers->findByAttributes([
-            'email' => $user->email
+            'email' => $user->email,
+            'type' => 'member'
         ]);
 
         if ($userCheck) {
@@ -48,6 +49,7 @@ class SocialController extends Controller
                 'full_name' => $user->name,
                 'password' => bcrypt('Aa@123456'),
                 'group_id' => config('nhadat.default_group_member'),
+                'type' => 'member',
                 'status' => 1
             ]);
 
