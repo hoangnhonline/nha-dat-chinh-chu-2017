@@ -15,7 +15,7 @@ return [
     'upload_url' => config('app.url') . '/public/uploads/images/', // image path,
     'upload_url_thumbs' => config('app.url') . '/public/uploads/images/thumbs/', // image path,    
     'max_size_upload' => 8000000,
-    'default_group_member' => 1
+    'default_group_member' => 4
 ];
 
 ?>

@@ -54,7 +54,7 @@ class ViewComposerServiceProvider extends ServiceProvider
             $arrListGroup = $modelGroups->getByAttributes([
                 'type' => 'member',
                 'status' => 1
-            ]);
+            ], 'display_order', 'asc');
 
 			$view->with([
 			    'arrListGroup' => $arrListGroup

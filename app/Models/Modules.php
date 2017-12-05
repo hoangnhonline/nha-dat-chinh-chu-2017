@@ -1,10 +1,10 @@
-<?php namespace App\Models;
+<?php
+namespace App\Models;
 
 use App\Models\Traits\BasicBehavior;
 use Illuminate\Database\Eloquent\Model;
 
-
-class Groups extends Model
+class Modules extends Model
 {
 
     use BasicBehavior;
@@ -14,7 +14,7 @@ class Groups extends Model
      *
      * @var string
      */
-    protected $table = 'groups';
+    protected $table = 'modules';
 
     /**
      * Indicates if the model should be timestamped.
@@ -29,16 +29,9 @@ class Groups extends Model
      * @var array
      */
     protected $fillable = [
-        'name_vi',
-        'name_en',
-        'description_vi',
-        'description_en',
-        'type',
-        'permission',
-        'display_order',
-        'status',
-        'created_user',
-        'updated_user'
+        'code',
+        'name',
+        'cate_related'
     ];
 
 }

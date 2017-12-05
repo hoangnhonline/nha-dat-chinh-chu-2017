@@ -91,7 +91,7 @@ class IndexController extends Controller
         $arrListGroup = $modelGroups->getByAttributes([
             'type' => 'member',
             'status' => 1
-        ]);
+        ], 'display_order', 'asc');
 
         return view('frontend.auth.register', compact('arrListGroup'));
     }

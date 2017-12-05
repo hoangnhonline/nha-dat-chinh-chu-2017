@@ -45,7 +45,7 @@ class MemberController extends Controller
             'full_name' => $request->full_name,
             'username' => $request->username,
             'email' => $request->email,
-            'address' => $request->address ?? null,
+            'address' => $request->address ? $request->address : null,
             'phone' => $request->phone
         ];
 

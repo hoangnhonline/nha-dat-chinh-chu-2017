@@ -227,23 +227,22 @@ CREATE TABLE IF NOT EXISTS `cart_product` (
 DROP TABLE IF EXISTS `cate`;
 CREATE TABLE IF NOT EXISTS `cate` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `name_vi` varchar(255) NOT NULL,
+  `name_en` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
-  `description` varchar(500) DEFAULT NULL,
-  `image_url` varchar(255) DEFAULT NULL,
-  `estate_type_id` int(11) NOT NULL,
-  `type` tinyint(4) NOT NULL,
+  `description_vi` varchar(500) DEFAULT NULL,
+  `description_en` varchar(500) DEFAULT NULL,
   `display_order` tinyint(4) NOT NULL,
   `meta_id` bigint(20) DEFAULT NULL,
-  `is_hot` tinyint(1) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `created_user` tinyint(4) NOT NULL,
   `updated_user` tinyint(4) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `name` (`name`),
+  KEY `name_vi` (`name_vi`),
+  KEY `name_en` (`name_en`),
   KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -442,6 +441,8 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `description_vi` text DEFAULT NULL,
   `description_en` text DEFAULT NULL,
   `type` enum('admin','member') NOT NULL DEFAULT 'admin' COMMENT 'admin or member',
+  `permission` text NOT NULL,
+  `display_order` int(11) NOT NULL DEFAULT '0' COMMENT 'type member only',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_user` int(11) NOT NULL,
   `updated_user` int(11) NOT NULL,
@@ -550,6 +551,22 @@ CREATE TABLE IF NOT EXISTS `meta_data` (
   `custom_text` text,
   `created_user` int(11) NOT NULL,
   `updated_user` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `modules`
+--
+
+CREATE TABLE `modules` (
+  `id` int(11) NOT NULL,
+  `code` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `cate_related` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
