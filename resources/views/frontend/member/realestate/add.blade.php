@@ -26,7 +26,7 @@
                 <div class="col-sm-9">
                     <div class="block-register-bds block-common">
                         <h2 class="title-style text-color2">Đăng tin bất động sản</h2>
-                        <form class="frm-register-bds" action="{{ route('member.register-land') }}" method="post">
+                        <form class="frm-register-bds" action="{{ route('member.realestate.create') }}" method="post">
                             <div class="form-row row">
                                 <div class="col-md-4">
                                     <div class="form-group">

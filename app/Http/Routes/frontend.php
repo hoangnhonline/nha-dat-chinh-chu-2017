@@ -62,8 +62,17 @@ Route::group(['namespace' => 'Frontend', 'prefix' => LaravelLocalization::setLoc
     Route::group(['middleware' => ['auth:web'], 'prefix' => 'thanh-vien'], function () {
         Route::get('/tai-khoan', ['as' => 'member.detail', 'uses' => 'MemberController@index']);
         Route::put('/tai-khoan/cap-nhat', ['as' => 'member.detail.update', 'uses' => 'MemberController@updateInfo']);
-        Route::get('/bat-dong-san-cua-toi', ['as' => 'member.land', 'uses' => 'MemberController@myLand']);
-        Route::match(['get', 'post'], '/dang-tin-bat-dong-san', ['as' => 'member.register-land', 'uses' => 'MemberController@registerLand']);
+
+        Route::match(['get', 'post'], '/logo/dang-tin', ['as' => 'member.create-logo', 'uses' => 'MemberController@createLogo']);
+        Route::match(['get', 'post'], '/tin-tuc/dang-tin', ['as' => 'member.create-news', 'uses' => 'MemberController@createNews']);
+
+        Route::group(['prefix' => 'bat-dong-san'], function () {
+            Route::get('/danh-sach', ['as' => 'member.realestate.index', 'uses' => 'MemberController@listRealEstate']);
+            Route::get('/dang-tin', ['as' => 'member.realestate.add', 'uses' => 'MemberController@addRealEstate']);
+            Route::post('/dang-tin', ['as' => 'member.realestate.create', 'uses' => 'MemberController@createRealEstate']);
+            Route::get('/chinh-sua/{id}', ['as' => 'member.realestate.edit', 'uses' => 'MemberController@editRealEstate']);
+            Route::put('/chinh-sua/{id}', ['as' => 'member.realestate.update', 'uses' => 'MemberController@updateRealEstate']);
+        });
     });
 
     Route::get('goi-dich-vu-bds.html', ['as' => 'package-service', 'uses' => 'HomeController@packageService']);

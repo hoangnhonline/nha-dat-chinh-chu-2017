@@ -1,12 +1,11 @@
-<?php namespace App\Models;
+<?php
+namespace App\Models;
 
 use App\Models\Traits\BasicBehavior;
 use Illuminate\Database\Eloquent\Model;
 
-
 class Groups extends Model
 {
-
     use BasicBehavior;
 
     /**
@@ -41,4 +40,17 @@ class Groups extends Model
         'updated_user'
     ];
 
+    public function getPermission($group_id)
+    {
+        $data = $this->findByAttributes([
+            'id' => $group_id,
+            'status' => 1
+        ]);
+
+        if ($data) {
+            return json_decode($data->permission, true);
+        }
+
+        return [];
+    }
 }

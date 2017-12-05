@@ -74,3 +74,62 @@ if (!function_exists('image_url')) {
         }
     }
 }
+
+if (!function_exists('check_permission')) {
+
+    /**
+     * Function check permission of user
+     *
+     * @param int $group_id
+     * @param string $module
+     * @param string $role
+     *
+     * @return string
+     */
+    function check_permission($group_id, $module, $role)
+    {
+        $arrRole = [
+            'view' => 0,
+            'add' => 1,
+            'edit' => 2,
+            'delete' => 3,
+            'active' => 0,
+            'inactive' => 1,
+        ];
+
+        $modelGroups = new \App\Models\Groups();
+
+        $arrPermission = $modelGroups->getPermission($group_id);
+
+        if (!empty($arrPermission)) {
+            return $arrPermission[$module][$arrRole[$role]] == 1;
+        }
+
+        return false;
+    }
+}
+
+if (!function_exists('check_permission_estate')) {
+
+    /**
+     * Function check permission estate of user
+     *
+     * @param int $group_id
+     * @param string $role
+     *
+     * @return string
+     */
+    function check_permission_estate($group_id, $role)
+    {
+        $result = false;
+
+        foreach (['realestate_owner', 'realestate_hot', 'realestate_project', 'realestate_member', 'realestate_newest'] as $module) {
+            if (check_permission($group_id, $module, $role)) {
+                $result = true;
+                break;
+            }
+        }
+
+        return $result;
+    }
+}
