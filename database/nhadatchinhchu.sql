@@ -563,7 +563,7 @@ CREATE TABLE IF NOT EXISTS `meta_data` (
 --
 
 CREATE TABLE `modules` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `cate_related` int(11) DEFAULT NULL,
