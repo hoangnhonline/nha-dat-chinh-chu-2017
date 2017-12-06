@@ -27,6 +27,26 @@
                     <div class="block-register-bds block-common">
                         <h2 class="title-style text-color2">Đăng tin bất động sản</h2>
                         <form class="frm-register-bds" action="{{ route('member.realestate.create') }}" method="post">
+                            @if (count($arrListCate) > 1)
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <div class="label-group">
+                                            <label for="cate_id">Danh mục</label>
+                                        </div>
+                                        <select id="cate_id" name="cate_id" class="form-control select2">
+                                            <option value="">--Chọn danh mục--</option>
+                                            @foreach ($arrListCate as $cate)
+                                                <option value="{{ $cate->id }}"{!! old('cate_id') == $cate->id ? ' selected="selected"' : '' !!}>{{ $cate->{'name_' . config('app.locale')} }}</option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('cate_id'))
+                                            <label class="error" for="type">{{ $errors->first('cate_id') }}</label>
+                                        @endif
+                                    </div>
+                                </div>
+                            @else
+                                <input type="hidden" id="cate_id" name="cate_id" value="{{ old('cate_id', $arrListCate[0]->id) }}">
+                            @endif
                             <div class="form-row row">
                                 <div class="col-md-4">
                                     <div class="form-group">

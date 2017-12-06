@@ -104,7 +104,7 @@ class IndexController extends Controller
             'password' => 'required|regex:[((?=.*\d).{6,20})]',
             'password_confirmed' => 'same:password',
             'group_id' => 'required',
-            'email' => 'required|email|max:200|unique:users,email,null,id,type,member',
+            'email' => 'email|max:200|unique:users,email,null,id,type,member',
             'phone' => 'regex:[^([\+1-9]{3})?([0])?([1,9,8])([0-9]{8,9})$]',
             'agree_term' => 'required'
         ], [

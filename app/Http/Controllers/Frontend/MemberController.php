@@ -22,7 +22,7 @@ class MemberController extends Controller
         $this->validate($request, [
             'full_name' => 'required|max:200',
             'username' => 'required|regex:[^(?=.{6,20}$)[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$]|unique:users,username,' . $userInfo->id . ',id,type,member',
-            'email' => 'required|email|max:200|unique:users,email,' . $userInfo->id . ',id,type,member',
+            'email' => 'email|max:200|unique:users,email,' . $userInfo->id . ',id,type,member',
             'address' => 'max:500',
             'phone' => 'regex:[^([\+1-9]{3})?([0])?([1,9,8])([0-9]{8,9})$]',
             'new_password' => 'between:6,20|regex:[((?=.*\d).{6,20})]'
@@ -98,6 +98,7 @@ class MemberController extends Controller
         }
 
         $this->validate($request, [
+            'cate_id' => 'required',
             'type' => 'required',
             'estate_type_id' => 'required',
             'price' => 'required',
@@ -109,6 +110,7 @@ class MemberController extends Controller
             'description' => 'required',
             'image_url' => 'required',
         ], [
+            'cate_id.required' => 'Vui lòng chọn danh mục.',
             'type.required' => 'Vui lòng chọn loại giao dịch.',
             'estate_type_id.required' => 'Vui lòng chọn loại bất động sản.',
             'price.required' => 'Vui lòng nhập giá.',

@@ -23,6 +23,8 @@ class Authenticate
             } else {
                 if ($guard == 'web') {
                     return redirect(route('auth.login'));
+                } elseif ($guard == 'admin') {
+                    return redirect(route('backend.auth.login'));
                 }
             }
         }
