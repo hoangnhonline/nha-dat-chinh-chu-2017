@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Cate;
 use App\Models\Modules;
 use App\Models\Groups;
+use App\Models\Users;
 
 class CateModulesGroups_TableSeeder extends Seeder
 {
@@ -23,6 +24,7 @@ class CateModulesGroups_TableSeeder extends Seeder
         $modelCate = new Cate();
         $modelModules = new Modules();
         $modelGroups = new Groups();
+        $modelUsers = new Users();
 
         $cateInfo = $modelCate->create([
             'name_vi' => 'BĐS Chính Chủ',
@@ -123,7 +125,7 @@ class CateModulesGroups_TableSeeder extends Seeder
         ]);
 
         //create group admin
-        $modelGroups->create([
+        $groupInfo = $modelGroups->create([
             'name_vi' => 'Admin',
             'name_en' => 'Admin',
             'description_vi' => 'Admin',
@@ -265,6 +267,22 @@ class CateModulesGroups_TableSeeder extends Seeder
                 'view' => [1, 0],
             ]),
             'display_order' => 4,
+            'status' => 1,
+            'created_user' => 1,
+            'updated_user' => 1
+        ]);
+
+        //create user admin
+        $modelUsers->updateOrCreate([
+            'email' => 'superadmin@gmail.com'
+        ], [
+            'full_name' => 'Super Admin',
+            'username' => 'superadmin',
+            'email' => 'superadmin@gmail.com',
+            'password' => bcrypt('Super@dm!n'),
+            'type' => 'admin',
+            'role' => 1,
+            'group_id' => $groupInfo->id,
             'status' => 1,
             'created_user' => 1,
             'updated_user' => 1

@@ -14,7 +14,7 @@
   </section>
 
   <!-- Main content -->
-  <section class="content">   
+  <section class="content">
     <form role="form" method="POST" action="{{ route('settings.update') }}">
     <div class="row">
       <!-- left column -->
@@ -25,7 +25,7 @@
           <div class="box-header with-border">
             <h3 class="box-title">Cập nhật</h3>
           </div>
-          <!-- /.box-header -->               
+          <!-- /.box-header -->
             {!! csrf_field() !!}
 
             <div class="box-body">
@@ -46,7 +46,7 @@
                   <label>Tên site <span class="red-star">*</span></label>
                   <input type="text" class="form-control" name="site_name" id="site_name" value="{{ $settingArr['site_name'] }}">
                 </div>
-                
+
                 <div class="form-group">
                   <label>Facebook</label>
                   <input type="text" class="form-control" name="facebook_fanpage" id="facebook_fanpage" value="{{ $settingArr['facebook_fanpage'] }}">
@@ -78,51 +78,51 @@
                 <div class="form-group">
                   <label>Code google analystic </label>
                   <input type="text" class="form-control" name="google_analystic" id="google_analystic" value="{{ $settingArr['google_analystic'] }}">
-                </div>   
-                <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
-                  <label class="col-md-3 row">Logo </label>    
+                </div>
+                <div class="form-group" style="margin-top:10px;margin-bottom:10px">
+                  <label class="col-md-3 row">Logo </label>
                   <div class="col-md-9">
                     <img id="thumbnail_logo" src="{{ $settingArr['logo'] ? Helper::showImage($settingArr['logo']) : URL::asset('public/admin/dist/img/img.png') }}" class="img-logo" width="150" >
-                    
+
                     <input type="file" id="file-logo" style="display:none" />
-                 
+
                     <button class="btn btn-default btn-sm" id="btnUploadLogo" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
                   </div>
                   <div style="clear:both"></div>
                 </div>
-                <div style="clear:both"></div> 
-                <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
-                  <label class="col-md-3 row">Favicon </label>    
+                <div style="clear:both"></div>
+                <div class="form-group" style="margin-top:10px;margin-bottom:10px">
+                  <label class="col-md-3 row">Favicon </label>
                   <div class="col-md-9">
                     <img id="thumbnail_favicon" src="{{ $settingArr['favicon'] ? Helper::showImage($settingArr['favicon']) : URL::asset('public/admin/dist/img/img.png') }}" class="img-favicon" width="50">
-                    
+
                     <input type="file" id="file-favicon" style="display:none" />
-                 
+
                     <button class="btn btn-default btn-sm" id="btnUploadFavicon" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
                   </div>
                   <div style="clear:both"></div>
                 </div>
-                <div style="clear:both"></div> 
-                <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
-                  <label class="col-md-3 row">Banner ( og:image ) </label>    
+                <div style="clear:both"></div>
+                <div class="form-group" style="margin-top:10px;margin-bottom:10px">
+                  <label class="col-md-3 row">Banner ( og:image ) </label>
                   <div class="col-md-9">
                     <img id="thumbnail_banner" src="{{ $settingArr['banner'] ? Helper::showImage($settingArr['banner']) : URL::asset('public/admin/dist/img/img.png') }}" class="img-banner" width="200">
-                    
+
                     <input type="file" id="file-banner" style="display:none" />
-                 
+
                     <button class="btn btn-default btn-sm" id="btnUploadBanner" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
                   </div>
                   <div style="clear:both"></div>
                 </div>
-                <div style="clear:both"></div>            
-                 
-            </div>                        
-            <div class="box-footer">
-              <button type="submit" class="btn btn-primary btn-sm">Lưu</button>         
+                <div style="clear:both"></div>
+
             </div>
-            
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary btn-sm">Lưu</button>
+            </div>
+
         </div>
-        <!-- /.box -->     
+        <!-- /.box -->
 
       </div>
       <div class="col-md-5">
@@ -141,28 +141,28 @@
               <div class="form-group">
                 <label>Meta desciption <span class="red-star">*</span></label>
                 <textarea class="form-control" rows="4" name="site_description" id="site_description">{{ $settingArr['site_description'] }}</textarea>
-              </div>  
+              </div>
 
               <div class="form-group">
                 <label>Meta keywords <span class="red-star">*</span></label>
                 <textarea class="form-control" rows="4" name="site_keywords" id="site_keywords">{{ $settingArr['site_keywords'] }}</textarea>
-              </div>  
+              </div>
               <div class="form-group">
                 <label>Custom text</label>
                 <textarea class="form-control" rows="4" name="custom_text" id="custom_text">{{ $settingArr['custom_text'] }}</textarea>
               </div>
-            
+
         </div>
-        <!-- /.box -->     
+        <!-- /.box -->
 
       </div>
-      <!--/.col (left) -->      
+      <!--/.col (left) -->
     </div>
-<input type="hidden" name="logo" id="logo" value="{{ $settingArr['logo'] }}"/>          
+<input type="hidden" name="logo" id="logo" value="{{ $settingArr['logo'] }}"/>
 <input type="hidden" name="logo_name" id="logo_name" value="{{ old('logo_name') }}"/>
-<input type="hidden" name="favicon" id="favicon" value="{{ $settingArr['favicon'] }}"/>          
+<input type="hidden" name="favicon" id="favicon" value="{{ $settingArr['favicon'] }}"/>
 <input type="hidden" name="favicon_name" id="favicon_name" value="{{ old('favicon_name') }}"/>
-<input type="hidden" name="banner" id="banner" value="{{ $settingArr['banner'] }}"/>          
+<input type="hidden" name="banner" id="banner" value="{{ $settingArr['banner'] }}"/>
 <input type="hidden" name="banner_name" id="banner_name" value="{{ old('banner_name') }}"/>
 
     </form>
@@ -185,32 +185,32 @@
           filebrowserFlashUploadUrl: "{{ URL::asset('public/admin/dist/js/kcfinder/upload.php?type=flash') }}",
           height : 300
       });
-      $('#btnUploadLogo').click(function(){        
+      $('#btnUploadLogo').click(function(){
         $('#file-logo').click();
       });
-      $('#btnUploadFavicon').click(function(){        
+      $('#btnUploadFavicon').click(function(){
         $('#file-favicon').click();
       });
-      $('#btnUploadBanner').click(function(){        
+      $('#btnUploadBanner').click(function(){
         $('#file-banner').click();
       });
       var files = "";
       $('#file-logo').change(function(e){
          files = e.target.files;
-         
+
          if(files != ''){
-           var dataForm = new FormData();        
+           var dataForm = new FormData();
           $.each(files, function(key, value) {
              dataForm.append('file', value);
-          });   
-          
+          });
+
           dataForm.append('date_dir', 0);
           dataForm.append('folder', 'tmp');
 
           $.ajax({
             url: $('#route_upload_tmp_image').val(),
             type: "POST",
-            async: false,      
+            async: false,
             data: dataForm,
             processData: false,
             contentType: false,
@@ -223,10 +223,10 @@
               console.log(response.image_path);
                 //window.location.reload();
             },
-            error: function(response){                             
+            error: function(response){
                 var errors = response.responseJSON;
                 for (var key in errors) {
-                  
+
                 }
                 //$('#btnLoading').hide();
                 //$('#btnSave').show();
@@ -237,20 +237,20 @@
       var filesFavicon = '';
       $('#file-favicon').change(function(e){
          filesFavicon = e.target.files;
-         
+
          if(filesFavicon != ''){
-           var dataForm = new FormData();        
+           var dataForm = new FormData();
           $.each(filesFavicon, function(key, value) {
              dataForm.append('file', value);
           });
-          
+
           dataForm.append('date_dir', 0);
           dataForm.append('folder', 'tmp');
 
           $.ajax({
             url: $('#route_upload_tmp_image').val(),
             type: "POST",
-            async: false,      
+            async: false,
             data: dataForm,
             processData: false,
             contentType: false,
@@ -263,10 +263,10 @@
               console.log(response.image_path);
                 //window.location.reload();
             },
-            error: function(response){                             
+            error: function(response){
                 var errors = response.responseJSON;
                 for (var key in errors) {
-                  
+
                 }
                 //$('#btnLoading').hide();
                 //$('#btnSave').show();
@@ -274,24 +274,24 @@
           });
         }
       });
-      
+
       var filesBanner = '';
       $('#file-banner').change(function(e){
          filesBanner = e.target.files;
-         
+
          if(filesBanner != ''){
-           var dataForm = new FormData();        
+           var dataForm = new FormData();
           $.each(filesBanner, function(key, value) {
              dataForm.append('file', value);
           });
-          
+
           dataForm.append('date_dir', 0);
           dataForm.append('folder', 'tmp');
 
           $.ajax({
             url: $('#route_upload_tmp_image').val(),
             type: "POST",
-            async: false,      
+            async: false,
             data: dataForm,
             processData: false,
             contentType: false,
@@ -304,10 +304,10 @@
               console.log(response.image_path);
                 //window.location.reload();
             },
-            error: function(response){                             
+            error: function(response){
                 var errors = response.responseJSON;
                 for (var key in errors) {
-                  
+
                 }
                 //$('#btnLoading').hide();
                 //$('#btnSave').show();
@@ -317,6 +317,6 @@
       });
 
     });
-    
+
 </script>
 @stop

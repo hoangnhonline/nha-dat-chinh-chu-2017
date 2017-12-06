@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend\Auth;
 
 use App\Models\Groups;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Controller;
 class IndexController extends Controller
 {
     use AuthenticatesUsers;
+    use ThrottlesLogins;
     
     /**
      * Where to redirect users after login / registration.
@@ -53,19 +55,20 @@ class IndexController extends Controller
             'username.required' => 'Bạn chưa nhập tên đăng nhập.',
             'password.required' => 'Bạn chưa nhập mật khẩu.'
         ]);
-        
+
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
-        if ($lockedOut = $this->hasTooManyLoginAttempts($request)) {
+        $throttles = $this->isUsingThrottlesLoginsTrait();
+
+        if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
-            
+
             return $this->sendLockoutResponse($request);
         }
-        
-        if (Auth::guard('user')->attempt(['username' => $request->username, 'password' => $request->password, 'type' => 'member', 'status' => 1], $request->has('remember'))) {
-            // Authentication passed...
-            return $this->sendLoginResponse($request);
+
+        if (Auth::guard('web')->attempt(['username' => $request->username, 'password' => $request->password, 'type' => 'member', 'status' => 1], $request->has('remember'))) {
+            return $this->handleUserWasAuthenticated($request, $throttles);
         }
         
         // If the login attempt was unsuccessful we will increment the number of attempts

@@ -37,5 +37,6 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('Time execute: ' . (microtime(true) - LARAVEL_START) . ' seconds.');
         $this->command->info('Seeding database done!');
+        $this->command->comment('You can login with user/pass: superadmin@gmail.com/Super@dm!n');
     }
 }
