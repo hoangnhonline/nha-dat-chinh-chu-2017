@@ -133,3 +133,28 @@ if (!function_exists('check_permission_estate')) {
         return $result;
     }
 }
+
+if (!function_exists('reset_permission')) {
+
+    /**
+     * Function reset all permission to false
+     *
+     * @param array $arrPermission
+     *
+     * @return array
+     */
+    function reset_permission($arrPermission)
+    {
+        $arrResult = [];
+
+        foreach ($arrPermission as $module => $permission) {
+            $arrResult[$module] = [];
+
+            foreach ($permission as $role) {
+                $arrResult[$module][] = 0;
+            }
+        }
+
+        return $arrResult;
+    }
+}

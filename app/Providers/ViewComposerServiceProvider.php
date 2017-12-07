@@ -48,6 +48,24 @@ class ViewComposerServiceProvider extends ServiceProvider
 	 */
 	private function composerMenu()
 	{
+        view()->composer(['backend.partials.sidebar'], function ($view) {
+            //get controller and action
+            $action = app('request')->route()->getAction();
+            $controller = class_basename($action['controller']);
+
+            $namespace = strtolower(class_basename($action['namespace']));
+            if ($namespace != 'backend') {
+                $namespace = 'backend_' . $namespace;
+            }
+
+            list($controller, $action) = explode('@', $controller);
+            $controller = strtolower(str_replace('Controller', '', $controller));
+
+            //get menu by menu code
+            $menu_code = $namespace . '_' . $controller;
+
+            $view->with(compact('namespace', 'controller', 'action', 'menu_code'));
+        });
 
 		view()->composer( 'frontend.partials.member_level' , function( $view ){
 		    $modelGroups = new Groups();

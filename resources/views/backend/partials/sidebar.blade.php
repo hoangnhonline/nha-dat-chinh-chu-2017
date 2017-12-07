@@ -15,17 +15,26 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="treeview active">
+            <li class="treeview{!! $namespace == 'backend_system' ? ' active' : '' !!}">
                 <a href="#">
-                    <i class="fa fa-twitch"></i>
-                    <span>Công việc</span>
+                    <i class="fa fa-cogs"></i>
+                    <span>Quản trị</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li>
-                        <a href="#"><i class="fa fa-circle-o"></i> Công việc </a>
+                    <li{!! $menu_code == 'backend_system_group' ? ' class="active"' : '' !!}>
+                        <a href="{{ route('system.group.index') }}"><i class="fa fa-circle-o"></i> Nhóm</a>
+                    </li>
+                    <li{!! $menu_code == 'backend_system_member' ? ' class="active"' : '' !!}>
+                        <a href="{{ route('system.member.index') }}"><i class="fa fa-circle-o"></i> Thành viên BĐS</a>
+                    </li>
+                    <li{!! $menu_code == 'backend_system_admin' ? ' class="active"' : '' !!}>
+                        <a href="{{ route('system.admin.index') }}"><i class="fa fa-circle-o"></i> Thành viên quản trị</a>
+                    </li>
+                    <li{!! $menu_code == 'backend_system_cate' ? ' class="active"' : '' !!}>
+                        <a href="{{ route('system.realestate-cate.index') }}"><i class="fa fa-circle-o"></i> Danh mục BĐS</a>
                     </li>
                 </ul>
             </li>

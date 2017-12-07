@@ -9,6 +9,41 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'backend'], function () {
 
     Route::group(['middleware' => ['auth:admin']], function () {
         Route::get('/', ['as' => 'dashboard.index', 'uses' => "SettingsController@dashboard"]);
+
+        //route for admin only
+        Route::group(['namespace' => 'System', 'prefix' => 'system'], function () {
+            Route::group(['prefix' => 'group'], function () {
+                Route::get('/', ['as' => 'system.group.index', 'uses' => 'GroupController@index']);
+                Route::get('/edit/{id}', ['as' => 'system.group.edit', 'uses' => 'GroupController@edit']);
+                Route::post('/update/{id}', ['as' => 'system.group.update', 'uses' => 'GroupController@update']);
+            });
+
+            Route::group(['prefix' => 'member'], function () {
+                Route::get('/', ['as' => 'system.member.index', 'uses' => 'MemberController@index']);
+                Route::get('/create', ['as' => 'system.member.create', 'uses' => 'MemberController@create']);
+                Route::post('/store', ['as' => 'system.member.store', 'uses' => 'MemberController@store']);
+                Route::get('/edit/{id}', ['as' => 'system.member.edit', 'uses' => 'MemberController@edit']);
+                Route::post('/update/{id}', ['as' => 'system.member.update', 'uses' => 'MemberController@update']);
+            });
+
+            Route::group(['prefix' => 'admin'], function () {
+                Route::get('/', ['as' => 'system.admin.index', 'uses' => 'AdminController@index']);
+                Route::get('/create', ['as' => 'system.admin.create', 'uses' => 'AdminController@create']);
+                Route::post('/store', ['as' => 'system.admin.store', 'uses' => 'AdminController@store']);
+                Route::get('/edit/{id}', ['as' => 'system.admin.edit', 'uses' => 'AdminController@edit']);
+                Route::post('/update/{id}', ['as' => 'system.admin.update', 'uses' => 'AdminController@update']);
+            });
+
+            Route::group(['prefix' => 'realestate-cate'], function () {
+                Route::get('/', ['as' => 'system.realestate-cate.index', 'uses' => 'CateController@index']);
+                Route::get('/create', ['as' => 'system.realestate-cate.create', 'uses' => 'CateController@create']);
+                Route::post('/store', ['as' => 'system.realestate-cate.store', 'uses' => 'CateController@store']);
+                Route::get('/edit/{id}', ['as' => 'system.realestate-cate.edit', 'uses' => 'CateController@edit']);
+                Route::post('/update/{id}', ['as' => 'system.realestate-cate.update', 'uses' => 'CateController@update']);
+            });
+        });
+
+        /* old */
         Route::group(['prefix' => 'compare'], function () {
             Route::get('/', ['as' => 'compare.index', 'uses' => 'CompareController@index']);
         });
