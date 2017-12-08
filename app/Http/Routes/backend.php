@@ -24,6 +24,7 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'backend'], function () {
                 Route::post('/store', ['as' => 'system.member.store', 'uses' => 'MemberController@store']);
                 Route::get('/edit/{id}', ['as' => 'system.member.edit', 'uses' => 'MemberController@edit']);
                 Route::post('/update/{id}', ['as' => 'system.member.update', 'uses' => 'MemberController@update']);
+                Route::post('/destroy/{id}', ['as' => 'system.member.destroy', 'uses' => 'MemberController@destroy']);
             });
 
             Route::group(['prefix' => 'admin'], function () {
@@ -32,6 +33,7 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'backend'], function () {
                 Route::post('/store', ['as' => 'system.admin.store', 'uses' => 'AdminController@store']);
                 Route::get('/edit/{id}', ['as' => 'system.admin.edit', 'uses' => 'AdminController@edit']);
                 Route::post('/update/{id}', ['as' => 'system.admin.update', 'uses' => 'AdminController@update']);
+                Route::post('/destroy/{id}', ['as' => 'system.admin.destroy', 'uses' => 'AdminController@destroy']);
             });
 
             Route::group(['prefix' => 'realestate-cate'], function () {

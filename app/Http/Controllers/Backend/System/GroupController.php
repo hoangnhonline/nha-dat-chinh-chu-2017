@@ -9,12 +9,19 @@ use Illuminate\Support\Facades\Session;
 
 class GroupController extends Controller
 {
+    public $modelGroups;
+    public $modelModules;
+
+    public function __construct()
+    {
+        $this->modelGroups = new Groups();
+        $this->modelModules = new Modules();
+    }
+
     public function index(Request $request)
     {
-        $modelGroups = new Groups();
-
-        $arrListGroup = $modelGroups->getByAttributes([
-            'status' => [1, 2]
+        $arrListGroup = $this->modelGroups->getByAttributes([
+            'status' => ['>', 0]
         ], 'type', 'asc');
 
         return view('backend.system.group.index', compact('arrListGroup'));
@@ -22,16 +29,13 @@ class GroupController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $modelGroups = new Groups();
-        $modelModules = new Modules();
-
-        $groupInfo = $modelGroups->find($id);
+        $groupInfo = $this->modelGroups->find($id);
 
         if (!$groupInfo) {
             abort(404);
         }
 
-        $arrListModule = $modelModules->getByAttributes([]);
+        $arrListModule = $this->modelModules->getByAttributes([]);
         $arrPermission = json_decode($groupInfo->permission, true);
         $arrRole = [
             0 => ['view', 'Xem'],
@@ -47,9 +51,7 @@ class GroupController extends Controller
 
     public function update(Request $request, $id)
     {
-        $modelGroups = new Groups();
-
-        $groupInfo = $modelGroups->find($id);
+        $groupInfo = $this->modelGroups->find($id);
 
         if (!$groupInfo) {
             abort(404);
@@ -91,7 +93,7 @@ class GroupController extends Controller
             'updated_user' => auth('admin')->user()->id
         ]);
 
-        Session::flash('message', 'Cập nhật thành công');
+        Session::flash('message', 'Cập nhật thành công.');
 
         return redirect(route('system.group.edit', $groupInfo->id));
     }

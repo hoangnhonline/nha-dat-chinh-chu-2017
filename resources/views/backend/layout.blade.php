@@ -106,7 +106,6 @@
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
         <script type="text/javascript" src="{{ URL::asset('public/admin/dist/js/pages/dashboard.js') }}"></script>
         <!-- AdminLTE for demo purposes -->
-        <script type="text/javascript" src="{{ URL::asset('public/admin/dist/js/demo.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('public/admin/dist/js/lazy.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('public/admin/dist/js/jquery.number.min.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('public/admin/dist/js/ckeditor/ckeditor.js') }}"></script>

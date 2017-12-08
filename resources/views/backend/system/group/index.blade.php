@@ -39,6 +39,11 @@
                                 <td>{{ $item->type == 'admin' ? 'Quản trị' : 'Thành viên BĐS' }}</td>
                                 <td>
                                     <a href="{{ route('system.group.edit', [$item->id ]) }}" class="btn-sm btn btn-primary"><span class="glyphicon glyphicon-pencil"></span></a>
+                                    @if ($item->type == 'admin')
+                                        <a href="{{ route('system.admin.index', ['group_id' => $item->id ]) }}" class="btn-sm btn btn-info"><i class="fa fa-eye"></i> Thành viên</a>
+                                    @else
+                                        <a href="{{ route('system.member.index', ['group_id' => $item->id ]) }}" class="btn-sm btn btn-info"><i class="fa fa-eye"></i> Thành viên</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
