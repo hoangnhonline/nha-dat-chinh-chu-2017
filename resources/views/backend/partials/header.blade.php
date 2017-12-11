@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-gears"></i><span class="hidden-xs">Chào {{ auth('admin')->user()->full_name }}</span>
+                        <i class="fa fa-gears"></i><span class="hidden-xs">Chào {{ auth('backend')->user()->full_name }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <li class="user-footer">

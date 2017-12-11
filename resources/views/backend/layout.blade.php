@@ -60,7 +60,6 @@
                         </form>
                     </div>
                 </div>
-                @include('backend.customer.customer-notification-modal')
             </div>
             <!-- /.content-wrapper -->
             <footer class="main-footer">

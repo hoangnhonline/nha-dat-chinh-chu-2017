@@ -103,7 +103,7 @@ class IndexController extends Controller
     {
         $this->validate($request, [
             'full_name' => 'required|max:200',
-            'username' => 'required|regex:[^(?=.{6,20}$)[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$]',
+            'username' => 'required|regex:[^(?=.{6,20}$)[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$]|unique:users,username,null,id,type,member',
             'password' => 'required|regex:[((?=.*\d).{6,20})]',
             'password_confirmed' => 'same:password',
             'group_id' => 'required',

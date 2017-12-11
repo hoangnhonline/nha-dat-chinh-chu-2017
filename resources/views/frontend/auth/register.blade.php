@@ -30,6 +30,15 @@
                             <div class="row">
                                 <div class="col-sm-7">
                                     <form class="frm-signin" action="{{ route('auth.register.post') }}" method="post">
+                                        @if (count($errors) > 0)
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
                                         <div class="form-row row">
                                             <div class="col-sm-8 col-xs-12 col-sm-offset-4">
                                                 <div class="login-by">
@@ -48,9 +57,6 @@
                                             </div>
                                             <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="full_name" name="full_name" value="{{ old('full_name') }}" placeholder="Điền tên đầy đủ tại đây...">
-                                                @if ($errors->has('full_name'))
-                                                    <label class="error" for="full_name">{{ $errors->first('full_name') }}</label>
-                                                @endif
                                             </div>
                                         </div>
                                         <div class="form-row row">
@@ -62,9 +68,6 @@
                                             <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" placeholder="Điền tên đăng nhập tại đây...">
                                                 <p class="note">Có ít nhất 6 ký tự, bao gồm chữ cái và số</p>
-                                                @if ($errors->has('username'))
-                                                    <label class="error" for="username">{{ $errors->first('username') }}</label>
-                                                @endif
                                             </div>
                                         </div>
                                         <div class="form-row row">
@@ -77,9 +80,6 @@
                                                 <input type="password" class="form-control" id="password" name="password" placeholder="Điền mật khẩu tại đây...">
                                                 <p class="note">Có ít nhất 6 ký tự, bao gồm chữ cái và số<br>
                                                     Phải có ít nhất một con số trong dãy mật khẩu bạn chọn</p>
-                                                @if ($errors->has('password'))
-                                                    <label class="error" for="password">{{ $errors->first('password') }}</label>
-                                                @endif
                                             </div>
                                         </div>
                                         <div class="form-row row">
@@ -91,9 +91,6 @@
                                             <div class="col-sm-8">
                                                 <input type="password_confirmed" class="form-control" id="password_confirmed" name="password_confirmed" placeholder="Điền xác nhận mật khẩu tại đây...">
                                                 <p class="note">Vui lòng xác nhận mật khẩu của bạn lần nữa</p>
-                                                @if ($errors->has('password_confirmed'))
-                                                    <label class="error" for="password_confirmed">{{ $errors->first('password_confirmed') }}</label>
-                                                @endif
                                             </div>
                                         </div>
                                         <div class="form-row row">
@@ -109,9 +106,6 @@
                                                     @endforeach
                                                 </select>
                                                 <p class="note">Chọn loại thành viên bạn muốn đăng ký</p>
-                                                @if ($errors->has('group_id'))
-                                                    <label class="error" for="group_id">{{ $errors->first('group_id') }}</label>
-                                                @endif
                                             </div>
                                         </div>
                                         <div class="form-row row">
@@ -122,9 +116,6 @@
                                             </div>
                                             <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Vui lòng điền email của bạn tại đây">
-                                                @if ($errors->has('email'))
-                                                    <label class="error" for="email">{{ $errors->first('email') }}</label>
-                                                @endif
                                             </div>
                                         </div>
                                         <div class="form-row row">
@@ -135,9 +126,6 @@
                                             </div>
                                             <div class="col-sm-8">
                                                 <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}">
-                                                @if ($errors->has('phone'))
-                                                    <label class="error" for="phone">{{ $errors->first('phone') }}</label>
-                                                @endif
                                             </div>
                                         </div>
                                         <div class="form-row row">
@@ -145,9 +133,6 @@
                                             <div class="col-sm-8">
                                                 <div class="checkbox">
                                                     <label><input type="checkbox" id="agree_term" name="agree_term" value="1"{!! old('agree_term', 0) == 1 ? ' checked="checked"' : '' !!}> Tôi đã đọc và đồng ý với các điều khoản của dịch vụ</label>
-                                                    @if ($errors->has('agree_term'))
-                                                        <label class="error" for="agree_term">{{ $errors->first('agree_term') }}</label>
-                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

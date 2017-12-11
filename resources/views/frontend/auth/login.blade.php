@@ -29,6 +29,15 @@
                             <div class="row">
                                 <div class="col-md-7">
                                     <form class="frm-login" action="{{ route('auth.login.post') }}" method="post">
+                                        @if (count($errors) > 0)
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
                                         <div class="form-row row">
                                             <div class="col-sm-8 col-xs-12 col-sm-offset-4">
                                                 <div class="login-by">
@@ -48,9 +57,6 @@
                                             <div class="col-sm-8">
                                                 <div class="form-group">
                                                     <input type="username" class="form-control" id="username" name="username" value="{{ old('username') }}" placeholder="Điền tên đăng nhập của bạn vào đây...">
-                                                    @if ($errors->has('username'))
-                                                        <label class="error" for="username">{{ $errors->first('username') }}</label>
-                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -63,9 +69,6 @@
                                             <div class="col-sm-8">
                                                 <div class="form-group">
                                                     <input type="password" class="form-control" id="password" name="password" placeholder="Điền mật khẩu của bạn vào đây...">
-                                                    @if ($errors->has('password'))
-                                                        <label class="error" for="password">{{ $errors->first('password') }}</label>
-                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

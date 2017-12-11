@@ -27,6 +27,15 @@
                     <div class="block-register-bds block-common">
                         <h2 class="title-style text-color2 text-center">Tài khoản của bạn</h2>
                         <form class="frm-register-bds" action="{{ route('member.detail.update') }}" method="post">
+                            @if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="form-row row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -34,27 +43,18 @@
                                             <label for="full_name">Tên bạn</label>
                                         </div>
                                         <input type="text" class="form-control" id="full_name" name="full_name" value="{{ old('full_name', auth('web')->user()->full_name) }}">
-                                        @if ($errors->has('full_name'))
-                                            <label class="error" for="full_name">{{ $errors->first('full_name') }}</label>
-                                        @endif
                                     </div>
                                     <div class="form-group">
                                         <div class="label-group">
                                             <label for="email">Email</label>
                                         </div>
                                         <input type="email" class="form-control" id="email" name="email" value="{{ old('email', auth('web')->user()->email) }}">
-                                        @if ($errors->has('email'))
-                                            <label class="error" for="email">{{ $errors->first('email') }}</label>
-                                        @endif
                                     </div>
                                     <div class="form-group">
                                         <div class="label-group">
                                             <label for="phone">Phone</label>
                                         </div>
                                         <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone', auth('web')->user()->phone) }}">
-                                        @if ($errors->has('phone'))
-                                            <label class="error" for="phone">{{ $errors->first('phone') }}</label>
-                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -63,9 +63,6 @@
                                             <label for="username">Tên truy cập</label>
                                         </div>
                                         <input type="username" class="form-control" id="username" name="username" value="{{ old('username', auth('web')->user()->username) }}">
-                                        @if ($errors->has('username'))
-                                            <label class="error" for="username">{{ $errors->first('username') }}</label>
-                                        @endif
                                     </div>
                                     <div class="form-group">
                                         <div class="label-group">

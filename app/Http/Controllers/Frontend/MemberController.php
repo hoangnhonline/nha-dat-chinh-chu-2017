@@ -25,7 +25,7 @@ class MemberController extends Controller
             'email' => 'email|max:200|unique:users,email,' . $userInfo->id . ',id,type,member',
             'address' => 'max:500',
             'phone' => 'regex:[^([\+1-9]{3})?([0])?([1,9,8])([0-9]{8,9})$]',
-            'new_password' => 'between:6,20|regex:[((?=.*\d).{6,20})]'
+            'new_password' => 'regex:[((?=.*\d).{6,20})]'
         ], [
             'full_name.required' => 'Bạn chưa nhập họ tên.',
             'full_name.max' => 'Họ tên không được dài hơn :max ký tự.',
@@ -37,8 +37,7 @@ class MemberController extends Controller
             'email.max' => 'Email không được dài hơn :max ký tự.',
             'email.unique' => 'Email này đã tồn tại, vui lòng chọn email khác.',
             'address.max' => 'Địa chỉ không được dài hơn :max ký tự.',
-            'phone.regex' => 'Số điện th mac oại không hợp lệ.',
-            'new_password.between' => 'Mật khẩu mới phải nằm trong khoảng từ :min đến :max ký tự.',
+            'phone.regex' => 'Số điện thoại không hợp lệ.',
             'new_password.regex' => 'Mật khẩu mới không hợp lệ.'
         ]);
 

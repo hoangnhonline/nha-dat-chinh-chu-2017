@@ -32,7 +32,7 @@ class IndexController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:admin', ['except' => ['logout']]);
+        $this->middleware('guest:backend', ['except' => ['logout']]);
 
         $this->redirectTo = route('dashboard.index');
         $this->redirectAfterLogout = route('backend.auth.login');
@@ -64,7 +64,7 @@ class IndexController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password, 'type' => 'admin', 'status' => 1], $request->has('remember'))) {
+        if (Auth::guard('backend')->attempt(['email' => $request->email, 'password' => $request->password, 'type' => 'admin', 'status' => 1], $request->has('remember'))) {
             return $this->handleUserWasAuthenticated($request, $throttles);
         }
 
@@ -80,7 +80,7 @@ class IndexController extends Controller
 
     public function logout(Request $request)
     {
-        auth('admin')->logout();
+        auth('backend')->logout();
 
         return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : route('dashboard.index'));
     }

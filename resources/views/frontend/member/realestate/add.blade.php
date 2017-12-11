@@ -27,6 +27,15 @@
                     <div class="block-register-bds block-common">
                         <h2 class="title-style text-color2">Đăng tin bất động sản</h2>
                         <form class="frm-register-bds" action="{{ route('member.realestate.create') }}" method="post">
+                            @if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             @if (count($arrListCate) > 1)
                                 <div class="form-row">
                                     <div class="form-group">
@@ -39,9 +48,6 @@
                                                 <option value="{{ $cate->id }}"{!! old('cate_id') == $cate->id ? ' selected="selected"' : '' !!}>{{ $cate->{'name_' . config('app.locale')} }}</option>
                                             @endforeach
                                         </select>
-                                        @if ($errors->has('cate_id'))
-                                            <label class="error" for="type">{{ $errors->first('cate_id') }}</label>
-                                        @endif
                                     </div>
                                 </div>
                             @else
@@ -58,9 +64,6 @@
                                             <option value="1"{!! old('type') == 1 ? ' selected="selected"' : '' !!}>Bán</option>
                                             <option value="2"{!! old('type') == 2 ? ' selected="selected"' : '' !!}>Cho thuê</option>
                                         </select>
-                                        @if ($errors->has('type'))
-                                            <label class="error" for="type">{{ $errors->first('type') }}</label>
-                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -71,9 +74,6 @@
                                         <select id="estate_type_id" name="estate_type_id" data-id="{{ old('estate_type_id', 0) }}" class="form-control select2">
                                             <option value="">--Chọn loại bất động sản--</option>
                                         </select>
-                                        @if ($errors->has('estate_type_id'))
-                                            <label class="error" for="estate_type_id">{{ $errors->first('estate_type_id') }}</label>
-                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -82,9 +82,6 @@
                                             <label for="price">Giá</label>
                                         </div>
                                         <input type="text" class="form-control" id="price" name="price" value="{{ old('price') }}">
-                                        @if ($errors->has('price'))
-                                            <label class="error" for="price">{{ $errors->first('price') }}</label>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -95,9 +92,6 @@
                                             <label for="street_num">Địa chỉ</label>
                                         </div>
                                         <input type="text" class="form-control" id="street_num" name="street_num" value="{{ old('street_num') }}" placeholder="Số">
-                                        @if ($errors->has('street_num'))
-                                            <label class="error" for="street_num">{{ $errors->first('street_num') }}</label>
-                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-5">
@@ -106,9 +100,6 @@
                                             <label for="street_name">&nbsp;</label>
                                         </div>
                                         <input type="text" class="form-control" id="street_name" name="street_name" value="{{ old('street_name') }}" placeholder="Đường">
-                                        @if ($errors->has('street_name'))
-                                            <label class="error" for="street_name">{{ $errors->first('street_name') }}</label>
-                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-5">
@@ -122,9 +113,6 @@
                                                 <option value="{{ $city->id }}"{!! old('city_id', 0) == $city->id ? ' selected="selected"' : '' !!}>{{ $city->name }}</option>
                                             @endforeach
                                         </select>
-                                        @if ($errors->has('city_id'))
-                                            <label class="error" for="city_id">{{ $errors->first('city_id') }}</label>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -133,18 +121,12 @@
                                     <select id="district_id" name="district_id" class="form-control select2 load-ajax" data-href="{{ route('ajax.get-ward', [0]) }}" data-for="#ward_id">
                                         <option value="">--Chọn quận--</option>
                                     </select>
-                                    @if ($errors->has('district_id'))
-                                        <label class="error" for="district_id">{{ $errors->first('district_id') }}</label>
-                                    @endif
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <select id="ward_id" name="ward_id" class="form-control select2">
                                             <option value="">--Chọn phường--</option>
                                         </select>
-                                        @if ($errors->has('ward_id'))
-                                            <label class="error" for="ward_id">{{ $errors->first('ward_id') }}</label>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -155,9 +137,6 @@
                                             <label for="">Mô tả thêm bất động sản</label>
                                         </div>
                                         <textarea id="description" name="description" class="form-control editorBasic" rows="8" cols="80" placeholder="Mô tả bất động sản...">{{ old('description') }}</textarea>
-                                        @if ($errors->has('description'))
-                                            <label class="error" for="description">{{ $errors->first('description') }}</label>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -191,9 +170,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if ($errors->has('image_url'))
-                                        <label class="error">{{ $errors->first('image_url') }}</label>
-                                    @endif
                                     <p>Ít nhất một hình ảnh sẽ được yêu cầu để tạo giá trị cho đăng tin. Hình ảnh sẽ được sử dụng để được hiện thị trong phần danh sách bất động sản trên trang web</p>
                                 </div>
                             </div>

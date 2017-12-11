@@ -2,6 +2,7 @@
 namespace App\Providers;
 
 use App\Models\Groups;
+use App\Models\Modules;
 use Illuminate\Support\ServiceProvider;
 use Hash;
 use App\Models\Settings;
@@ -64,7 +65,13 @@ class ViewComposerServiceProvider extends ServiceProvider
             //get menu by menu code
             $menu_code = $namespace . '_' . $controller;
 
-            $view->with(compact('namespace', 'controller', 'action', 'menu_code'));
+            //get list module
+            $modelModules = new Modules();
+            $arrListModule = $modelModules->getByAttributes([
+                'code' => ['<>', 'view']
+            ]);
+
+            $view->with(compact('namespace', 'controller', 'action', 'menu_code', 'arrListModule'));
         });
 
 		view()->composer( 'frontend.partials.member_level' , function( $view ){

@@ -1,9 +1,12 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BasicBehavior;
 use Illuminate\Database\Eloquent\Model;
 
 class Cate extends Model
 {
+
+    use BasicBehavior;
 
     /**
      * The database table used by the model.
