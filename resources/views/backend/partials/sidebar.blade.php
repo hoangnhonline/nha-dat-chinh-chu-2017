@@ -31,8 +31,8 @@
                         $link_add = route('articles.create');
                         break;
                     default:
-                        $link_list = route('product.index', ['cate' => $module->cate_related]);
-                        $link_add = route('product.create', ['cate' => $module->cate_related]);
+                        $link_list = route('product.index', ['cate_id' => $module->cate_related]);
+                        $link_add = route('product.create', ['cate_id' => $module->cate_related]);
                         break;
                 }
                 ?>

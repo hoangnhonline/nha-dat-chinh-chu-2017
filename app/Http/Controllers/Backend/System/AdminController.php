@@ -15,10 +15,6 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        if (auth('backend')->user()->group_id != config('nhadat.admin_group_id')) {
-            abort(404);
-        }
-
         $this->modelGroups = new Groups();
         $this->modelUsers = new Users();
     }

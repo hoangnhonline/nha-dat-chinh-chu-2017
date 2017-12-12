@@ -8,7 +8,7 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'backend'], function () {
     });
 
     Route::group(['middleware' => ['auth:backend']], function () {
-        Route::get('/', ['as' => 'dashboard.index', 'uses' => "SettingsController@dashboard"]);
+        Route::get('/', ['as' => 'dashboard.index', 'uses' => "DashboardController@index"]);
 
         //route for admin only
         Route::group(['middleware' => ['isAdmin'], 'namespace' => 'System'], function () {

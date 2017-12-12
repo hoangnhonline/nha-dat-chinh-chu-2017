@@ -15,10 +15,6 @@ class CateController extends Controller
 
     public function __construct()
     {
-        if (auth('backend')->user()->group_id != config('nhadat.admin_group_id')) {
-            abort(404);
-        }
-
         $this->modelCate = new Cate();
         $this->modelMetaData = new MetaData();
     }
@@ -49,12 +45,6 @@ class CateController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return Response
-     */
     public function edit($id)
     {
         $cateInfo = $this->modelCate->find($id);
@@ -72,13 +62,6 @@ class CateController extends Controller
         return view('backend.cate.edit', compact('detail', 'meta', 'cateParentList'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request $request
-     * @param  int $id
-     * @return Response
-     */
     public function update(Request $request, $id)
     {
         $cateInfo = $this->modelCate->find($id);
@@ -86,7 +69,7 @@ class CateController extends Controller
         if (!$cateInfo) {
             abort(404);
         }
-        
+
         $dataArr = $request->all();
 
         $this->validate($request, [
@@ -94,12 +77,10 @@ class CateController extends Controller
             'estate_type_id' => 'required',
             'name' => 'required',
             'slug' => 'required',
-
-        ],
-            [
-                'name.required' => 'Bạn chưa nhập tên danh mục',
-                'slug.required' => 'Bạn chưa nhập slug',
-            ]);
+        ], [
+            'name.required' => 'Bạn chưa nhập tên danh mục',
+            'slug.required' => 'Bạn chưa nhập slug',
+        ]);
 
         $model = Cate::find($dataArr['id']);
 
@@ -113,22 +94,5 @@ class CateController extends Controller
         Session::flash('message', 'Cập nhật thành công');
 
         return redirect()->route('cate.edit', $dataArr['id']);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        // delete
-        $model = Cate::find($id);
-        $model->delete();
-
-        // redirect
-        Session::flash('message', 'Xóa thành công');
-        return redirect()->route('cate.index', ['estate_type_id' => $model->estate_type_id, 'type' => $model->type]);
     }
 }
