@@ -1,7 +1,6 @@
 @extends('backend.layout')
 @section('content')
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
+<!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
       {{ $detail->parent_id == 0 ? "Tỉnh/Thành" : "Quận/Huyện" }}    
@@ -70,6 +69,5 @@
     <!-- /.row -->
   </section>
   <!-- /.content -->
-</div>
 
 @stop

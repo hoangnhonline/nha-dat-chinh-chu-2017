@@ -1,6 +1,5 @@
 @extends('backend.layout')
 @section('content')
-<div class="content-wrapper">
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
@@ -111,7 +110,6 @@
   </div> 
 </section>
 <!-- /.content -->
-</div>
 @stop
 @section('javascript_page')
 <script type="text/javascript">

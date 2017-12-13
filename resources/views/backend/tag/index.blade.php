@@ -1,6 +1,5 @@
 @extends('backend.layout')
 @section('content')
-<div class="content-wrapper">
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
@@ -104,7 +103,6 @@
   </div> 
 </section>
 <!-- /.content -->
-</div>
 <input type="hidden" id="route_tag_index" value="{{ route('tag.index') }}">
 @stop
 @section('javascript_page')

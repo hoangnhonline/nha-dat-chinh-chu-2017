@@ -1,7 +1,6 @@
 @extends('backend.layout')
 @section('content')
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
+<!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
       Bài viết    
@@ -101,7 +100,6 @@
     <!-- /.row -->
   </section>
   <!-- /.content -->
-</div>
 
 @stop
 @section('javascript_page')

@@ -1,6 +1,5 @@
 @extends('backend.layout')
 @section('content')
-<div class="content-wrapper">
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
@@ -130,7 +129,6 @@
   </div> 
 </section>
 <!-- /.content -->
-</div>
 <input type="hidden" id="table_name" value="articles">
 @stop
 @section('javascript_page')

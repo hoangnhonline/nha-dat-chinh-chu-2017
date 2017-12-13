@@ -1,7 +1,6 @@
 @extends('backend.layout')
 @section('content')
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
+<!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
       Sản phẩm    
@@ -457,7 +456,6 @@
     <!-- /.row -->
   </section>
   <!-- /.content -->
-</div>
 
 <style type="text/css">
   .nav-tabs>li.active>a{

@@ -1,6 +1,5 @@
 @extends('backend.layout')
 @section('content')
-<div class="content-wrapper">
 <!-- Content Header (Page header) -->
 @if(Auth::user()->email != "huongll@icho.vn")
 <section class="content-header">
@@ -137,7 +136,6 @@
 </div>
 
 <!-- /.content -->
-</div>
 <style type="text/css">
 #searchForm div{
   margin-right: 7px;

@@ -1,7 +1,6 @@
 @extends('backend.layout')
 @section('content')
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
+<!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
       Danh mục con     
@@ -158,7 +157,6 @@
     <!-- /.row -->
   </section>
   <!-- /.content -->
-</div>
 <style type="text/css">
   .checkbox+.checkbox, .radio+.radio{
     margin-top: 10px !important;

@@ -1,8 +1,7 @@
 @extends('backend.layout')
 @section('content')
 <link rel="stylesheet" href="{{ URL::asset('public/assets/css/jquery.datetimepicker.min.css') }}">  
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
+<!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
       Chương trình khuyến mãi
@@ -146,7 +145,6 @@
     <!-- /.row -->
   </section>
   <!-- /.content -->
-</div>
 <input type="hidden" id="route_upload_tmp_image" value="{{ route('image.tmp-upload') }}">
 
 @stop

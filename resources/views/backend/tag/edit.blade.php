@@ -1,7 +1,6 @@
 @extends('backend.layout')
 @section('content')
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
+<!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>Tags</h1>
     <ol class="breadcrumb">
@@ -107,7 +106,6 @@
     <!-- /.row -->
   </section>
   <!-- /.content -->
-</div>
 
 @stop
 @section('javascript_page')

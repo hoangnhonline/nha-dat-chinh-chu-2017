@@ -1,7 +1,6 @@
 @extends('backend.layout')
 @section('content')
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
+<!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
       Bài viết    
@@ -168,7 +167,6 @@
     <!-- /.row -->
   </section>
   <!-- /.content -->
-</div>
 <input type="hidden" id="route_upload_tmp_image" value="{{ route('image.tmp-upload') }}">
 <!-- Modal -->
 <div id="tagModal" class="modal fade" role="dialog">

@@ -1,6 +1,5 @@
 @extends('backend.layout')
 @section('content')
-<div class="content-wrapper">
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
@@ -245,7 +244,6 @@
   </div> 
 </section>
 <!-- /.content -->
-</div>
 <style type="text/css">
 #searchForm div{
   margin-right: 7px;
