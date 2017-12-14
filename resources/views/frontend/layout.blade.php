@@ -93,7 +93,7 @@
 						</div><!-- /menu -->
 					</div><!-- /bblock-info -->
 					<div class="hdr-btn-post">
-						<a href="{{ route('member.realestate.add') }}" class="btn">Đăng tin miễn phí</a>
+						<a href="{{ route('member.realestate.create') }}" class="btn">Đăng tin miễn phí</a>
 					</div>
 				</div>
 				<div class="block-fb">
@@ -238,6 +238,8 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
             });
+
+            var public_url = '{{ env('APP_URL') }}/public';
 		</script>
 		@yield('javascript')
 	</body>

@@ -8,13 +8,13 @@
         <div class="form-group">
             <ul class="menu-my-account">
                 @if (check_permission_estate(auth('web')->user()->group_id, 'add'))
-                    <li><a href="{{ route('member.realestate.add') }}"><i class="fa fa-cog"></i> Đăng tin bđs</a></li>
+                    <li><a href="{{ route('member.realestate.create') }}"><i class="fa fa-cog"></i> Đăng tin bđs</a></li>
                 @endif
                 @if (check_permission(auth('web')->user()->group_id, 'logo', 'add'))
-                    <li><a href="{{ route('member.create-logo') }}"><i class="fa fa-cog"></i> Đăng logo</a></li>
+                    <li><a href="{{ route('member.logo.create') }}"><i class="fa fa-cog"></i> Đăng logo</a></li>
                 @endif
                 @if (check_permission(auth('web')->user()->group_id, 'news', 'add'))
-                    <li><a href="{{ route('member.create-news') }}"><i class="fa fa-cog"></i> Đăng tin tức</a></li>
+                    <li><a href="{{ route('member.news.create') }}"><i class="fa fa-cog"></i> Đăng tin tức</a></li>
                 @endif
                 <li><a href="{{ route('member.detail') }}"><i class="fa fa-user"></i> Tài khoản của bạn</a></li>
                 @if (check_permission_estate(auth('web')->user()->group_id, 'view'))

@@ -82,7 +82,6 @@ class AjaxController extends Controller
     {
         if ($request->isMethod('post')) {
             $file = $request->file('file');
-            $type = $request->type ?? 'image';
 
             if (!$file->isValid()) {
                 return response()->json(['error' => 1, 'message' => $file->getErrorMessage()]);
@@ -121,12 +120,7 @@ class AjaxController extends Controller
                 // Copy file
                 $disk->put('images/' . $folderDate . '/' . $fileNameNew, file_get_contents($file->getRealPath()));
 
-                $arrInfo = [
-                    'type' => $type,
-                    'filename' => $folderDate . '/' . $fileNameNew
-                ];
-
-                return response()->json(['error' => 0, 'message' => 'Upload successed!', 'info' => $arrInfo]);
+                return response()->json(['error' => 0, 'message' => 'Upload successed!', 'filename' => $folderDate . '/' . $fileNameNew]);
             } catch (FileException $ex) {
                 return response()->json(['error' => 1, 'message' => $ex->getMessage()]);
             }

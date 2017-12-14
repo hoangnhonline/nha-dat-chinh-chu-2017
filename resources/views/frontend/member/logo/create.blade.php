@@ -1,6 +1,6 @@
 @extends('frontend.layout')
 
-@section('title') Đăng tin bất động sản @stop
+@section('title') Đăng logo @stop
 
 @section('css')
 <!-- css link here -->
@@ -12,7 +12,8 @@
         <div class="container">
             <ul class="breadcrumb">
                 <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                <li class="active">Đăng tin bất động sản</li>
+                <li>Thành viên</li>
+                <li class="active">Đăng logo</li>
             </ul>
         </div>
     </div><!-- /block-breadcrumb -->
@@ -206,21 +207,19 @@
 
 @section('javascript')
 <!-- js link here -->
-<script type="text/javascript" src="{!! asset('public/assets/lib/tinymce/tinymce.min.js') !!}"></script>
+<script type="text/javascript" src="{!! asset('public/admin/dist/js/ckeditor/ckeditor.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('public/assets/js/jquery.uploadfile.js') !!}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        tinymce.init({
-            selector: '.editorBasic',
-            plugins: [
-                "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak spellchecker",
-                "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-                "table contextmenu directionality emoticons template textcolor paste fullpage textcolor colorpicker textpattern"
-            ],
-
-            toolbar1: "undo redo | bold italic | styleselect | forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link unlink",
-
-            menubar: 'false'
+        CKEDITOR.replace('description', {
+            language: "{{ config('app.locale') }}",
+            height: 300,
+            toolbar: [
+                ['Bold', 'Italic', 'Underline', '-', 'Strike', 'Subscript', 'Superscript'],
+                ['TextColor', 'BGColor'],
+                ['Undo', 'Redo', 'RemoveFormat'],
+                ['Link', 'Unlink', 'Anchor']
+            ]
         });
 
         Frontend.loadDataAjax();

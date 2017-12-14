@@ -59,19 +59,30 @@ Route::group(['namespace' => 'Frontend', 'prefix' => LaravelLocalization::setLoc
         });
     });
 
-    Route::group(['middleware' => ['auth:web'], 'prefix' => 'thanh-vien'], function () {
+    Route::group(['namespace' => 'Member', 'middleware' => ['auth:web'], 'prefix' => 'thanh-vien'], function () {
         Route::get('/tai-khoan', ['as' => 'member.detail', 'uses' => 'MemberController@index']);
         Route::put('/tai-khoan/cap-nhat', ['as' => 'member.detail.update', 'uses' => 'MemberController@updateInfo']);
 
-        Route::match(['get', 'post'], '/logo/dang-tin', ['as' => 'member.create-logo', 'uses' => 'MemberController@createLogo']);
-        Route::match(['get', 'post'], '/tin-tuc/dang-tin', ['as' => 'member.create-news', 'uses' => 'MemberController@createNews']);
-
         Route::group(['prefix' => 'bat-dong-san'], function () {
-            Route::get('/danh-sach', ['as' => 'member.realestate.index', 'uses' => 'MemberController@listRealEstate']);
-            Route::get('/dang-tin', ['as' => 'member.realestate.add', 'uses' => 'MemberController@addRealEstate']);
-            Route::post('/dang-tin', ['as' => 'member.realestate.create', 'uses' => 'MemberController@createRealEstate']);
-            Route::get('/chinh-sua/{id}', ['as' => 'member.realestate.edit', 'uses' => 'MemberController@editRealEstate']);
-            Route::put('/chinh-sua/{id}', ['as' => 'member.realestate.update', 'uses' => 'MemberController@updateRealEstate']);
+            Route::get('/danh-sach', ['as' => 'member.realestate.index', 'uses' => 'RealestateController@index']);
+            Route::get('/dang-tin', ['as' => 'member.realestate.create', 'uses' => 'RealestateController@create']);
+            Route::post('/store', ['as' => 'member.realestate.store', 'uses' => 'RealestateController@store']);
+            Route::get('/chinh-sua/{id}', ['as' => 'member.realestate.edit', 'uses' => 'RealestateController@edit']);
+            Route::put('/update/{id}', ['as' => 'member.realestate.update', 'uses' => 'RealestateController@update']);
+        });
+
+        Route::group(['prefix' => 'logo'], function () {
+            Route::get('/dang-tin', ['as' => 'member.logo.create', 'uses' => 'LogoController@create']);
+            Route::post('/store', ['as' => 'member.logo.store', 'uses' => 'LogoController@store']);
+            Route::get('/chinh-sua/{id}', ['as' => 'member.logo.edit', 'uses' => 'LogoController@edit']);
+            Route::post('/update/{id}', ['as' => 'member.logo.update', 'uses' => 'LogoController@update']);
+        });
+
+        Route::group(['prefix' => 'tin-tuc'], function () {
+            Route::get('/dang-tin', ['as' => 'member.news.create', 'uses' => 'NewsController@create']);
+            Route::post('/store', ['as' => 'member.news.store', 'uses' => 'NewsController@store']);
+            Route::get('/chinh-sua/{id}', ['as' => 'member.news.edit', 'uses' => 'NewsController@edit']);
+            Route::post('/update/{id}', ['as' => 'member.news.update', 'uses' => 'NewsController@update']);
         });
     });
 

@@ -1,19 +1,22 @@
-<?php 
+<?php
+
 namespace App\Models;
 
+use App\Models\Traits\BasicBehavior;
 use Illuminate\Database\Eloquent\Model;
 
+class ArticlesCate extends Model
+{
+    use BasicBehavior;
 
-class ArticlesCate extends Model  {
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'articles_cate';
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'articles_cate';	
-
-	 /**
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool

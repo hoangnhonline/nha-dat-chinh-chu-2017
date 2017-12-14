@@ -27,11 +27,14 @@
                     <div class="block-register-bds block-common">
                         <h2 class="title-style text-color2 text-center">Tài khoản của bạn</h2>
                         <form class="frm-register-bds" action="{{ route('member.detail.update') }}" method="post">
+                            @if (Session::has('message'))
+                                <div class="alert alert-info" >{{ Session::get('message') }}</div>
+                            @endif
                             @if (count($errors) > 0)
                                 <div class="alert alert-danger">
                                     <ul>
                                         @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
+                                            <li>- {{ $error }}</li>
                                         @endforeach
                                     </ul>
                                 </div>
