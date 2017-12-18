@@ -1,6 +1,6 @@
 @extends('frontend.layout')
 
-@section('title') My Land @stop
+@section('title') Thành viên - Tin tức @stop
 
 @section('css')
 <!-- css link here -->
@@ -13,7 +13,7 @@
             <ul class="breadcrumb">
                 <li><a href="{{ route('home') }}">Trang chủ</a></li>
                 <li>Thành viên</li>
-                <li class="active">Bất động sản</li>
+                <li class="active">Tin tức</li>
             </ul>
         </div>
     </div><!-- /block-breadcrumb -->
@@ -26,41 +26,38 @@
                 </div>
                 <div class="col-sm-9">
                     <div class="block-register-bds block-common">
-                        <h2 class="title-style text-color2">Danh sách bất động sản</h2>
+                        <h2 class="title-style text-color2">Danh sách tin tức</h2>
                         @if (Session::has('message'))
                             <div class="alert alert-info" >{{ Session::get('message') }}</div>
                         @endif
                         <div class="block-content-wrap">
                             @if (check_permission(auth('web')->user()->group_id, 'news', 'add'))
-                                <a href="{{ route('member.realestate.create') }}" class="btn btn-main add_arrow">Đăng tin BĐS</a>
+                                <a href="{{ route('member.news.create') }}" class="btn btn-main add_arrow">Đăng tin tức</a>
                             @endif
                             <div class="property-list style-grid" style="margin-top: 20px;">
-                                @if ($arrListProduct->count() > 0)
+                                @if ($arrListArticle->count() > 0)
                                     <div class="row">
-                                        @foreach ($arrListProduct as $product)
+                                        @foreach ($arrListArticle as $article)
                                             <div class="col-sm-4 col-xs-12">
                                                 <div class="property-item">
                                                     <div class="property-thumb">
-                                                        @if (check_permission_estate(auth('web')->user()->group_id, 'edit'))
-                                                            <a href="{{ route('member.realestate.edit', [$product->id]) }}" title="{{ $product->{'title_' . config('app.locale')} }}">
-                                                                <img src="{{ image_url($product->image_url) }}" alt="{{ $product->{'title_' . config('app.locale')} }}">
+                                                        @if (check_permission(auth('web')->user()->group_id, 'news', 'edit'))
+                                                            <a href="{{ route('member.news.edit', [$article->id]) }}" title="{{ $article->{'title_' . config('app.locale')} }}">
+                                                                <img src="{{ image_url($article->image_url) }}" alt="{{ $article->{'title_' . config('app.locale')} }}">
                                                             </a>
                                                         @else
-                                                            <img src="{{ image_url($product->image_url) }}" alt="{{ $product->{'title_' . config('app.locale')} }}">
+                                                            <img src="{{ image_url($article->image_url) }}" alt="{{ $article->{'title_' . config('app.locale')} }}">
                                                         @endif
                                                     </div>
                                                     <div class="property-info">
                                                         <h3 class="property-title">
-                                                            @if (check_permission_estate(auth('web')->user()->group_id, 'edit'))
-                                                                <a href="{{ route('member.realestate.edit', [$product->id]) }}" title="{{ $product->{'title_' . config('app.locale')} }}">{{ $product->{'title_' . config('app.locale')} }}</a>
+                                                            @if (check_permission(auth('web')->user()->group_id, 'news', 'edit'))
+                                                                <a href="{{ route('member.news.edit', [$article->id]) }}" title="{{ $article->{'title_' . config('app.locale')} }}">{{ $article->{'title_' . config('app.locale')} }}</a>
                                                             @else
-                                                                {{ $product->{'title_' . config('app.locale')} }}
+                                                                {{ $article->{'title_' . config('app.locale')} }}
                                                             @endif
                                                         </h3>
-                                                        <p class="property-location">{{ $product->street_num . ' ' . $product->{'street_name_' . config('app.locale')} }}</p>
-                                                        <div class="property-price">
-                                                            <div class="price-new">{{ $product->price }} đ</div>
-                                                        </div>
+                                                        <p>{{ $article->{'description_' . config('app.locale')} }}</p>
                                                     </div>
                                                 </div>
                                             </div>

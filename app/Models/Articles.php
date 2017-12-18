@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\BasicBehavior;
 use Illuminate\Database\Eloquent\Model;
 
 
 class Articles extends Model
 {
+    use BasicBehavior;
 
     /**
      * The database table used by the model.
@@ -27,7 +29,8 @@ class Articles extends Model
      * @var array
      */
     protected $fillable = [
-        'title',
+        'title_vi',
+        'title_en',
         'slug',
         'alias',
         'cate_id',
@@ -36,9 +39,11 @@ class Articles extends Model
         'type',
         'status',
         'display_order',
-        'description',
+        'description_vi',
+        'description_en',
         'image_url',
-        'content',
+        'content_vi',
+        'content_en',
         'meta_id',
         'created_user',
         'updated_user'

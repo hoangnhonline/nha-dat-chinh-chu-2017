@@ -10,9 +10,18 @@ use Illuminate\Http\Request;
 
 class LogoController extends Controller
 {
+    public function index(Request $request)
+    {
+        if (!check_permission(auth('web')->user()->group_id, 'logo', 'view')) {
+            abort(404);
+        }
+
+        return view('frontend.member.logo.index');
+    }
+
     public function create(Request $request)
     {
-        if (!check_permission_estate(auth('web')->user()->group_id, 'add')) {
+        if (!check_permission(auth('web')->user()->group_id, 'logo', 'add')) {
             abort(404);
         }
 

@@ -1,6 +1,6 @@
 @extends('frontend.layout')
 
-@section('title') Đăng tin bất động sản @stop
+@section('title') Đăng logo @stop
 
 @section('css')
 <!-- css link here -->
@@ -13,8 +13,7 @@
             <ul class="breadcrumb">
                 <li><a href="{{ route('home') }}">Trang chủ</a></li>
                 <li>Thành viên</li>
-                <li>Bất động sản</li>
-                <li class="active">Đăng tin bất động sản</li>
+                <li class="active">Đăng logo</li>
             </ul>
         </div>
     </div><!-- /block-breadcrumb -->
@@ -28,12 +27,12 @@
                 <div class="col-sm-9">
                     <div class="block-register-bds block-common">
                         <h2 class="title-style text-color2">Đăng tin bất động sản</h2>
-                        <form class="frm-register-bds" action="{{ route('member.realestate.store') }}" method="post">
+                        <form class="frm-register-bds" action="{{ route('member.realestate.create') }}" method="post">
                             @if (count($errors) > 0)
                                 <div class="alert alert-danger">
                                     <ul>
                                         @foreach ($errors->all() as $error)
-                                            <li>- {{ $error }}</li>
+                                            <li>{{ $error }}</li>
                                         @endforeach
                                     </ul>
                                 </div>
@@ -136,7 +135,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="label-group">
-                                            <label for="description">Mô tả thêm bất động sản</label>
+                                            <label for="">Mô tả thêm bất động sản</label>
                                         </div>
                                         <textarea id="description" name="description" class="form-control editorBasic" rows="8" cols="80" placeholder="Mô tả bất động sản...">{{ old('description') }}</textarea>
                                     </div>
@@ -149,7 +148,7 @@
                                             <label>Tải hình ảnh cho bất động sản của bạn</label>
                                         </div>
                                         <div class="upload-photo">
-                                            <div class="upload-photo-wrap" id="photo_panel" style="height: auto; line-height: normal; overflow: auto;">
+                                            <div class="upload-photo-wrap" id="photo_panel" style="height: auto; line-height: normal; overflow: scroll-y;">
                                                 @if (old('image_url'))
                                                     <div class="row">
                                                         @foreach (old('image_url') as $index => $image_url)
@@ -244,7 +243,7 @@
                     var row = panel.find('.row');
                 }
 
-                $(row).append('<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6"><div class="thumbnail" style="position: relative;"><a href="#" class="delete" style="position: absolute; top: -6px; left: -2px; z-index: 99; color: #ff7f27;"><i class="fa fa-times"></i></a><img src="' + mediaUrl + data.filename + '" class="img-responsive" style="height: 90px;" /><div class="text-center" style="margin-top: 5px;"><input type="hidden" name="image_url[]" value="' + data.filename + '"><input type="radio" name="thumbnail" value="' + data.info.filename + '"></div></div></div>');
+                $(row).append('<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6"><div class="thumbnail" style="position: relative;"><a href="#" class="delete" style="position: absolute; top: -6px; left: -2px; z-index: 99; color: #ff7f27;"><i class="fa fa-times"></i></a><img src="' + mediaUrl + data.info.filename + '" class="img-responsive" style="height: 90px;" /><div class="text-center" style="margin-top: 5px;"><input type="hidden" name="image_url[]" value="' + data.info.filename + '"><input type="radio" name="thumbnail" value="' + data.info.filename + '"></div></div></div>');
             },
             onDelete: function(obj, instance, panel) {
                 $(obj).parent().parent().remove();

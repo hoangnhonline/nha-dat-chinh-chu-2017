@@ -1,18 +1,21 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BasicBehavior;
 use Illuminate\Database\Eloquent\Model;
 
 
-class ProductImg extends Model  {
+class ProductImg extends Model
+{
+    use BasicBehavior;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'product_img';	
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'product_img';
 
-	 /**
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
@@ -24,5 +27,5 @@ class ProductImg extends Model  {
      * @var array
      */
     protected $fillable = ['product_id', 'image_url', 'display_order'];
-    
+
 }

@@ -72,6 +72,7 @@ Route::group(['namespace' => 'Frontend', 'prefix' => LaravelLocalization::setLoc
         });
 
         Route::group(['prefix' => 'logo'], function () {
+            Route::get('/', ['as' => 'member.logo.index', 'uses' => 'LogoController@index']);
             Route::get('/dang-tin', ['as' => 'member.logo.create', 'uses' => 'LogoController@create']);
             Route::post('/store', ['as' => 'member.logo.store', 'uses' => 'LogoController@store']);
             Route::get('/chinh-sua/{id}', ['as' => 'member.logo.edit', 'uses' => 'LogoController@edit']);
@@ -79,6 +80,7 @@ Route::group(['namespace' => 'Frontend', 'prefix' => LaravelLocalization::setLoc
         });
 
         Route::group(['prefix' => 'tin-tuc'], function () {
+            Route::get('/', ['as' => 'member.news.index', 'uses' => 'NewsController@index']);
             Route::get('/dang-tin', ['as' => 'member.news.create', 'uses' => 'NewsController@create']);
             Route::post('/store', ['as' => 'member.news.store', 'uses' => 'NewsController@store']);
             Route::get('/chinh-sua/{id}', ['as' => 'member.news.edit', 'uses' => 'NewsController@edit']);
