@@ -6,13 +6,16 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\ArticlesCate;
-use App\Models\Tag;
-use App\Models\TagObjects;
 use App\Models\Articles;
+use App\Models\ArticlesCate;
+use App\Models\Cate;
+
 use App\Models\MetaData;
 
-use Helper, File, Session, Auth, Image;
+use App\Models\Tag;
+use App\Models\TagObjects;
+
+use Helper, File, Session, Auth, Hash, URL;
 
 class ArticlesController extends Controller
 {
@@ -23,30 +26,33 @@ class ArticlesController extends Controller
     */
     public function index(Request $request)
     {
-        $cate_id = isset($request->cate_id) ? $request->cate_id : 1;
 
-        $title = isset($request->title) && $request->title != '' ? $request->title : '';
+        $arrSearch['status'] = $status = isset($request->status) ? $request->status : 1;
+        $arrSearch['is_hot'] = $is_hot = isset($request->is_hot) ? $request->is_hot : null;
+        $arrSearch['cate_id'] = $cate_id = isset($request->cate_id) ? $request->cate_id : null;      
+        $arrSearch['title'] = $title = isset($request->name) && trim($request->name) != '' ? trim($request->name) : '';
         
-        $query = Articles::whereRaw('1');
-
-        if( $cate_id > 0){
-            $query->where('cate_id', $cate_id);
+        $query = Articles::where('articles.status', $status);
+        if( $is_hot ){
+            $query->where('articles.is_hot', $is_hot);
         }
-        // check editor
-        if( Auth::user()->role < 3 ){
-            $query->where('created_user', Auth::user()->id);
-        }
+        
+        if( $cate_id ){
+            $query->where('articles.cate_id', $cate_id);
+        }       
         if( $title != ''){
-            $query->where('alias', 'LIKE', '%'.$title.'%');
+            $query->where('articles.title_vi', 'LIKE', '%'.$title.'%');
+            $query->orWhere('articles.title_en', 'LIKE', '%'.$title.'%');
         }
+        $query->join('users', 'users.id', '=', 'articles.created_user');
+     
+        $query->leftJoin('cate', 'cate.id', '=', 'articles.cate_id');                
+        $items = $query->orderBy('articles.id', 'desc')->paginate(50);   
 
-        $items = $query->orderBy('id', 'desc')->paginate(20);
-        
-        $cateArr = ArticlesCate::all();
-        
-        return view('backend.articles.index', compact( 'items', 'cateArr' , 'title', 'cate_id' ));
-    }
+        $cateArr = ArticlesCate::all();          
 
+        return view('backend.articles.index', compact( 'items', 'arrSearch', 'cateArr'));
+    }    
     /**
     * Show the form for creating a new resource.
     *
@@ -54,14 +60,10 @@ class ArticlesController extends Controller
     */
     public function create(Request $request)
     {
-
+       
         $cateArr = ArticlesCate::all();
-        
-        $cate_id = $request->cate_id;
 
-        $tagArr = Tag::where('type', 2)->orderBy('id', 'desc')->get();
-
-        return view('backend.articles.create', compact( 'tagArr', 'cateArr', 'cate_id'));
+        return view('backend.articles.create', compact('cateArr'));
     }
 
     /**
@@ -72,119 +74,132 @@ class ArticlesController extends Controller
     */
     public function store(Request $request)
     {
-        $dataArr = $request->all();
-        
-        $this->validate($request,[            
-            'cate_id' => 'required',            
-            'title' => 'required',            
-            'slug' => 'required|unique:articles,slug',
-        ],
-        [            
-            'cate_id.required' => 'Bạn chưa chọn danh mục',            
-            'title.required' => 'Bạn chưa nhập tiêu đề',
-            'slug.required' => 'Bạn chưa nhập slug',
-            'slug.unique' => 'Slug đã được sử dụng.'
-        ]);       
-        
-        $dataArr['alias'] = Helper::stripUnicode($dataArr['title']);
-        
-        if($dataArr['image_url'] && $dataArr['image_name']){
+        $dataArr = $request->all();                
+        $this->validate($request,[
             
-            $tmp = explode('/', $dataArr['image_url']);
-
-            if(!is_dir('uploads/'.date('Y/m/d'))){
-                mkdir('uploads/'.date('Y/m/d'), 0777, true);
-            }
-            if(!is_dir('uploads/thumbs/articles/'.date('Y/m/d'))){
-                mkdir('uploads/thumbs/articles/'.date('Y/m/d'), 0777, true);
-            }
-            if(!is_dir('uploads/thumbs/articles/325x200/'.date('Y/m/d'))){
-                mkdir('uploads/thumbs/articles/325x200/'.date('Y/m/d'), 0777, true);
-            }
-
-            $destionation = date('Y/m/d'). '/'. end($tmp);
-            
-            File::move(config('nhadat.upload_path').$dataArr['image_url'], config('nhadat.upload_path').$destionation);
-            $img = Image::make(config('nhadat.upload_path').$destionation);
-            $w_img = $img->width();
-            $h_img = $img->height();
-            $tile1 = 0.07697044;
-            $w_tile1 = $w_img/203;
-            $h_tile1 = $h_img/128;
-         
-            if($w_tile1- $h_tile1 <= $tile1){
-                Image::make(config('nhadat.upload_path').$destionation)->resize(203, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                })->crop(203, 128)->save(config('nhadat.upload_thumbs_path_articles').$destionation);
-            }else{
-                Image::make(config('nhadat.upload_path').$destionation)->resize(null, 128, function ($constraint) {
-                        $constraint->aspectRatio();
-                })->crop(203, 128)->save(config('nhadat.upload_thumbs_path_articles').$destionation);
-            }
-
-            $tile2 = 0;
-            $w_tile2 = $w_img/325;
-            $h_tile2 = $h_img/200;
+            'title_vi' => 'required',
            
-            if($w_tile2- $h_tile2 <= $tile2){
-                Image::make(config('nhadat.upload_path').$destionation)->resize(325, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                })->crop(325, 200)->save(config('nhadat.upload_thumbs_path_articles').'325x200/'.$destionation);
-            }else{
-                dd('123');
-                Image::make(config('nhadat.upload_path').$destionation)->resize(null, 200, function ($constraint) {
-                        $constraint->aspectRatio();
-                })->crop(325, 200)->save(config('nhadat.upload_thumbs_path_articles').'325x200/'.$destionation);
-            }
+            'title_en' => 'required',
+           
+        ],
+        [
+            'title_vi.required' => 'Bạn chưa nhập tên tiếng Việt ',
+           
+            'title_en.required' => 'Bạn chưa nhập tên tiếng Anh',
+           
+                    
+        ]);
 
-            $dataArr['image_url'] = $destionation;
-        }        
+        $dataArr['is_hot'] = isset($dataArr['is_hot']) ? 1 : 0;
+  
         
+        $dataArr['slug_vi'] = str_slug($dataArr['title_vi']);
+        $dataArr['slug_en'] = str_slug($dataArr['title_en']);
+
+        $dataArr['alias_vi'] = str_slug($dataArr['title_vi'], " ");
+        $dataArr['alias_en'] = str_slug($dataArr['title_en'], " ");
+
+        $dataArr['content_vi'] = str_replace("[Caption]", "", $dataArr['content_vi']);
+        $dataArr['content_en'] = str_replace("[Caption]", "", $dataArr['content_en']);
+        
+        $dataArr['status'] = 1;
+
         $dataArr['created_user'] = Auth::user()->id;
 
-        $dataArr['updated_user'] = Auth::user()->id;
-        
-        $dataArr['is_hot'] = isset($dataArr['is_hot']) ? 1 : 0;  
+        $dataArr['updated_user'] = Auth::user()->id;    
 
-        $rs = Articles::create($dataArr);
+        $rs = Articles::create($dataArr);     
+        $sp_id = $rs->id;
+        $this->storeMeta($sp_id, 0, $dataArr);
+        Session::flash('message', 'Tạo mới thành công');
 
-        $object_id = $rs->id;
-
-        $this->storeMeta( $object_id, 0, $dataArr);
-
-        // xu ly tags
-        if( !empty( $dataArr['tags'] ) && $object_id ){
-            
-
-            foreach ($dataArr['tags'] as $tag_id) {
-                $model = new TagObjects;
-                $model->object_id = $object_id;
-                $model->tag_id  = $tag_id;
-                $model->type = 2;
-                $model->save();
-            }
-        }
-
-        Session::flash('message', 'Tạo mới tin tức thành công');
-
-        return redirect()->route('articles.index',['cate_id' => $dataArr['cate_id']]);
+        return redirect()->route('articles.index', ['cate_id' => $dataArr['cate_id']]);
     }
+
     public function storeMeta( $id, $meta_id, $dataArr ){
        
-        $arrData = [ 'title' => $dataArr['meta_title'], 'description' => $dataArr['meta_description'], 'keywords'=> $dataArr['meta_keywords'], 'custom_text' => $dataArr['custom_text'], 'updated_user' => Auth::user()->id ];
+        $arrData = [
+            'title_vi' => $dataArr['meta_title_vi'], 
+            'description_vi' => $dataArr['meta_description_vi'], 
+            'keywords_vi'=> $dataArr['meta_keywords_vi'], 
+            'custom_text_vi' => $dataArr['custom_text_vi'], 
+            'title_en' => $dataArr['meta_title_en'], 
+            'description_en' => $dataArr['meta_description_en'], 
+            'keywords_en'=> $dataArr['meta_keywords_en'], 
+            'custom_text_en' => $dataArr['custom_text_en'], 
+            'updated_user' => Auth::user()->id
+        ];
         if( $meta_id == 0){
             $arrData['created_user'] = Auth::user()->id;            
             $rs = MetaData::create( $arrData );
-            $meta_id = $rs->id;
-            
+            $meta_id = $rs->id;            
             $modelSp = Articles::find( $id );
             $modelSp->meta_id = $meta_id;
             $modelSp->save();
         }else {
-            $model = MetaData::find($meta_id);           
+            $model = MetaData::find($meta_id);
             $model->update( $arrData );
         }              
+    }    
+    public function storeImage($id, $dataArr){        
+        //process old image
+        $imageIdArr = isset($dataArr['image_id']) ? $dataArr['image_id'] : [];
+        $hinhXoaArr = ArticlesImg::where('product_id', $id)->whereNotIn('id', $imageIdArr)->lists('id');
+        if( $hinhXoaArr )
+        {
+            foreach ($hinhXoaArr as $image_id_xoa) {
+                $model = ArticlesImg::find($image_id_xoa);
+                $urlXoa = config('decoos.upload_path')."/".$model->image_url;
+                if(is_file($urlXoa)){
+                    unlink($urlXoa);
+                }
+                $model->delete();
+            }
+        }       
+
+        //process new image
+        if( isset( $dataArr['thumbnail_id'])){
+            $thumbnail_id = $dataArr['thumbnail_id'];
+
+            $imageArr = []; 
+
+            if( !empty( $dataArr['image_tmp_url'] )){
+
+                foreach ($dataArr['image_tmp_url'] as $k => $image_url) {
+
+                    if( $image_url && $dataArr['image_tmp_name'][$k] ){
+
+                        $tmp = explode('/', $image_url);
+
+                        if(!is_dir('uploads/'.date('Y/m/d'))){
+                            mkdir('uploads/'.date('Y/m/d'), 0777, true);
+                        }
+
+                        $destionation = date('Y/m/d'). '/'. end($tmp);
+                        
+                        File::move(config('decoos.upload_path').$image_url, config('decoos.upload_path').$destionation);
+
+                        $imageArr['title'][] = $destionation;
+
+                        $imageArr['is_thumbnail'][] = $dataArr['thumbnail_id'] == $image_url  ? 1 : 0;
+                    }
+                }
+            }
+            if( !empty($imageArr['title']) ){
+                foreach ($imageArr['title'] as $key => $title) {
+                    $rs = ArticlesImg::create(['product_id' => $id, 'image_url' => $title, 'display_order' => 1]);                
+                    $image_id = $rs->id;
+                    if( $imageArr['is_thumbnail'][$key] == 1){
+                        $thumbnail_id = $image_id;
+                    }
+                }
+            }
+            $model = Articles::find( $id );
+            $model->thumbnail_id = $thumbnail_id;
+            $model->save();
+        }
     }
+
     /**
     * Display the specified resource.
     *
@@ -195,7 +210,8 @@ class ArticlesController extends Controller
     {
     //
     }
-
+    
+   
     /**
     * Show the form for editing the specified resource.
     *
@@ -204,33 +220,45 @@ class ArticlesController extends Controller
     */
     public function edit($id)
     {
-        $tagSelected = [];
-
+        $thuocTinhArr = $phuKienArr = $soSanhArr = $tuongTuArr = [];
+        $hinhArr = (object) [];
         $detail = Articles::find($id);
-        if( Auth::user()->role < 3 ){
-            if($detail->created_user != Auth::user()->id){
-                return redirect()->route('dashboard.index');
-            }
-        }
-        $cateArr = ArticlesCate::all();        
 
-        $tmpArr = TagObjects::where(['type' => 2, 'object_id' => $id])->get();
-        
-        if( $tmpArr->count() > 0 ){
-            foreach ($tmpArr as $value) {
-                $tagSelected[] = $value->tag_id;
-            }
-        }
-        
-        $tagArr = Tag::where('type', 2)->get();
+        $hinhArr = ArticlesImg::where('product_id', $id)->lists('image_url', 'id');      
+
+        $loaiSpArr = ArticlesCate::all();
+            
+        $loai_id = $detail->loai_id; 
+            
+        $cateArr = Cate::where('loai_id', $loai_id)->select('id', 'title_vi')->orderBy('display_order', 'desc')->get();
+        $colorList = Color::all();
         $meta = (object) [];
         if ( $detail->meta_id > 0){
             $meta = MetaData::find( $detail->meta_id );
         }
+        $tagViList = Tag::where('type', 1)->orderBy('id', 'desc')->get();
+        $tagEnList = Tag::where('type', 2)->orderBy('id', 'desc')->get();
+        
+        $tmpArr = TagObjects::where(['object_id' => $id, 'object_type' => 1])->get();
+        $tagSelectedVi = $tagSelectedEn = [];
+        if( $tmpArr->count() > 0 ){
+            foreach ($tmpArr as $value) {
+                if($value->type == 1){
+                    $tagSelectedVi[] = $value->tag_id;
+                }else{
+                    $tagSelectedEn[] = $value->tag_id;
+                }
+            }
+        }
 
-        return view('backend.articles.edit', compact('tagArr', 'tagSelected', 'detail', 'cateArr', 'meta'));
+        return view('backend.articles.edit', compact( 'detail', 'hinhArr', 'loaiSpArr', 'cateArr', 'meta', 'colorList', 'tagViList', 'tagEnList', 'tagSelectedVi', 'tagSelectedEn'));
     }
-
+    public function ajaxDetail(Request $request)
+    {       
+        $id = $request->id;
+        $detail = Articles::find($id);
+        return view('backend.articles.ajax-detail', compact( 'detail' ));
+    }
     /**
     * Update the specified resource in storage.
     *
@@ -242,96 +270,80 @@ class ArticlesController extends Controller
     {
         $dataArr = $request->all();
         
-        $this->validate($request,[            
-            'cate_id' => 'required',            
-            'title' => 'required',            
-            'slug' => 'required|unique:articles,slug,'.$dataArr['id'],
+        $this->validate($request,[
+            'code' => 'required',
+            'title_vi' => 'required',
+            'slug_vi' => 'required' ,
+            'title_en' => 'required',
+            'slug_en' => 'required' ,
+            'price' => 'numeric'           
         ],
-        [            
-            'cate_id.required' => 'Bạn chưa chọn danh mục',            
-            'title.required' => 'Bạn chưa nhập tiêu đề',
-            'slug.required' => 'Bạn chưa nhập slug',
-            'slug.unique' => 'Slug đã được sử dụng.'
-        ]);       
+        [
+            'code.required' => 'Bạn chưa nhập mã sản phẩm',
+            'title_vi.required' => 'Bạn chưa nhập tên tiếng Việt ',
+            'slug_vi.required' => 'Bạn chưa nhập slug tiếng Việt',
+            'title_en.required' => 'Bạn chưa nhập tên tiếng Anh',
+            'slug_en.required' => 'Bạn chưa nhập slug tiếng Anh',
+            'price.numeric' => 'Vui lòng nhập giá hợp lệ',            
+        ]);
         
-        $dataArr['alias'] = Helper::stripUnicode($dataArr['title']);
-        
-        if($dataArr['image_url'] && $dataArr['image_name']){
-            
-            $tmp = explode('/', $dataArr['image_url']);
+        $dataArr['is_hot'] = isset($dataArr['is_hot']) ? 1 : 0;
+        $dataArr['is_sale'] = isset($dataArr['is_sale']) ? 1 : 0;                
+        $dataArr['slug_vi'] = str_replace(".", "-", $dataArr['slug_vi']);
+        $dataArr['slug_vi'] = str_replace("(", "-", $dataArr['slug_vi']);
+        $dataArr['slug_vi'] = str_replace(")", "", $dataArr['slug_vi']);
 
-            if(!is_dir('uploads/'.date('Y/m/d'))){
-                mkdir('uploads/'.date('Y/m/d'), 0777, true);
-            }
-            if(!is_dir('uploads/thumbs/articles/'.date('Y/m/d'))){
-                mkdir('uploads/thumbs/articles/'.date('Y/m/d'), 0777, true);
-            }
-            if(!is_dir('uploads/thumbs/articles/325x200/'.date('Y/m/d'))){
-                mkdir('uploads/thumbs/articles/325x200/'.date('Y/m/d'), 0777, true);
-            }
+        $dataArr['slug_en'] = str_replace(".", "-", $dataArr['slug_en']);
+        $dataArr['slug_en'] = str_replace("(", "-", $dataArr['slug_en']);
+        $dataArr['slug_en'] = str_replace(")", "", $dataArr['slug_en']);
 
-            $destionation = date('Y/m/d'). '/'. end($tmp);
-            
-            File::move(config('nhadat.upload_path').$dataArr['image_url'], config('nhadat.upload_path').$destionation);
-            
-            $img = Image::make(config('nhadat.upload_path').$destionation);
-            $w_img = $img->width();
-            $h_img = $img->height();
-            $tile1 = 0.07697044;
-            $w_tile1 = $w_img/203;
-            $h_tile1 = $h_img/128;
-         
-            if($w_tile1- $h_tile1 <= $tile1){
-                Image::make(config('nhadat.upload_path').$destionation)->resize(203, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                })->crop(203, 128)->save(config('nhadat.upload_thumbs_path_articles').$destionation);
-            }else{
-                Image::make(config('nhadat.upload_path').$destionation)->resize(null, 128, function ($constraint) {
-                        $constraint->aspectRatio();
-                })->crop(203, 128)->save(config('nhadat.upload_thumbs_path_articles').$destionation);
-            }
-
-            $tile2 = 0;
-            $w_tile2 = $w_img/325;
-            $h_tile2 = $h_img/200;
-           
-            if($w_tile2- $h_tile2 <= $tile2){
-                Image::make(config('nhadat.upload_path').$destionation)->resize(325, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                })->crop(325, 200)->save(config('nhadat.upload_thumbs_path_articles').'325x200/'.$destionation);
-            }else{                
-                Image::make(config('nhadat.upload_path').$destionation)->resize(null, 200, function ($constraint) {
-                        $constraint->aspectRatio();
-                })->crop(325, 200)->save(config('nhadat.upload_thumbs_path_articles').'325x200/'.$destionation);
-            }
-            $dataArr['image_url'] = $destionation;
-        }
+        $dataArr['alias_vi'] = Helper::stripUnicode($dataArr['title_vi']);
+        $dataArr['alias_en'] = Helper::stripUnicode($dataArr['title_en']);
 
         $dataArr['updated_user'] = Auth::user()->id;
-        $dataArr['is_hot'] = isset($dataArr['is_hot']) ? 1 : 0;  
-        //$dataArr['status'] = isset($dataArr['status']) ? 1 : 0;  
+        
+        $dataArr['content_vi'] = str_replace("[Caption]", "", $dataArr['content_vi']);
+        $dataArr['content_en'] = str_replace("[Caption]", "", $dataArr['content_en']);
+        
         $model = Articles::find($dataArr['id']);
 
         $model->update($dataArr);
         
-        $this->storeMeta( $dataArr['id'], $dataArr['meta_id'], $dataArr);
-
-        TagObjects::where(['object_id' => $dataArr['id'], 'type' => 2])->delete();
+        $sp_id = $dataArr['id'];
         // xu ly tags
-        if( !empty( $dataArr['tags'] ) ){
-                       
-            foreach ($dataArr['tags'] as $tag_id) {
-                $modelTagObject = new TagObjects; 
-                $modelTagObject->object_id = $dataArr['id'];
-                $modelTagObject->tag_id  = $tag_id;
-                $modelTagObject->type = 2;
-                $modelTagObject->save();
+        TagObjects::where(['object_id' => $sp_id, 'object_type' => 1])->delete();
+        if( !empty( $dataArr['tags_vi'] ) && $sp_id ){           
+
+            foreach ($dataArr['tags_vi'] as $tag_id) {
+                $model = new TagObjects;
+                $model->object_id = $sp_id;
+                $model->tag_id  = $tag_id;
+                $model->type = 1;
+                $model->object_type  = 1;
+                $model->save();
             }
         }
-        Session::flash('message', 'Cập nhật tin tức thành công');        
+        if( !empty( $dataArr['tags_en'] ) && $sp_id ){           
 
-        return redirect()->route('articles.edit', $dataArr['id']);
-    }
+            foreach ($dataArr['tags_en'] as $tag_id) {
+                $model = new TagObjects;
+                $model->object_id = $sp_id;
+                $model->tag_id  = $tag_id;
+                $model->object_type  = 1;
+                $model->type = 2;
+                $model->save();
+            }
+        }
+
+        $this->storeMeta( $sp_id, $dataArr['meta_id'], $dataArr);
+        $this->storeImage( $sp_id, $dataArr);
+     
+        Session::flash('message', 'Chỉnh sửa thành công');
+
+        return redirect()->route('articles.edit', $sp_id);
+        
+    } 
+    
 
     /**
     * Remove the specified resource from storage.
@@ -342,11 +354,13 @@ class ArticlesController extends Controller
     public function destroy($id)
     {
         // delete
-        $model = Articles::find($id);
+        $model = Articles::find($id);        
         $model->delete();
-
+        ArticlesImg::where('product_id', $id)->delete();      
         // redirect
-        Session::flash('message', 'Xóa tin tức thành công');
-        return redirect()->route('articles.index');
+        Session::flash('message', 'Xóa thành công');
+        
+        return redirect(URL::previous());//->route('articles.short');
+        
     }
 }

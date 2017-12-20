@@ -1,6 +1,5 @@
-@extends('layout.backend')
+@extends('backend.layout')
 @section('content')
-<div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
@@ -43,35 +42,42 @@
                   <!-- Nav tabs -->
                   <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#home" data-editor="vi" class="tab_editor" aria-controls="home" role="tab" data-toggle="tab">Thông tin tiếng Việt</a></li>
-                    <li role="presentation"><a href="#homeEn" aria-controls="homeEn" data-editor="en" class="tab_editor" role="tab" data-toggle="tab">Thông tin English</a></li>
-                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Hình ảnh</a></li>
+                    <li role="presentation"><a href="#homeEn" aria-controls="homeEn" data-editor="en" class="tab_editor" role="tab" data-toggle="tab">Thông tin English</a></li>                   
                   </ul>
 
                   <!-- Tab panes -->
                   <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="home">
                         <div class="form-group">
-                        <label for="email">Danh mục <span class="red-star">*</span></label>
-                        <select class="form-control" name="cate_id" id="cate_id">
-                          <option value="">-- chọn --</option>
-                          @if( $cateArr->count() > 0)
-                            @foreach( $cateArr as $value )
-                            <option value="{{ $value->id }}" >{{ $value->name }}</option>
-                            @endforeach
-                          @endif
-                        </select>
-                      </div>   
-                        <div class="form-group" >                  
-                          <label>Mã <span class="red-star">*</span></label>
-                          <input type="text" class="form-control" name="code" id="code" value="{{ old('code') }}">
+                          <label for="email">Danh mục <span class="red-star">*</span></label>
+                          <select class="form-control" name="cate_id" id="cate_id">
+                            <option value="">-- chọn --</option>
+                            @if( $cateArr->count() > 0)
+                              @foreach( $cateArr as $value )
+                              <option value="{{ $value->id }}" >{{ $value->name }}</option>
+                              @endforeach
+                            @endif
+                          </select>
                         </div>
                         <div class="form-group" >                  
-                          <label>Tên <span class="red-star">*</span></label>
-                          <input type="text" class="form-control" name="name_vi" id="name_vi" value="{{ old('name_vi') }}">
+                          <label>Tiêu đề <span class="red-star">*</span></label>
+                          <input type="text" class="form-control" name="title_vi" id="title_vi" value="{{ old('title_vi') }}">
                         </div>
                          <input type="hidden" class="form-control" name="slug_vi" id="slug_vi" value="{{ old('slug_vi') }}">
-                                            
-                        <div class="col-md-6 none-padding">
+                         <div class="form-group" >                  
+                          <label>Mô tả</label>
+                          <textarea class="form-control" rows="5" name="description_vi">{{ old('description_vi') }}</textarea>
+                          
+                        </div> 
+                       <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
+                          <label class="col-md-3 row">Image </label>    
+                          <div class="col-md-9">
+                            <img id="thumbnail_image" src="{{ old('image_url') ? Helper::showImage(old('image_url')) : URL::asset('public/admin/dist/img/img.png') }}" class="img-thumbnail" width="145" height="85">                                                     
+                            <button class="btn btn-default btn-sm btnUploadSingle" data-set="image_url" data-image="thumbnail_image" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
+                          </div>
+                          <div style="clear:both"></div>
+                      </div>  <!--image-->               
+                        <div class="col-md-12 none-padding">
                           <div class="checkbox">
                               <label><input type="checkbox" name="is_hot" alue="1"> TIN HOT </label>
                           </div>                          
@@ -84,8 +90,13 @@
                     </div><!--end thong tin co ban--> 
                     <div role="tabpanel" class="tab-pane" id="homeEn">                        
                         <div class="form-group" >                  
-                          <label>Name <span class="red-star">*</span></label>
-                          <input type="text" class="form-control" name="name_en" id="name_en" value="{{ old('name_en') }}">
+                          <label>Title <span class="red-star">*</span></label>
+                          <input type="text" class="form-control" name="title_en" id="title_en" value="{{ old('title_en') }}">
+                        </div>
+                        <div class="form-group" >                  
+                          <label>Mô tả</label>
+                          <textarea class="form-control"  rows="5" name="description_en">{{ old('description_en') }}</textarea>
+                          
                         </div>
                         <input type="hidden" class="form-control" name="slug_en" id="slug_en" value="{{ old('slug_en') }}">                       
                          <div class="form-group">
@@ -94,22 +105,7 @@
                         </div>
                         
                         <div class="clearfix"></div>
-                    </div><!--end thong tin co ban--> 
-                     <div role="tabpanel" class="tab-pane" id="settings">
-                        <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
-                         
-                          <div class="col-md-12" style="text-align:center">                            
-                            
-                            <input type="file" id="file-image"  style="display:none" multiple/>
-                         
-                            <button class="btn btn-primary" id="btnUploadImage" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
-                            <div class="clearfix"></div>
-                            <div id="div-image" style="margin-top:10px"></div>
-                          </div>
-                          <div style="clear:both"></div>
-                        </div>
-
-                     </div><!--end hinh anh--> 
+                    </div><!--end thong tin co ban-->                      
                   </div>
 
                 </div>
@@ -201,8 +197,6 @@
     </form>
     <!-- /.row -->
   </section>
-  <!-- /.content -->
-</div>
 
 <input type="hidden" id="route_upload_tmp_image_multiple" value="{{ route('image.tmp-upload-multiple') }}">
 <input type="hidden" id="route_upload_tmp_image" value="{{ route('image.tmp-upload') }}">
@@ -210,7 +204,7 @@
 <style type="text/css">
   .nav-tabs>li.active>a{
     color:#FFF !important;
-    background-color: #28AA4A !important;
+    background-color: #114a82 !important;
   }
 
 </style>
@@ -218,19 +212,8 @@
 @stop
 
 @section('javascript_page')
-
 <script type="text/javascript">
-$(document).on('click', '.remove-image', function(){
-  if( confirm ("Bạn có chắc chắn không ?")){
-    $(this).parents('.col-md-3').remove();
-  }
-});
-function validateData(){
-  if($('#loai_id').val() == 0){
-    alert('Chưa chọn danh mục cha.'); return false;
-  } 
-  return true;  
-}
+
     $(document).ready(function(){
       $('.tab_editor').click(function(){
         var active = $(this).attr('data-editor');
@@ -240,81 +223,13 @@ function validateData(){
       $(".select2").select2();
       $('#dataForm').submit(function(){
         
-        if( $('#loai_id').val() == 0){
-          swal("Lỗi!", "Chưa chọn danh mục cha", "error");
-          return false;
-        }       
-        
         $('#btnSave').hide();
         $('#btnLoading').show();
       });
-      var editor = CKEDITOR.replace( 'content_vi',{
-          language : 'vi',
-          height: 300,
-          removeButtons : 'Image',
-          filebrowserBrowseUrl: "{{ URL::asset('/backend/dist/js/kcfinder/browse.php?type=files') }}",
-          filebrowserImageBrowseUrl: "{{ URL::asset('/backend/dist/js/kcfinder/browse.php?type=images') }}",
-          filebrowserFlashBrowseUrl: "{{ URL::asset('/backend/dist/js/kcfinder/browse.php?type=flash') }}",
-          filebrowserUploadUrl: "{{ URL::asset('/backend/dist/js/kcfinder/upload.php?type=files') }}",
-          filebrowserImageUploadUrl: "{{ URL::asset('/backend/dist/js/kcfinder/upload.php?type=images') }}",
-          filebrowserFlashUploadUrl: "{{ URL::asset('/backend/dist/js/kcfinder/upload.php?type=flash') }}"
-      });
-      var editor2 = CKEDITOR.replace( 'content_en',{
-          language : 'vi',
-          height: 300,
-          removeButtons : 'Image',
-          filebrowserBrowseUrl: "{{ URL::asset('/backend/dist/js/kcfinder/browse.php?type=files') }}",
-          filebrowserImageBrowseUrl: "{{ URL::asset('/backend/dist/js/kcfinder/browse.php?type=images') }}",
-          filebrowserFlashBrowseUrl: "{{ URL::asset('/backend/dist/js/kcfinder/browse.php?type=flash') }}",
-          filebrowserUploadUrl: "{{ URL::asset('/backend/dist/js/kcfinder/upload.php?type=files') }}",
-          filebrowserImageUploadUrl: "{{ URL::asset('/backend/dist/js/kcfinder/upload.php?type=images') }}",
-          filebrowserFlashUploadUrl: "{{ URL::asset('/backend/dist/js/kcfinder/upload.php?type=flash') }}"
-      });
-      
-      $('#btnUploadImage').click(function(){        
-        $('#file-image').click();
-      }); 
-     
-      var files = "";
-      $('#file-image').change(function(e){
-         files = e.target.files;
-         
-         if(files != ''){
-           var dataForm = new FormData();        
-          $.each(files, function(key, value) {
-             dataForm.append('file[]', value);
-          });   
-          
-          dataForm.append('date_dir', 0);
-          dataForm.append('folder', 'tmp');
+      var editor = CKEDITOR.replace( 'content_vi');
+      var editor2 = CKEDITOR.replace( 'content_en');     
 
-          $.ajax({
-            url: $('#route_upload_tmp_image_multiple').val(),
-            type: "POST",
-            async: false,      
-            data: dataForm,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                $('#div-image').append(response);
-                if( $('input.thumb:checked').length == 0){
-                  $('input.thumb').eq(0).prop('checked', true);
-                }
-            },
-            error: function(response){                             
-                var errors = response.responseJSON;
-                for (var key in errors) {
-                  
-                }
-                //$('#btnLoading').hide();
-                //$('#btnSave').show();
-            }
-          });
-        }
-      });
-     
-
-      $('#name_vi').change(function(){
+      $('#title_vi').change(function(){
          var name = $.trim( $(this).val() );
          if( name != '' ){
             $.ajax({
@@ -340,7 +255,7 @@ function validateData(){
             });
          }
       });
-      $('#name_en').change(function(){
+      $('#title_en').change(function(){
          var name = $.trim( $(this).val() );
          if( name != '' ){
             $.ajax({
