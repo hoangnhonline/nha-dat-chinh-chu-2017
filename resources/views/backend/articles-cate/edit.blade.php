@@ -1,9 +1,9 @@
 @extends('backend.layout')
 @section('content')
-<!-- Content Header (Page header) -->
+  <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Danh mục bài viết     
+      Danh mục bài viết
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -15,121 +15,188 @@
   <!-- Main content -->
   <section class="content">
     <a class="btn btn-default btn-sm" href="{{ route('articles-cate.index') }}" style="margin-bottom:5px">Quay lại</a>
-    <a class="btn btn-primary btn-sm" href="{{ route('news-list', $detail->slug ) }}" target="_blank" style="margin-top:-6px"><i class="fa fa-eye" aria-hidden="true"></i> Xem</a>
+   <form role="form" method="POST" action="{{ route('articles-cate.update') }}" id='dataForm'>
+            {!! csrf_field() !!}
+            <input type="hidden" name="id" value="{{ $detail->id }}">
     <div class="row">
       <!-- left column -->
 
-      <div class="col-md-7">
+      <div class="col-md-8">
         <!-- general form elements -->
         <div class="box box-primary">
           <div class="box-header with-border">
-            Chỉnh sửa
+            <h3 class="box-title">Cập nhật</h3>
           </div>
-          <!-- /.box-header -->
-          <!-- form start -->
-          <form role="form" method="POST" action="{{ route('articles-cate.update') }}" id='dataForm'>
-            {!! csrf_field() !!}
-            <input type="hidden" name="id" value="{{ $detail->id }}">
+          <!-- /.box-header -->               
+                   
             <div class="box-body">
-              @if(Session::has('message'))
-              <p class="alert alert-info" >{{ Session::get('message') }}</p>
-              @endif
-              @if (count($errors) > 0)
+                @if (count($errors) > 0)
                   <div class="alert alert-danger">
-                      <ul>
-                          @foreach ($errors->all() as $error)
-                              <li>{{ $error }}</li>
-                          @endforeach
-                      </ul>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                   </div>
-              @endif
-              
-               <!-- text input -->
-              <div class="form-group">
-                <label>Tên danh mục <span class="red-star">*</span></label>
-                <input type="text" class="form-control" name="name" id="name" value="{{ $detail->name }}">
-              </div>
-              <div class="form-group">
-                <label>Slug <span class="red-star">*</span></label>
-                <input type="text"  readonly="readonly" class="form-control" name="slug" id="slug" value="{{ $detail->slug }}">
-              </div>
-              <!-- textarea -->
-              <div class="form-group">
-                <label>Mô tả</label>
-                <textarea class="form-control" rows="4" name="description" id="description">{{ $detail->description }}</textarea>
-              </div>            
+                @endif
+                <div>
 
-              <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
-                  <label class="col-md-3 row">Image </label>    
-                  <div class="col-md-9">
-                    <img id="thumbnail_image" src="{{ $detail->image_url ? Helper::showImage($detail->image_url) : URL::asset('public/admin/dist/img/img.png') }}" class="img-thumbnail" width="145" height="85">                 
-                    <button class="btn btn-default btn-sm btnSingleUpload" data-set="image_url" data-image="thumbnail_image" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#home" data-editor="vi" class="tab_editor" aria-controls="home" role="tab" data-toggle="tab">Thông tin tiếng Việt</a></li>
+                    <li role="presentation"><a href="#homeEn" aria-controls="homeEn" data-editor="en" class="tab_editor" role="tab" data-toggle="tab">Thông tin English</a></li>                   
+                  </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                        
+                        <div class="form-group" >                  
+                          <label>Tên <span class="red-star">*</span></label>
+                          <input type="text" class="form-control" name="name_vi" id="name_vi" value="{{ old('name_vi', $detail->name_vi) }}">
+                        </div>
+                         <input type="hidden" class="form-control" name="slug_vi" id="slug_vi" value="{{ old('slug_vi', $detail->slug_vi) }}">
+                         <div class="form-group" >                  
+                          <label>Mô tả</label>
+                          <textarea class="form-control" rows="5" name="description_vi">{{ old('description_vi', $detail->description_vi) }}</textarea>
+                          
+                        </div> 
+                                     
+                        <div class="col-md-12 none-padding">
+                          <div class="checkbox">
+                              <label><input type="checkbox" name="is_hot" value="1"
+                              {{ old('is_hot', $detail->is_hot) == 1 ? "checked" : "" }}
+                              > TIN HOT </label>
+                          </div>                          
+                        </div>                      
+                         
+                        <div class="clearfix"></div>
+                    </div><!--end thong tin co ban--> 
+                    <div role="tabpanel" class="tab-pane" id="homeEn">                        
+                        <div class="form-group" >                  
+                          <label>Name <span class="red-star">*</span></label>
+                          <input type="text" class="form-control" name="name_en" id="name_en" value="{{ old('name_en', $detail->name_en) }}">
+                        </div>
+                        <div class="form-group" >                  
+                          <label>Description</label>
+                          <textarea class="form-control"  rows="5" name="description_en">{{ old('description_en', $detail->description_en) }}</textarea>
+                          
+                        </div>
+                       
+                        <div class="clearfix"></div>
+                    </div><!--end thong tin co ban-->                      
                   </div>
-                  <div style="clear:both"></div>
-              </div>  <!--image-->
-              <div class="form-group">
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" name="is_hot" value="1" {{ $detail->is_hot == 1 ? "checked" : "" }}>
-                    Danh mục nổi bật
-                  </label>
-                </div>               
-              </div>
-              <div class="form-group">
-                <label>Ẩn/hiện</label>
-                <select class="form-control" name="status" id="status">                  
-                  <option value="0" {{ $detail->status == 0 ? "selected" : "" }}>Ẩn</option>
-                  <option value="1" {{ $detail->status == 1 ? "selected" : "" }}>Hiện</option>
-                </select>
-              </div>           
-            </div>                    
-            <div class="box-footer">
-              <button type="submit" class="btn btn-primary btn-sm">Lưu</button>
-              <a class="btn btn-default btn-sm" class="btn btn-primary btn-sm" href="{{ route('articles-cate.index')}}">Hủy</a>
+
+                </div>
+                  
             </div>
+           
             
         </div>
         <!-- /.box -->     
-
+<input type="hidden" id="editor_active" value="vi" />
       </div>
-      <div class="col-md-5">
-        <!-- general form elements -->
+      <div class="col-md-12">      
         <div class="box box-primary">
           <div class="box-header with-border">
             <h3 class="box-title">Thông tin SEO</h3>
           </div>
-          <!-- /.box-header -->     
+
+          <!-- /.box-header -->
             <div class="box-body">
-              <div class="form-group">
-                <label>Meta title</label>
-                <input type="text" class="form-control" name="meta_title" id="meta_title" value="{{ $detail->meta_title }}">
-              </div>
-              <!-- textarea -->
-              <div class="form-group">
-                <label>Meta desciption</label>
-                <textarea class="form-control" rows="4" name="meta_description" id="meta_description">{{ $detail->meta_description }}</textarea>
-              </div>  
+              <input type="hidden" name="meta_id" value="{{ $detail->meta_id }}">
+               <div>
 
-              <div class="form-group">
-                <label>Meta keywords</label>
-                <textarea class="form-control" rows="4" name="meta_keywords" id="meta_keywords">{{ $detail->meta_keywords }}</textarea>
-              </div>  
-              <div class="form-group">
-                <label>Custom text</label>
-                <textarea class="form-control" rows="4" name="custom_text" id="custom_text">{{ $detail->custom_text }}</textarea>
-              </div>
-              <!-- text input -->
-              
-             <input type="hidden" name="image_url" id="image_url" value="{{ $detail->image_url }}"/>                      
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#seoVi" aria-controls="seoVi" role="tab" data-toggle="tab">VN</a></li>
+                    <li role="presentation"><a href="#seoEn" aria-controls="seoEn" role="tab" data-toggle="tab">EN</a></li>                    
+                  </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="seoVi">
+                         <div class="form-group">
+                            <label>Thẻ title </label>
+                            <input type="text" class="form-control" name="meta_title_vi" id="meta_title_vi" value="{{ !empty((array)$meta) ? $meta->title_vi : "" }}">
+                          </div>
+                          <!-- textarea -->
+                          <div class="form-group">
+                            <label>Thẻ desciption</label>
+                            <textarea class="form-control" rows="3" name="meta_description_vi" id="meta_description_vi">{{ !empty((array)$meta) ? $meta->description_vi : "" }}</textarea>
+                          </div>  
+
+                          <div class="form-group">
+                            <label>Thẻ keywords</label>
+                            <textarea class="form-control" rows="3" name="meta_keywords_vi" id="meta_keywords_vi">{{ !empty((array)$meta) ? $meta->keywords_vi : "" }}</textarea>
+                          </div>  
+                          <div class="form-group">
+                            <label>Nội dung tùy chỉnh</label>
+                            <textarea class="form-control" rows="3" name="custom_text_vi" id="custom_text_vi">{{ !empty((array)$meta) ? $meta->custom_text_vi : ""  }}</textarea>
+                          </div>
+                    </div><!--end thong tin co ban--> 
+                    <div role="tabpanel" class="tab-pane" id="seoEn">                        
+                        <div class="form-group">
+                            <label>Meta title </label>
+                            <input type="text" class="form-control" name="meta_title_en" id="meta_title_en" value="{{ !empty((array)$meta) ? $meta->title_en : "" }}">
+                          </div>
+                          <!-- textarea -->
+                          <div class="form-group">
+                            <label>Meta desciption</label>
+                            <textarea class="form-control" rows="3" name="meta_description_en" id="meta_description_en">{{ !empty((array)$meta) ? $meta->description_en : "" }}</textarea>
+                          </div>  
+
+                          <div class="form-group">
+                            <label>Meta keywords</label>
+                            <textarea class="form-control" rows="3" name="meta_keywords_en" id="meta_keywords_en">{{ !empty((array)$meta) ? $meta->keywords_en : "" }}</textarea>
+                          </div>  
+                          <div class="form-group">
+                            <label>Custom text</label>
+                            <textarea class="form-control" rows="3" name="custom_text_en" id="custom_text_en">{{ !empty((array)$meta) ? $meta->custom_text_en : ""  }}</textarea>
+                          </div>
+                    </div><!--end thong tin co ban--> 
+                   
+                  </div>
+
+                </div>             
             
-        </div>
+          </div>
         <!-- /.box -->     
-
+         <div class="box-footer">             
+            <button type="button" class="btn btn-default" id="btnLoading" style="display:none"><i class="fa fa-spin fa-spinner"></i></button>
+            <button type="submit" class="btn btn-primary" id="btnSave" onclick="return validateData(); ">Lưu</button>
+            <a class="btn btn-default" class="btn btn-primary" href="{{ route('articles-cate.index')}}">Hủy</a>
+          </div>
       </div>
       <!--/.col (left) -->      
     </div>
     </form>
     <!-- /.row -->
   </section>
-  <!-- /.content -->
+
+<style type="text/css">
+  .nav-tabs>li.active>a{
+    color:#FFF !important;
+    background-color: #114a82 !important;
+  }
+
+</style>
+
+@stop
+
+@section('javascript_page')
+<script type="text/javascript">
+
+    $(document).ready(function(){
+     
+      
+      $(".select2").select2();
+      $('#dataForm').submit(function(){
+        
+        $('#btnSave').hide();
+        $('#btnLoading').show();
+      });
+    });
+    
+</script>
 @stop

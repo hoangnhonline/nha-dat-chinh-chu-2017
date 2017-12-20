@@ -46,21 +46,20 @@
                   <img src="{{ URL::asset('public/admin/dist/img/move.png')}}" class="move img-thumbnail" alt="Cập nhật thứ tự"/>
                 </td>
                 <td>                  
-                  <a href="{{ route( 'articles-cate.edit', [ 'id' => $item->id ]) }}">{{ $item->name }}</a>
+                  <a href="{{ route( 'articles-cate.edit', [ 'id' => $item->id ]) }}">{{ $item->name_vi }}</a>
                   
                  @if( $item->is_hot == 1 )
                   <label class="label label-danger">HOT</label>
                   @endif
 
-                  <p>{{ $item->description }}</p>
+                  <p>{{ $item->description_vi }}</p>
                 </td>                
-                <td style="white-space:nowrap">
-                
-                <a class="btn btn-default btn-sm" href="{{ route('news-list', $item->slug ) }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Xem</a>
+                <td style="white-space:nowrap">               
+        
                   <a class="btn btn-primary btn-sm" href="{{ route('articles.index', ['cate_id' => $item->id])}}" ><span class="badge">{{ $item->articles->count() }}</span> Bài viết </a>
                   <a href="{{ route( 'articles-cate.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span></a>                 
                   @if( $item->articles->count() == 0)
-                  <a onclick="return callDelete('{{ $item->name }}','{{ route( 'articles-cate.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
+                  <a onclick="return callDelete('{{ $item->name_vi }}','{{ route( 'articles-cate.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
                   @endif
                 </td>
               </tr> 

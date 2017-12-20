@@ -27,7 +27,17 @@ class ArticlesCate extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'alias', 'is_hot', 'status', 'display_order', 'description', 'meta_title', 'meta_description', 'meta_keywords', 'custom_text', 'image_url'];
+    protected $fillable = [
+                    'name_vi',
+                    'name_en',
+                    'slug_vi',
+                    'slug_en',
+                    'description_vi',
+                    'description_en',
+                      'is_hot', 'status', 'display_order', 'image_url', 'meta_id',
+                      'created_user',
+                      'updated_user'
+                      ];
 
     public function articles()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend\System;
+namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 
@@ -31,18 +31,18 @@ class ArticlesCateController extends Controller
        
         $arrSearch['name'] = $name = isset($request->name) && trim($request->name) != '' ? trim($request->name) : '';
         
-        $query = ArticlesCate::where('articles_cate.status', $status);
+        $query = ArticlesCate::where('status', $status);
         if( $is_hot ){
-            $query->where('articles_cate.is_hot', $is_hot);
+            $query->where('is_hot', $is_hot);
         }
         
         if( $name != ''){
-            $query->where('articles_cate.name_vi', 'LIKE', '%'.$name.'%');
-            $query->orWhere('articles_cate.name_en', 'LIKE', '%'.$name.'%');
+            $query->where('name_vi', 'LIKE', '%'.$name.'%');
+            $query->orWhere('name_en', 'LIKE', '%'.$name.'%');
         }
-        $query->join('users', 'users.id', '=', 'articles_cate.created_user');    
+        $query->join('users', 'users.id', '=', 'created_user');    
                    
-        $items = $query->orderBy('articles_cate.id', 'desc')->paginate(50);   
+        $items = $query->orderBy('articles-cate.id', 'desc')->paginate(50);   
    
         return view('backend.articles-cate.index', compact( 'items', 'arrSearch'));
     }    
@@ -88,16 +88,16 @@ class ArticlesCateController extends Controller
         $dataArr['slug_en'] = str_slug($dataArr['name_en']);
         
         $dataArr['status'] = 1;
-       // dd(auth('backend')->user());
-        $dataArr['created_user'] = auth('backend')->user()->id;
-        $dataArr['updated_user'] = auth('backend')->user()->id;    
+
+        $dataArr['created_user'] = Auth::user()->id;
+        $dataArr['updated_user'] = Auth::user()->id;    
 
         $rs = ArticlesCate::create($dataArr);     
         $sp_id = $rs->id;
         $this->storeMeta($sp_id, 0, $dataArr);
         Session::flash('message', 'Tạo mới thành công');
 
-        return redirect()->route('articles-cate.index');
+        return redirect()->route('articles-cate.index']);
     }
 
     public function storeMeta( $id, $meta_id, $dataArr ){
@@ -111,10 +111,10 @@ class ArticlesCateController extends Controller
             'description_en' => $dataArr['meta_description_en'], 
             'keywords_en'=> $dataArr['meta_keywords_en'], 
             'custom_text_en' => $dataArr['custom_text_en'], 
-            'updated_user' => auth('backend')->user()->id
+            'updated_user' => Auth::user()->id
         ];
         if( $meta_id == 0){
-            $arrData['created_user'] = auth('backend')->user()->id;            
+            $arrData['created_user'] = Auth::user()->id;            
             $rs = MetaData::create( $arrData );
             $meta_id = $rs->id;            
             $modelSp = ArticlesCate::find( $id );
@@ -253,7 +253,7 @@ class ArticlesCateController extends Controller
         $dataArr['slug_en'] = str_slug($dataArr['name_en']);
         
         $dataArr['status'] = 1;
-        $dataArr['updated_user'] = auth('backend')->user()->id;    
+        $dataArr['updated_user'] = Auth::user()->id;    
         
         $model = ArticlesCate::find($dataArr['id']);
 
@@ -281,11 +281,11 @@ class ArticlesCateController extends Controller
         // delete
         $model = ArticlesCate::find($id);        
         $model->delete();
-        Articles::where('cate_id', $id)->delete();      
+        Articles::where('product_id', $id)->delete();      
         // redirect
         Session::flash('message', 'Xóa thành công');
         
         return redirect(URL::previous());//->route('articles-cate.short');
         
     }
-}   
+}

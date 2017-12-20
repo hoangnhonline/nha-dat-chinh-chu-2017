@@ -84,7 +84,7 @@
                             <a href="{{ route('estate-type.index') }}"><i class="fa fa-circle-o"></i> Loại BĐS</a>
                         </li>
                         <li{!! $menu_code == 'backend_system_articlescate' ? ' class="active"' : '' !!}>
-                            <a href="{{ route('articles-cate.index') }}"><i class="fa fa-circle-o"></i> Danh mục tin tức</a>
+                            <a href="{{ route('articles-cate.index') }}"><i class="fa fa-circle-o"></i> Danh mục bài viết</a>
                         </li>
                         <li{!! $menu_code == 'backend_system_newsletter' ? ' class="active"' : '' !!}>
                             <a href="{{ route('newsletter.index') }}"><i class="fa fa-circle-o"></i> Newsletter</a>
