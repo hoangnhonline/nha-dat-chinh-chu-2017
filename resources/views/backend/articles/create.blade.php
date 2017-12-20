@@ -76,6 +76,7 @@
                             <button class="btn btn-default btn-sm btnUploadSingle" data-set="image_url" data-image="thumbnail_image" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
                           </div>
                           <div style="clear:both"></div>
+                          <input type="hidden" name="image_url" id="image_url" value="{{ old('image_url') }}"/>
                       </div>  <!--image-->               
                         <div class="col-md-12 none-padding">
                           <div class="checkbox">
