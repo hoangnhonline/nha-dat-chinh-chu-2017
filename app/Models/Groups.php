@@ -35,9 +35,14 @@ class Groups extends Model
         'type',
         'permission',
         'display_order',
+        'package_title_vi',
+        'package_title_en',
+        'package_type',
+        'package_amount',
+        'package_time',
         'status',
         'created_user',
-        'updated_user'
+        'updated_user',
     ];
 
     public function getPermission($group_id)

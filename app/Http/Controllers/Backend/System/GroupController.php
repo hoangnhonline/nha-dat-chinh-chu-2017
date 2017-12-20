@@ -22,7 +22,7 @@ class GroupController extends Controller
     public function index(Request $request)
     {
         $arrListGroup = $this->modelGroups->getByAttributes([
-            'status' => ['>', 0]
+            'status' => [0, 1]
         ], 'type', 'asc');
 
         return view('backend.group.index', compact('arrListGroup'));
@@ -74,16 +74,24 @@ class GroupController extends Controller
                 'name_en' => 'required|max:100',
                 'description_vi' => 'required|max:5000',
                 'description_en' => 'required|max:5000',
+                'package_title_vi' => 'required|max:200',
+                'package_title_en' => 'required|max:200',
+                'package_amount' => 'numeric'
             ];
             $messages = [
                 'name_vi.required' => 'Bạn chưa nhập tên nhóm tiếng Việt.',
                 'name_vi.max' => 'Tên nhóm tiếng Việt không được dài quá :max ký tự.',
                 'name_en.required' => 'Bạn chưa nhập tên nhóm tiếng Anh.',
                 'name_en.max' => 'Tên nhóm tiếng Anh không được dài quá :max ký tự.',
-                'description_vi.required' => 'Bạn chưa nhập giới thiệu tiếng Việt.',
-                'description_vi.max' => 'Giới thiệu tiếng Việt không được dài quá :max ký tự.',
-                'description_en.required' => 'Bạn chưa nhập giới thiệu tiếng Anh.',
-                'description_en.max' => 'Giới thiệu tiếng Anh không được dài quá :max ký tự.'
+                'description_vi.required' => 'Bạn chưa nhập nội dung gói tiếng Việt.',
+                'description_vi.max' => 'Nội dung gói tiếng Việt không được dài quá :max ký tự.',
+                'description_en.required' => 'Bạn chưa nhập nội dung gói tiếng Anh.',
+                'description_en.max' => 'Nội dung gói tiếng Anh không được dài quá :max ký tự.',
+                'package_title_vi.required' => 'Bạn chưa nhập tiêu đề gói tiếng Việt.',
+                'package_title_vi.max' => 'Tiêu đề gói tiếng Việt không được dài quá :max ký tự.',
+                'package_title_en.required' => 'Bạn chưa nhập tiêu đề gói tiếng Anh.',
+                'package_title_en.max' => 'Tiêu đề gói tiếng Anh không được dài quá :max ký tự.',
+                'package_amount.numeric' => 'Số tiền phải là số.'
             ];
         }
         $this->validate($request, $rules, $messages);
@@ -121,6 +129,11 @@ class GroupController extends Controller
                 'name_en' => $request->name_en,
                 'description_vi' => $request->description_vi,
                 'description_en' => $request->description_en,
+                'package_title_vi' => $request->package_title_vi,
+                'package_title_en' => $request->package_title_en,
+                'package_type' => $request->package_type,
+                'package_amount' => $request->package_amount,
+                'package_time' => $request->package_time,
                 'permission' => json_encode($arrPermission),
                 'updated_user' => auth('backend')->user()->id
             ]);

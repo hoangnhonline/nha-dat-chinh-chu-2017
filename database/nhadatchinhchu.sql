@@ -2,10 +2,10 @@
 -- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Nov 16, 2017 at 03:16 PM
--- Server version: 5.5.58-0ubuntu0.14.04.1
--- PHP Version: 7.2.0RC6
+-- Host: 127.0.0.1
+-- Generation Time: Dec 20, 2017 at 04:47 PM
+-- Server version: 10.1.28-MariaDB
+-- PHP Version: 5.6.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `nhadatchinhchu`
 --
-CREATE DATABASE IF NOT EXISTS `nhadatchinhchu` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE DATABASE IF NOT EXISTS `nhadatchinhchu` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `nhadatchinhchu`;
 
 -- --------------------------------------------------------
@@ -244,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `cate` (
   KEY `name_vi` (`name_vi`),
   KEY `name_en` (`name_en`),
   KEY `slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -438,18 +438,23 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name_vi` varchar(255) NOT NULL,
   `name_en` varchar(255) NOT NULL,
-  `description_vi` text DEFAULT NULL,
-  `description_en` text DEFAULT NULL,
+  `description_vi` text,
+  `description_en` text,
   `type` enum('admin','member') NOT NULL DEFAULT 'admin' COMMENT 'admin or member',
   `permission` text NOT NULL,
   `display_order` int(11) NOT NULL DEFAULT '0' COMMENT 'type member only',
+  `package_title_vi` varchar(200) DEFAULT NULL,
+  `package_title_en` varchar(200) DEFAULT NULL,
+  `package_type` tinyint(1) DEFAULT NULL COMMENT '1: cmnd, 2: sms, 3: bank, 4: cash',
+  `package_amount` int(11) DEFAULT NULL,
+  `package_time` tinyint(1) DEFAULT NULL COMMENT '1: 1 lan duy nhat, 2: 1 thang',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_user` int(11) NOT NULL,
   `updated_user` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -562,15 +567,16 @@ CREATE TABLE IF NOT EXISTS `meta_data` (
 -- Table structure for table `modules`
 --
 
-CREATE TABLE `modules` (
+DROP TABLE IF EXISTS `modules`;
+CREATE TABLE IF NOT EXISTS `modules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `code` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `cate_related` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -875,7 +881,7 @@ CREATE TABLE IF NOT EXISTS `socials` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1066,7 +1072,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 

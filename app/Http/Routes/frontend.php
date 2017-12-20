@@ -98,5 +98,10 @@ Route::group(['namespace' => 'Frontend', 'prefix' => LaravelLocalization::setLoc
         Route::post('/upload-image', ['as' => 'ajax.upload-image', 'uses' => 'AjaxController@uploadImage']);
         Route::get('/delete-image/{filename}', ['as' => 'ajax.delete-image', 'uses' => 'AjaxController@deleteImage'])->where(['filename' => '[ \w\\.\\/\\-\\@\(\)]+']);
     });
+    
+    Route::group(['prefix' => 'bat-dong-san'], function () {
+        Route::get('/{slug}', ['as' => 'realestate.category', 'uses' => 'CateController@index']);
+        Route::get('/{slug}/{id}', ['as' => 'realestate.detail', 'uses' => 'ProductController@index']);
+    });
 });
 

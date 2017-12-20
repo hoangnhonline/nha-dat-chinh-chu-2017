@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Groups;
 
 class HomeController extends Controller
 {
@@ -13,6 +14,12 @@ class HomeController extends Controller
 
     public function packageService(Request $request)
     {
-        return view('frontend.home.package_service');
+        $modelGroup = new Groups();
+        $arrListGroup = $modelGroup->getByAttributes([
+            'status' => 1,
+            'type' => 'member'
+        ], 'display_order', 'asc');
+        
+        return view('frontend.home.package_service', compact('arrListGroup'));
     }
 }
