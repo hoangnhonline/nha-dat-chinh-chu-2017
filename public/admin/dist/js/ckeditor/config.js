@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 var strPlugins = 'uploadimage';
 var toolbar = [
     { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] },
-    { name: 'basicstyles', groups: [ 'basicstyles' ], items: [ 'Image','FontSize', 'Bold', 'Italic', 'Strike',  'Underline', 'Subscript', 'Superscript', 'PasteFromWord'] },
+    { name: 'basicstyles', groups: [ 'basicstyles' ], items: [ 'Image','FontSize', 'Bold', 'Italic', 'Strike',  'Underline', 'Subscript', 'Superscript'] },
     { name: 'basicstyles', groups: [ 'basicstyles' ], items: ['NumberedList', 'BulletedList', 'Link', 'Unlink' ] },
     { name: 'cleanup', groups: [ 'cleanup' ], items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock',  'Undo', 'Redo', 'HorizontalRule', 'Outdent', 'Indent', 'SpecialChar', 'Styles', 'Format'] },                                 
     

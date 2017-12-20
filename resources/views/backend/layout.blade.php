@@ -74,7 +74,7 @@
             <input type="hidden" id="url_open_kc_finder" value="{{ URL::asset('public/admin/dist/js/kcfinder/browse.php?type=images') }}">
             <input type="hidden" id="url_open_kc_finder_files" value="{{ URL::asset('public/admin/dist/js/kcfinder/browse.php?type=files') }}">
             <div class="control-sidebar-bg"></div>
-            <input type="hidden" id="upload_url" value="{{ config('phukien.upload_url') }}">
+            <input type="hidden" id="upload_url" value="{{ config('nhadat.upload_url') }}">
             <input type="hidden" id="app_url" value="{{ env('APP_URL') }}">
         </div>
         <!-- ./wrapper -->

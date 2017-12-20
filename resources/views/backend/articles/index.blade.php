@@ -32,14 +32,14 @@
                 <option value="">--Tất cả--</option>
                 @if( $cateArr->count() > 0)
                   @foreach( $cateArr as $value )
-                  <option value="{{ $value->id }}" {{ $value->id == $cate_id ? "selected" : "" }}>{{ $value->name }}</option>
+                  <option value="{{ $value->id }}" {{ $value->id == $arrSearch['cate_id'] ? "selected" : "" }}>{{ $value->name }}</option>
                   @endforeach
                 @endif
               </select>
             </div>            
             <div class="form-group">
               <label for="email">Từ khóa :</label>
-              <input type="text" class="form-control" name="title" value="{{ $title }}">
+              <input type="text" class="form-control" name="title" value="{{ $arrSearch['title'] }}">
             </div>
             <button type="submit" class="btn btn-default btn-sm">Lọc</button>
           </form>         
@@ -54,7 +54,7 @@
         <!-- /.box-header -->
         <div class="box-body">
           <div style="text-align:center">
-            {{ $items->appends( ['cate_id' => $cate_id, 'title' => $title] )->links() }}
+            {{ $items->appends( ['cate_id' => $arrSearch['cate_id'], 'title' => $arrSearch['title']] )->links() }}
           </div>  
           <table class="table table-bordered" id="table-list-data">
             <tr>
@@ -119,7 +119,7 @@
           </tbody>
           </table>
           <div style="text-align:center">
-            {{ $items->appends( ['cate_id' => $cate_id, 'title' => $title] )->links() }}
+            {{ $items->appends( ['cate_id' => $arrSearch['cate_id'], 'title' => $arrSearch['title']] )->links() }}
           </div>  
         </div>        
       </div>

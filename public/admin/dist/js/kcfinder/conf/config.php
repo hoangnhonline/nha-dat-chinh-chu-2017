@@ -34,7 +34,7 @@ $_CONFIG = array(
         'images'  =>  "*img ico",
 
     // TinyMCE types
-        'file'    =>  "doc pdf zip docx",
+        'file'    =>  "",
         'media'   =>  "swf flv avi mpg mpeg qt mov wmv asf rm",
         'image'   =>  "*img",
     ),
@@ -109,7 +109,7 @@ $_CONFIG = array(
 // THE FOLLOWING SETTINGS CANNOT BE OVERRIDED WITH SESSION SETTINGS
 
     '_normalizeFilenames' => false,
-    '_check4htaccess' => false,
+    '_check4htaccess' => true,
     //'_tinyMCEPath' => "/tiny_mce",
 
     '_sessionVar' => "KCFINDER",
