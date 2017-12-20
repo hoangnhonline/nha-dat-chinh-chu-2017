@@ -27,7 +27,7 @@ class RealestateController extends Controller
     public function index(Request $request)
     {
         if (!check_permission_estate(auth('web')->user()->group_id, 'view')) {
-            abort(404);
+            return view('frontend.member.nopermission');
         }
 
         $page = isset($request->page) ? $request->page : 1;
@@ -62,7 +62,7 @@ class RealestateController extends Controller
     public function create(Request $request)
     {
         if (!check_permission_estate(auth('web')->user()->group_id, 'add')) {
-            abort(404);
+            return view('frontend.member.nopermission');
         }
 
         $arrListCate = $this->modelUsers->getCategoryByMember(auth('web')->user()->group_id, 'add');
@@ -77,7 +77,7 @@ class RealestateController extends Controller
     public function store(Request $request)
     {
         if (!check_permission_estate(auth('web')->user()->group_id, 'add')) {
-            abort(404);
+            return view('frontend.member.nopermission');
         }
 
         $this->validate($request, [
@@ -153,7 +153,7 @@ class RealestateController extends Controller
     public function edit($id)
     {
         if (!check_permission_estate(auth('web')->user()->group_id, 'edit')) {
-            abort(404);
+            return view('frontend.member.nopermission');
         }
 
         $productInfo = $this->modelProduct->find($id);
@@ -172,8 +172,8 @@ class RealestateController extends Controller
 
     public function update(Request $request, $id)
     {
-        if (!check_permission_estate(auth('web')->user()->group_id, 'add')) {
-            abort(404);
+        if (!check_permission_estate(auth('web')->user()->group_id, 'edit')) {
+            return view('frontend.member.nopermission');
         }
 
         $productInfo = $this->modelProduct->find($id);

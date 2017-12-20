@@ -21,7 +21,7 @@ class NewsController extends Controller
     public function index(Request $request)
     {
         if (!check_permission(auth('web')->user()->group_id, 'news', 'view')) {
-            abort(404);
+            return view('frontend.member.nopermission');
         }
 
         $page = isset($request->page) ? $request->page : 1;
@@ -56,7 +56,7 @@ class NewsController extends Controller
     public function create(Request $request)
     {
         if (!check_permission(auth('web')->user()->group_id, 'news', 'add')) {
-            abort(404);
+            return view('frontend.member.nopermission');
         }
 
         $arrListCate = $this->modelArticleCate->getByAttributes([
@@ -69,7 +69,7 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         if (!check_permission(auth('web')->user()->group_id, 'news', 'add')) {
-            abort(404);
+            return view('frontend.member.nopermission');
         }
 
         $this->validate($request, [
@@ -119,7 +119,7 @@ class NewsController extends Controller
     public function edit($id)
     {
         if (!check_permission(auth('web')->user()->group_id, 'news', 'edit')) {
-            abort(404);
+            return view('frontend.member.nopermission');
         }
 
         $articleInfo = $this->modelArticle->find($id);
@@ -137,7 +137,7 @@ class NewsController extends Controller
     public function update(Request $request, $id)
     {
         if (!check_permission(auth('web')->user()->group_id, 'news', 'edit')) {
-            abort(404);
+            return view('frontend.member.nopermission');
         }
 
         $articleInfo = $this->modelArticle->find($id);
