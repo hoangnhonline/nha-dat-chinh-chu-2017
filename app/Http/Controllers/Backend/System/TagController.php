@@ -87,9 +87,9 @@ class TagController extends Controller
 
         $dataArr['alias'] = Helper::stripUnicode($dataArr['name']);
 
-        $dataArr['created_user'] = Auth::user()->id;
+        $dataArr['created_user'] = auth('backend')->user()->id;
 
-        $dataArr['updated_user'] = Auth::user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;
 
         $rs = Tag::create($dataArr);
 
@@ -122,7 +122,7 @@ class TagController extends Controller
                     if (!empty((array)$arr)) {
                         $arrId[] = $arr->id;
                     } else {
-                        $rs = Tag::create(['name' => $tag, 'type' => $type, 'slug' => str_slug($tag), 'created_user' => Auth::user()->id, 'updated_user' => Auth::user()->id]);
+                        $rs = Tag::create(['name' => $tag, 'type' => $type, 'slug' => str_slug($tag), 'created_user' => auth('backend')->user()->id, 'updated_user' => auth('backend')->user()->id]);
                         $arrId[] = $rs->id;
                     }
 
@@ -186,7 +186,7 @@ class TagController extends Controller
 
         $model = Tag::find($dataArr['id']);
 
-        $dataArr['updated_user'] = Auth::user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;
 
         $model->update($dataArr);
 
@@ -203,9 +203,9 @@ class TagController extends Controller
     public function storeMeta($id, $meta_id, $dataArr)
     {
 
-        $arrData = ['title' => $dataArr['meta_title'], 'description' => $dataArr['meta_description'], 'keywords' => $dataArr['meta_keywords'], 'custom_text' => $dataArr['custom_text'], 'updated_user' => Auth::user()->id];
+        $arrData = ['title' => $dataArr['meta_title'], 'description' => $dataArr['meta_description'], 'keywords' => $dataArr['meta_keywords'], 'custom_text' => $dataArr['custom_text'], 'updated_user' => auth('backend')->user()->id];
         if ($meta_id == 0) {
-            $arrData['created_user'] = Auth::user()->id;
+            $arrData['created_user'] = auth('backend')->user()->id;
             $rs = MetaData::create($arrData);
             $meta_id = $rs->id;
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\ArticlesCate;
+use App\Models\Articles;
 use App\Models\Cate;
 use App\Models\MetaData;
 use App\Models\Tag;

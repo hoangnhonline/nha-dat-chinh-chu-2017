@@ -26,8 +26,8 @@ class PagesController extends Controller
         $created_user = isset($request->created_user) ? $request->created_user : null;
         $userList = (object)[];
         $query = Pages::whereRaw('1');
-        if (Auth::user()->role == 1) {
-            $query->where('created_user', Auth::user()->id);
+        if (auth('backend')->user()->role == 1) {
+            $query->where('created_user', auth('backend')->user()->id);
         } else {
             $userList = Account::where('role', 1)->get();
             if ($created_user) {
@@ -94,9 +94,9 @@ class PagesController extends Controller
             $dataArr['image_url'] = $destionation;
         }
 
-        $dataArr['created_user'] = Auth::user()->id;
+        $dataArr['created_user'] = auth('backend')->user()->id;
 
-        $dataArr['updated_user'] = Auth::user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;
 
         $rs = Pages::create($dataArr);
 
@@ -128,8 +128,8 @@ class PagesController extends Controller
     {
 
         $detail = Pages::find($id);
-        if (Auth::user()->role == 1) {
-            if ($detail->created_user != Auth::user()->id) {
+        if (auth('backend')->user()->role == 1) {
+            if ($detail->created_user != auth('backend')->user()->id) {
                 return redirect()->route('dashboard.index');
             }
         }
@@ -176,7 +176,7 @@ class PagesController extends Controller
             $dataArr['image_url'] = $destionation;
         }
 
-        $dataArr['updated_user'] = Auth::user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;
 
         $model = Pages::find($dataArr['id']);
 

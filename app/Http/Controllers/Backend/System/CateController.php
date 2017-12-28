@@ -30,9 +30,9 @@ class CateController extends Controller
 
     public function storeMeta($id, $meta_id, $dataArr)
     {
-        $arrData = ['title' => $dataArr['meta_title'], 'description' => $dataArr['meta_description'], 'keywords' => $dataArr['meta_keywords'], 'custom_text' => $dataArr['custom_text'], 'updated_user' => Auth::user()->id];
+        $arrData = ['title' => $dataArr['meta_title'], 'description' => $dataArr['meta_description'], 'keywords' => $dataArr['meta_keywords'], 'custom_text' => $dataArr['custom_text'], 'updated_user' => auth('backend')->user()->id];
         if ($meta_id == 0) {
-            $arrData['created_user'] = Auth::user()->id;
+            $arrData['created_user'] = auth('backend')->user()->id;
             $rs = MetaData::create($arrData);
             $meta_id = $rs->id;
 
@@ -84,7 +84,7 @@ class CateController extends Controller
 
         $model = Cate::find($dataArr['id']);
 
-        $dataArr['updated_user'] = Auth::user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;
 
         $dataArr['is_hot'] = isset($dataArr['is_hot']) ? 1 : 0;
 

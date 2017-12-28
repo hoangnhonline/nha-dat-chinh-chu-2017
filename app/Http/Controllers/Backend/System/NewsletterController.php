@@ -112,7 +112,7 @@ class NewsletterController extends Controller
                 'email.unique' => 'Email đã được sử dụng.'
             ]);
 
-        $dataArr['updated_user'] = Auth::user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;
 
         $model = Newsletter::find($dataArr['id']);
 

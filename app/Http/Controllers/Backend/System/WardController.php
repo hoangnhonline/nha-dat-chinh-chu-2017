@@ -97,9 +97,9 @@ class ArticlesController extends Controller
             $dataArr['image_url'] = $destionation;
         }
 
-        $dataArr['created_user'] = Auth::user()->id;
+        $dataArr['created_user'] = auth('backend')->user()->id;
 
-        $dataArr['updated_user'] = Auth::user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;
 
         $dataArr['is_hot'] = isset($dataArr['is_hot']) ? 1 : 0;
 
@@ -203,7 +203,7 @@ class ArticlesController extends Controller
             $dataArr['image_url'] = $destionation;
         }
 
-        $dataArr['updated_user'] = Auth::user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;
         $dataArr['is_hot'] = isset($dataArr['is_hot']) ? 1 : 0;
         //$dataArr['status'] = isset($dataArr['status']) ? 1 : 0;  
         $model = Articles::find($dataArr['id']);

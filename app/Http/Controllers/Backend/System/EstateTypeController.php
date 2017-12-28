@@ -20,7 +20,7 @@ class EstateTypeController extends Controller
      */
     public function index(Request $request)
     {
-        if (Auth::user()->role == 1) {
+        if (auth('backend')->user()->role == 1) {
             return redirect()->route('dashboard.index');
         }
         $type = $request->type ? $request->type : 1;
@@ -35,7 +35,7 @@ class EstateTypeController extends Controller
      */
     public function create(Request $request)
     {
-        if (Auth::user()->role == 1) {
+        if (auth('backend')->user()->role == 1) {
             return redirect()->route('dashboard.index');
         }
         $type = $request->type ? $request->type : 1;
@@ -67,8 +67,8 @@ class EstateTypeController extends Controller
 
         $dataArr['is_hot'] = isset($dataArr['is_hot']) ? 1 : 0;
 
-        $dataArr['created_user'] = Auth::user()->id;
-        $dataArr['updated_user'] = Auth::user()->id;
+        $dataArr['created_user'] = auth('backend')->user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;
         $rs = EstateType::create($dataArr);
         $id = $rs->id;
 
@@ -98,7 +98,7 @@ class EstateTypeController extends Controller
      */
     public function edit($id)
     {
-        if (Auth::user()->role == 1) {
+        if (auth('backend')->user()->role == 1) {
             return redirect()->route('dashboard.index');
         }
         $detail = EstateType::find($id);
@@ -132,7 +132,7 @@ class EstateTypeController extends Controller
             ]);
         $dataArr['alias'] = Helper::stripUnicode($dataArr['name']);
 
-        $dataArr['updated_user'] = Auth::user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;
 
         $model = EstateType::find($dataArr['id']);
         $model->update($dataArr);
@@ -147,9 +147,9 @@ class EstateTypeController extends Controller
     public function storeMeta($id, $meta_id, $dataArr)
     {
 
-        $arrData = ['title' => $dataArr['meta_title'], 'description' => $dataArr['meta_description'], 'keywords' => $dataArr['meta_keywords'], 'custom_text' => $dataArr['custom_text'], 'updated_user' => Auth::user()->id];
+        $arrData = ['title' => $dataArr['meta_title'], 'description' => $dataArr['meta_description'], 'keywords' => $dataArr['meta_keywords'], 'custom_text' => $dataArr['custom_text'], 'updated_user' => auth('backend')->user()->id];
         if ($meta_id == 0) {
-            $arrData['created_user'] = Auth::user()->id;
+            $arrData['created_user'] = auth('backend')->user()->id;
             $rs = MetaData::create($arrData);
             $meta_id = $rs->id;
 

@@ -89,8 +89,8 @@ class ArticlesCateController extends Controller
         
         $dataArr['status'] = 1;
 
-        $dataArr['created_user'] = Auth::user()->id;
-        $dataArr['updated_user'] = Auth::user()->id;    
+        $dataArr['created_user'] = auth('backend')->user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;    
 
         $rs = ArticlesCate::create($dataArr);     
         $sp_id = $rs->id;
@@ -111,10 +111,10 @@ class ArticlesCateController extends Controller
             'description_en' => $dataArr['meta_description_en'], 
             'keywords_en'=> $dataArr['meta_keywords_en'], 
             'custom_text_en' => $dataArr['custom_text_en'], 
-            'updated_user' => Auth::user()->id
+            'updated_user' => auth('backend')->user()->id
         ];
         if( $meta_id == 0){
-            $arrData['created_user'] = Auth::user()->id;            
+            $arrData['created_user'] = auth('backend')->user()->id;            
             $rs = MetaData::create( $arrData );
             $meta_id = $rs->id;            
             $modelSp = ArticlesCate::find( $id );
@@ -253,7 +253,7 @@ class ArticlesCateController extends Controller
         $dataArr['slug_en'] = str_slug($dataArr['name_en']);
         
         $dataArr['status'] = 1;
-        $dataArr['updated_user'] = Auth::user()->id;    
+        $dataArr['updated_user'] = auth('backend')->user()->id;    
         
         $model = ArticlesCate::find($dataArr['id']);
 

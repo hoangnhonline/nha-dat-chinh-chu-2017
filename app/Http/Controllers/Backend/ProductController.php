@@ -75,8 +75,8 @@ class ProductController extends Controller
         if( $project_id ){
             $query->where('product.project_id', $project_id);
         }
-        if(Auth::user()->role == 1){
-            $query->where('product.created_user', Auth::user()->id);
+        if(auth('backend')->user()->role == 1){
+            $query->where('product.created_user', auth('backend')->user()->id);
         }
         if( $name != ''){
             $query->where('product.title', 'LIKE', '%'.$name.'%');            
@@ -143,8 +143,8 @@ class ProductController extends Controller
         if( $project_id ){
             $query->where('product.project_id', $project_id);
         }
-        if(Auth::user()->role == 1){
-            $query->where('product.created_user', Auth::user()->id);
+        if(auth('backend')->user()->role == 1){
+            $query->where('product.created_user', auth('backend')->user()->id);
         }
         if( $name != ''){
             $query->where('product.title', 'LIKE', '%'.$name.'%');            
@@ -224,32 +224,28 @@ class ProductController extends Controller
     */
     public function create(Request $request)
     {
-        $tagArr = Tag::where('type', 1)->get();
-        $directionArr = Direction::all();
+        $tagArr = Tag::where('type', 1)->get();        
         $estate_type_id = $request->estate_type_id ? $request->estate_type_id : null;
         $type = $request->type ? $request->type : 1;    
         
         if( $type ){
             
-            $estateTypeArr = EstateType::where('type', $type)->select('id', 'name')->orderBy('display_order', 'desc')->get();
+            $estateTypeArr = EstateType::where('type', $type)->select('id', 'name_vi')->orderBy('display_order', 'desc')->get();
             $priceList = Price::where('type', $type)->get();     
             
         }       
         $priceUnitList = PriceUnit::all();
         $city_id = $request->city_id ? $request->city_id : 1;
-
+        $cityList = City::all();
         $districtList = District::where('city_id', $city_id)->where('status', 1)->get();
 
        // var_dump($detail->district_id);die;
         $district_id = $request->district_id ? $request->district_id : 2;
-        $wardList = Ward::where('district_id', $district_id)->get();
-        $streetList = Street::where('district_id', $district_id)->get();
-        $projectList = Project::where('district_id', $district_id)->get();
+        $wardList = Ward::where('district_id', $district_id)->get();       
 
-        $tienIchLists = Tag::where(['type' => 3])->get();
         $areaList = Area::all();
 
-        return view('backend.product.create', compact('estateTypeArr',   'estate_type_id', 'type', 'district_id', 'districtList', 'wardList', 'streetList', 'projectList', 'priceUnitList', 'tagArr', 'tienIchLists', 'directionArr', 'priceList', 'areaList', 'city_id'));
+        return view('backend.product.create', compact('estateTypeArr',   'estate_type_id', 'type', 'district_id', 'districtList', 'wardList', 'cityList', 'priceUnitList', 'tagArr', 'city_id'));
     }
 
     /**
@@ -296,8 +292,8 @@ class ProductController extends Controller
         $dataArr['alias'] = Helper::stripUnicode($dataArr['title']);
         $dataArr['is_hot'] = isset($dataArr['is_hot']) ? 1 : 0;  
         $dataArr['status'] = 1;
-        $dataArr['created_user'] = Auth::user()->id;
-        $dataArr['updated_user'] = Auth::user()->id;              
+        $dataArr['created_user'] = auth('backend')->user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;              
         
         if($dataArr['price_id'] == ''){
             $dataArr['price_id'] = Helper::getPriceId($dataArr['price'], $dataArr['price_unit_id'], $dataArr['type']);
@@ -343,9 +339,9 @@ class ProductController extends Controller
     }
     public function storeMeta( $id, $meta_id, $dataArr ){
        
-        $arrData = ['title' => $dataArr['meta_title'], 'description' => $dataArr['meta_description'], 'keywords'=> $dataArr['meta_keywords'], 'custom_text' => $dataArr['custom_text'], 'updated_user' => Auth::user()->id];
+        $arrData = ['title' => $dataArr['meta_title'], 'description' => $dataArr['meta_description'], 'keywords'=> $dataArr['meta_keywords'], 'custom_text' => $dataArr['custom_text'], 'updated_user' => auth('backend')->user()->id];
         if( $meta_id == 0){
-            $arrData['created_user'] = Auth::user()->id;
+            $arrData['created_user'] = auth('backend')->user()->id;
             //var_dump(MetaData::create( $arrData ));die;
             $rs = MetaData::create( $arrData );
             $meta_id = $rs->id;
@@ -582,7 +578,7 @@ class ProductController extends Controller
 
         $dataArr['alias'] = Helper::stripUnicode($dataArr['name']);
         
-        $dataArr['updated_user'] = Auth::user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;
         
         $model = Product::find($dataArr['id']);
 

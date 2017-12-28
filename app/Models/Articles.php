@@ -31,8 +31,10 @@ class Articles extends Model
     protected $fillable = [
         'title_vi',
         'title_en',
-        'slug',
-        'alias',
+        'slug_vi',
+        'alias_vi',
+        'slug_en',
+        'alias_en',
         'cate_id',
         'is_hot',
         'project_id',

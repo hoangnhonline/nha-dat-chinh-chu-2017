@@ -103,5 +103,6 @@ Route::group(['namespace' => 'Frontend', 'prefix' => LaravelLocalization::setLoc
         Route::get('/{slug}', ['as' => 'realestate.category', 'uses' => 'CateController@index']);
         Route::get('/{slug}/{id}', ['as' => 'realestate.detail', 'uses' => 'ProductController@index']);
     });
+    Route::get('{cateSlug}/{slug}-{id}.html', ['as' => 'news-detail', 'uses' => 'NewsController@detail']);    
 });
 

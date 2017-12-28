@@ -21,7 +21,7 @@ class BannerController extends Controller
     */
     public function index(Request $request)
     {
-        if(Auth::user()->role == 1){
+        if(auth('backend')->user()->role == 1){
             return redirect()->route('dashboard.index');
         }
         $arrSearch['status'] = $status = isset($request->status) ? $request->status : null;
@@ -133,9 +133,9 @@ class BannerController extends Controller
             
             $dataArr['image_url'] = $destionation;
         }
-        $dataArr['created_user'] = Auth::user()->id;
+        $dataArr['created_user'] = auth('backend')->user()->id;
 
-        $dataArr['updated_user'] = Auth::user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;
         Banner::create($dataArr);
 
         Session::flash('message', 'Tạo mới banner thành công');
@@ -191,7 +191,7 @@ class BannerController extends Controller
         $dataArr = $request->all();
         
         
-        $dataArr['updated_user'] = Auth::user()->id;
+        $dataArr['updated_user'] = auth('backend')->user()->id;
         $dataArr['status'] = isset($dataArr['status'])  ? 1 : 0;
 
         if($dataArr['image_url'] && $dataArr['image_name']){
