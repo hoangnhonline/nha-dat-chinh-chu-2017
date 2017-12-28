@@ -8,9 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\ArticlesCate;
 use App\Models\Cate;
-
 use App\Models\MetaData;
-
 use App\Models\Tag;
 use App\Models\TagObjects;
 
@@ -39,8 +37,7 @@ class ArticlesCateController extends Controller
         if( $name != ''){
             $query->where('articles_cate.name_vi', 'LIKE', '%'.$name.'%');
             $query->orWhere('articles_cate.name_en', 'LIKE', '%'.$name.'%');
-        }
-        $query->join('users', 'users.id', '=', 'articles_cate.created_user');    
+        }        
                    
         $items = $query->orderBy('articles_cate.id', 'desc')->paginate(50);   
    
@@ -66,19 +63,14 @@ class ArticlesCateController extends Controller
     public function store(Request $request)
     {
         $dataArr = $request->all();                
-        $this->validate($request,[
-            
-            'name_vi' => 'required',
-           
+        $this->validate($request,[            
+            'name_vi' => 'required',           
             'name_en' => 'required',
            
         ],
         [
-            'name_vi.required' => 'Bạn chưa nhập tên tiếng Việt ',
-           
-            'name_en.required' => 'Bạn chưa nhập tên tiếng Anh',
-           
-                    
+            'name_vi.required' => 'Bạn chưa nhập tên tiếng Việt ',           
+            'name_en.required' => 'Bạn chưa nhập tên tiếng Anh',  
         ]);
 
         $dataArr['is_hot'] = isset($dataArr['is_hot']) ? 1 : 0;
@@ -88,7 +80,7 @@ class ArticlesCateController extends Controller
         $dataArr['slug_en'] = str_slug($dataArr['name_en']);
         
         $dataArr['status'] = 1;
-       // dd(auth('backend')->user());
+   
         $dataArr['created_user'] = auth('backend')->user()->id;
         $dataArr['updated_user'] = auth('backend')->user()->id;    
 
@@ -103,11 +95,11 @@ class ArticlesCateController extends Controller
     public function storeMeta( $id, $meta_id, $dataArr ){
        
         $arrData = [
-            'name_vi' => $dataArr['meta_name_vi'], 
+            'title_vi' => $dataArr['meta_title_vi'], 
             'description_vi' => $dataArr['meta_description_vi'], 
             'keywords_vi'=> $dataArr['meta_keywords_vi'], 
             'custom_text_vi' => $dataArr['custom_text_vi'], 
-            'name_en' => $dataArr['meta_name_en'], 
+            'title_en' => $dataArr['meta_title_en'], 
             'description_en' => $dataArr['meta_description_en'], 
             'keywords_en'=> $dataArr['meta_keywords_en'], 
             'custom_text_en' => $dataArr['custom_text_en'], 
@@ -210,7 +202,7 @@ class ArticlesCateController extends Controller
 
         $meta = (object) [];
         if ( $detail->meta_id > 0){
-            $meta = MetaData::find( $detail->meta_id );
+            $meta = MetaData::find( $detail->meta_id );           
         }
        
         return view('backend.articles-cate.edit', compact( 'detail', 'meta'));
