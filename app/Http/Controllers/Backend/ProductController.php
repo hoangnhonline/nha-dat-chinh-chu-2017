@@ -261,37 +261,38 @@ class ProductController extends Controller
         $this->validate($request,[
             'type' => 'required',
             'estate_type_id' => 'required',
-            'district_id' => 'required',
             'city_id' => 'required',
+            'district_id' => 'required',            
             'ward_id' => 'required',     
-            'title' => 'required',
-            'slug' => 'required',
-            'price' => 'required|numeric',
-            'price_unit_id' => 'required',
+            'title_vi' => 'required',
+            'title_en' => 'required',                        
+            'price' => 'required|numeric',            
             'area' => 'required|numeric',
-            'contact_name' => 'required',
-            'contact_mobile' => 'required'
+            'contact_phone' => 'required',
         ],
         [            
             'estate_type_id.required' => 'Bạn chưa chọn loại bất động sản',
             'district_id.required' => 'Bạn chưa chọn quận',
             'ward_id.required' => 'Bạn chưa chọn phường',
-            'title.required' => 'Bạn chưa nhập tiêu đề',
-            'slug.required' => 'Bạn chưa nhập slug',
+            'title.required' => 'Bạn chưa nhập tiêu đề',            
             'price.required' => 'Bạn chưa nhập giá',
-            'price.numeric' => 'Bạn nhập giá không hợp lệ',
-            'price_unit_id.required' => 'Bạn chưa chọn đơn vị giá',            
+            'price.numeric' => 'Bạn nhập giá không hợp lệ',            
             'area.required' => 'Bạn chưa nhập diện tích',
-            'contact_name.required' => 'Bạn chưa nhập tên liên hệ',            
+            'contact_phone.required' => 'Bạn chưa nhập điện thoại liên hệ',            
             'contact_mobile.required' => 'Bạn chưa nhập số di động liên hệ'
         ]);
            
-        $dataArr['slug'] = str_replace(".", "-", $dataArr['slug']);
-        $dataArr['slug'] = str_replace("(", "-", $dataArr['slug']);
-        $dataArr['slug'] = str_replace(")", "", $dataArr['slug']);
-        $dataArr['alias'] = Helper::stripUnicode($dataArr['title']);
+        
+
         $dataArr['is_hot'] = isset($dataArr['is_hot']) ? 1 : 0;  
         $dataArr['status'] = 1;
+        $dataArr['slug_vi'] = str_slug($dataArr['title_vi']);
+        $dataArr['slug_en'] = str_slug($dataArr['title_en']);
+
+        $dataArr['alias_vi'] = str_slug($dataArr['title_vi'], " ");
+        $dataArr['alias_en'] = str_slug($dataArr['title_en'], " ");
+
+
         $dataArr['created_user'] = auth('backend')->user()->id;
         $dataArr['updated_user'] = auth('backend')->user()->id;              
         
@@ -339,36 +340,30 @@ class ProductController extends Controller
     }
     public function storeMeta( $id, $meta_id, $dataArr ){
        
-        $arrData = ['title' => $dataArr['meta_title'], 'description' => $dataArr['meta_description'], 'keywords'=> $dataArr['meta_keywords'], 'custom_text' => $dataArr['custom_text'], 'updated_user' => auth('backend')->user()->id];
+        $arrData = [
+            'title_vi' => $dataArr['meta_title_vi'], 
+            'description_vi' => $dataArr['meta_description_vi'], 
+            'keywords_vi'=> $dataArr['meta_keywords_vi'], 
+            'custom_text_vi' => $dataArr['custom_text_vi'], 
+            'title_en' => $dataArr['meta_title_en'], 
+            'description_en' => $dataArr['meta_description_en'], 
+            'keywords_en'=> $dataArr['meta_keywords_en'], 
+            'custom_text_en' => $dataArr['custom_text_en'], 
+            'updated_user' => auth('backend')->user()->id
+        ];
         if( $meta_id == 0){
-            $arrData['created_user'] = auth('backend')->user()->id;
-            //var_dump(MetaData::create( $arrData ));die;
+            $arrData['created_user'] = auth('backend')->user()->id;   
             $rs = MetaData::create( $arrData );
-            $meta_id = $rs->id;
-            //var_dump($meta_id);die;
-            $modelSp = Product::find( $id );
+            $meta_id = $rs->id;            
+            $modelSp = Articles::find( $id );
             $modelSp->meta_id = $meta_id;
             $modelSp->save();
         }else {
-            $model = MetaData::find($meta_id);           
+            $model = MetaData::find($meta_id);
             $model->update( $arrData );
         }              
-    }
-    public function storeThuocTinh($id, $dataArr){
-        
-        SpThuocTinh::where('product_id', $id)->delete();
-
-        if( !empty($dataArr['thuoc_tinh'])){
-            foreach( $dataArr['thuoc_tinh'] as $k => $value){
-                if( $value == ""){
-                    unset( $dataArr['thuoc_tinh'][$k]);
-                }
-            }
-            
-            SpThuocTinh::create(['product_id' => $id, 'thuoc_tinh' => json_encode($dataArr['thuoc_tinh'])]);
-        }
-    }
-
+    }  
+  
     public function storeImage($id, $dataArr){        
         //process old image
         $imageIdArr = isset($dataArr['image_id']) ? $dataArr['image_id'] : [];
@@ -394,43 +389,43 @@ class ProductController extends Controller
             if( !empty( $dataArr['image_tmp_url'] )){
 
                 foreach ($dataArr['image_tmp_url'] as $k => $image_url) {
-
-                    if( $image_url && $dataArr['image_tmp_name'][$k] ){
-
-                        $tmp = explode('/', $image_url);
-
-                        if(!is_dir('uploads/'.date('Y/m/d'))){
-                            mkdir('uploads/'.date('Y/m/d'), 0777, true);
-                        }
-                        if(!is_dir('uploads/thumbs/'.date('Y/m/d'))){
-                            mkdir('uploads/thumbs/'.date('Y/m/d'), 0777, true);
-                        }
-
-                        $destionation = date('Y/m/d'). '/'. end($tmp);
-                        //var_dump(config('nhadat.upload_path').$image_url, config('nhadat.upload_path').$destionation);die;
-                        File::move(config('nhadat.upload_path').$image_url, config('nhadat.upload_path').$destionation);
+                    
+                    $origin_img = base_path().$image_url;
+                    if( $image_url ){
 
                         $imageArr['is_thumbnail'][] = $is_thumbnail = $dataArr['thumbnail_id'] == $image_url  ? 1 : 0;
 
-                        if($is_thumbnail == 1){
-                            $img = Image::make(config('nhadat.upload_path').$destionation);
-                            $w_img = $img->width();
-                            $h_img = $img->height();
-                            $tile = 170/105;
-                         
-                            if($w_img/$h_img <= $tile){
-                                Image::make(config('nhadat.upload_path').$destionation)->resize(170, null, function ($constraint) {
-                                        $constraint->aspectRatio();
-                                })->crop(170, 105)->save(config('nhadat.upload_thumbs_path').$destionation);
-                            }else{
-                                Image::make(config('nhadat.upload_path').$destionation)->resize(null, 105, function ($constraint) {
-                                        $constraint->aspectRatio();
-                                })->crop(170, 105)->save(config('nhadat.upload_thumbs_path').$destionation);
-                            }
+                        $img = Image::make($origin_img);
+                        $w_img = $img->width();
+                        $h_img = $img->height();
 
-                        }
+                        $tmpArrImg = explode('/', $origin_img);
+                        
+                        $new_img = config('nhadat.upload_thumbs_path').end($tmpArrImg);
+                       
+                        if($w_img/$h_img > 363/206){
 
-                        $imageArr['name'][] = $destionation;
+                            Image::make($origin_img)->resize(null, 206, function ($constraint) {
+                                    $constraint->aspectRatio();
+                            })->crop(363, 206)->save($new_img);
+                        }else{
+                            Image::make($origin_img)->resize(363, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                            })->crop(363, 206)->save($new_img);
+                        }  
+
+                        if($w_img/$h_img > 240/240){
+
+                            Image::make($origin_img)->resize(null, 240, function ($constraint) {
+                                    $constraint->aspectRatio();
+                            })->crop(240, 240)->save($new_img);
+                        }else{
+                            Image::make($origin_img)->resize(240, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                            })->crop(240, 240)->save($new_img);
+                        }                         
+
+                        $imageArr['name'][] = $image_url;
                         
                     }
                 }
@@ -543,10 +538,12 @@ class ProductController extends Controller
             'contact_mobile.required' => 'Bạn chưa nhập số di động liên hệ'
         ]);
                   
-        $dataArr['slug'] = str_replace(".", "-", $dataArr['slug']);
-        $dataArr['slug'] = str_replace("(", "-", $dataArr['slug']);
-        $dataArr['slug'] = str_replace(")", "", $dataArr['slug']);
-        $dataArr['alias'] = Helper::stripUnicode($dataArr['title']);        
+        $dataArr['slug_vi'] = str_slug($dataArr['title_vi']);
+        $dataArr['slug_en'] = str_slug($dataArr['title_en']);
+
+        $dataArr['alias_vi'] = str_slug($dataArr['title_vi'], " ");
+        $dataArr['alias_en'] = str_slug($dataArr['title_en'], " ");
+
         $dataArr['is_hot'] = isset($dataArr['is_hot']) ? 1 : 0;  
         
         if($dataArr['price_id'] == ''){
@@ -567,7 +564,7 @@ class ProductController extends Controller
         $this->storeImage( $product_id, $dataArr);
         $this->processRelation($dataArr, $product_id, 'edit');
 
-        Session::flash('message', 'Chỉnh sửa tin thành công');
+        Session::flash('message', 'Chỉnh sửa thành công');
 
         return redirect()->route('product.edit', $product_id);
         
@@ -586,7 +583,7 @@ class ProductController extends Controller
         
         $product_id = $dataArr['id'];        
 
-        Session::flash('message', 'Chỉnh sửa tin thành công');
+        Session::flash('message', 'Chỉnh sửa thành công');
 
     }    
 
@@ -605,7 +602,7 @@ class ProductController extends Controller
         TagObjects::deleteTags( $id, 1);
         TagObjects::deleteTags( $id, 3);
         // redirect
-        Session::flash('message', 'Xóa tin thành công');
+        Session::flash('message', 'Xóa thành công');
         
         return redirect(URL::previous());//->route('product.short');
         

@@ -201,19 +201,16 @@
                         <div class="clearfix"></div>
                     </div><!--end thong tin co ban-->
                      <div role="tabpanel" class="tab-pane" id="settings">
-                        <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
+                       <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
                          
-                          <div class="col-md-12" style="text-align:center">                            
-                            
-                            <input type="file" id="file-image"  style="display:none" multiple/>
+                          <div class="col-md-12" style="text-align:center">
                          
-                            <button class="btn btn-primary btn-sm" id="btnUploadImage" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
+                            <button class="btn btn-primary btnMultiUpload" type="button"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
                             <div class="clearfix"></div>
                             <div id="div-image" style="margin-top:10px"></div>
                           </div>
                           <div style="clear:both"></div>
                         </div>
-
                      </div><!--end hinh anh-->
                      
                   </div>
@@ -589,17 +586,7 @@ $(document).on('click', '#btnSaveTagAjax', function(){
 
 
 
-    $(document).ready(function(){
-     
-         
-      $('#type, #estate_type_id').change(function(){
-
-        var url ="{{ route('product.create') }}?type=" + $('#type').val();
-        if($('#estate_type_id').val() > 0){
-          url += '&estate_type_id=' + $('#estate_type_id').val();
-        }
-        location.href = url;
-      });
+    $(document).ready(function(){     
       $(".select2").select2();
       $('#dataForm').submit(function(){
         
