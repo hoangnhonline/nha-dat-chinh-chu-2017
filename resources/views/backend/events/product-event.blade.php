@@ -116,7 +116,7 @@
 </div>
 @include ('backend.events.search-modal')
 @stop
-@section('javascript_page')
+@section('js')
 <script type="text/javascript">
 function callDelete(name, url){  
   swal({

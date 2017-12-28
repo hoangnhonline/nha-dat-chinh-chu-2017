@@ -164,7 +164,7 @@
 </style>
 <input type="hidden" id="route_upload_tmp_image" value="{{ route('image.tmp-upload') }}">
 @stop
-@section('javascript_page')
+@section('js')
 <script type="text/javascript">
 var h = screen.height;
 var w = screen.width;

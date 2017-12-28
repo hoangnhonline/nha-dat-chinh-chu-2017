@@ -111,7 +111,7 @@
                     <div role="tabpanel" class="tab-pane active" id="seoVi">
                          <div class="form-group">
                             <label>Thẻ title </label>
-                            <input type="text" class="form-control" name="meta_name_vi" id="meta_name_vi" value="{{ old('meta_name_vi') }}">
+                            <input type="text" class="form-control" name="meta_title_vi" id="meta_title_vi" value="{{ old('meta_title_vi') }}">
                           </div>
                           <!-- textarea -->
                           <div class="form-group">
@@ -131,7 +131,7 @@
                     <div role="tabpanel" class="tab-pane" id="seoEn">                        
                         <div class="form-group">
                             <label>Meta title </label>
-                            <input type="text" class="form-control" name="meta_name_en" id="meta_name_en" value="{{ old('meta_name_en') }}">
+                            <input type="text" class="form-control" name="meta_title_en" id="meta_title_en" value="{{ old('meta_title_en') }}">
                           </div>
                           <!-- textarea -->
                           <div class="form-group">
@@ -181,7 +181,7 @@
 
 @stop
 
-@section('javascript_page')
+@section('js')
 <script type="text/javascript">
     $(document).ready(function(){
       $(".select2").select2();

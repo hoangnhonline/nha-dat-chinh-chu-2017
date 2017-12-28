@@ -132,6 +132,6 @@
             @endif
         </style>
 
-        @yield('javascript_page')
+        @yield('js')
     </body>
 </html>

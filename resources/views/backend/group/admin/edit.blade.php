@@ -75,5 +75,5 @@
 <!-- /.content -->
 @stop
 
-@section('javascript_page')
+@section('js')
 @stop

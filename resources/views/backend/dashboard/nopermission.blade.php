@@ -13,6 +13,6 @@
 </section>
 @stop
 
-@section('javascript_page')
+@section('js')
 <!-- js link here -->
 @stop

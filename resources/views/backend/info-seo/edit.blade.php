@@ -97,7 +97,7 @@
 
 
 @stop
-@section('javascript_page')
+@section('js')
 
 <script type="text/javascript">
 $(document).ready(function(){  

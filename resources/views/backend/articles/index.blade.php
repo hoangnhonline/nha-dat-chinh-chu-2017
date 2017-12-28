@@ -131,7 +131,7 @@
 <!-- /.content -->
 <input type="hidden" id="table_name" value="articles">
 @stop
-@section('javascript_page')
+@section('js')
 <script type="text/javascript">
 function callDelete(name, url){  
   swal({

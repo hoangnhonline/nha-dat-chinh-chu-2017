@@ -66,7 +66,7 @@
                           <div class="checkbox">
                               <label><input type="checkbox" name="is_hot" value="1"
                               {{ old('is_hot', $detail->is_hot) == 1 ? "checked" : "" }}
-                              > TIN HOT </label>
+                              > Danh mục HOT </label>
                           </div>                          
                         </div>                      
                          
@@ -184,7 +184,7 @@
 
 @stop
 
-@section('javascript_page')
+@section('js')
 <script type="text/javascript">
 
     $(document).ready(function(){

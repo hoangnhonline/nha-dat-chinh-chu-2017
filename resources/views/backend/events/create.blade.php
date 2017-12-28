@@ -145,7 +145,7 @@
 <input type="hidden" id="route_upload_tmp_image" value="{{ route('image.tmp-upload') }}">
 
 @stop
-@section('javascript_page')
+@section('js')
 <script type="text/javascript" src="{{ URL::asset('public/assets/js/jquery.datetimepicker.min.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function(){

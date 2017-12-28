@@ -597,7 +597,7 @@
     </style>
 @stop
 
-@section('javascript_page')
+@section('js')
 <script>
       // This example adds a search box to a map, using the Google Place Autocomplete
       // feature. People can enter geographical searches. The search box will return a
