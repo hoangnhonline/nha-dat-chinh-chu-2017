@@ -32,7 +32,7 @@
                 <option value="">--Tất cả--</option>
                 @if( $cateArr->count() > 0)
                   @foreach( $cateArr as $value )
-                  <option value="{{ $value->id }}" {{ $value->id == $arrSearch['cate_id'] ? "selected" : "" }}>{{ $value->name }}</option>
+                  <option value="{{ $value->id }}" {{ $value->id == $arrSearch['cate_id'] ? "selected" : "" }}>{{ $value->name_vi }}</option>
                   @endforeach
                 @endif
               </select>
@@ -68,44 +68,24 @@
               <?php $i = 0; ?>
               @foreach( $items as $item )
                 <?php $i ++; ?>
-              <tr id="row-{{ $item->id }}">
+              <tr id="row-{{ $item->articles_id }}">
                 <td><span class="order">{{ $i }}</span></td>       
                 <td>
-                  <img class="img-thumbnail" src="{{ Helper::showImageThumb($item->image_url, 2)}}" width="145">
+                  <img class="img-thumbnail" src="{{ Helper::showImage($item->image_url) }}" width="145">
                 </td>        
                 <td>                  
-                  <a style="font-size:17px" href="{{ route( 'articles.edit', [ 'id' => $item->id ]) }}">{{ $item->title }}</a>                
+                  <a style="font-size:17px" href="{{ route( 'articles.edit', [ 'id' => $item->articles_id ]) }}">{{ $item->title_vi }}</a>                
                   
                   @if( $item->is_hot == 1 )
                   <label class="label label-danger">HOT</label>
-                  @endif
-                  <div class="block-author">
-                      <ul>
-                        <li>
-                          <span>Tác giả:</span>
-                          <span class="name">{!! $item->createdUser->display_name !!}</span>
-                        </li>
-                        <li>
-                            <span>Ngày tạo:</span>
-                          <span class="name">{!! date('d/m/Y H:i', strtotime($item->created_at)) !!}</span>
-                          
-                        </li>
-                         <li>
-                            <span>Cập nhật:</span>
-                          <span class="name">{!! $item->updatedUser->display_name !!} ( {!! date('d/m/Y H:i', strtotime($item->updated_at)) !!} )</span>          
-                        </li>  
-                        <li>
-                          {!! Helper::view($item->id, 2) !!} lượt xem
-                        </li>
-                      </ul>
-                    </div>
-                  <p>{{ $item->description }}</p>
+                  @endif                  
+                  <p>{{ $item->description_vi }}</p>
                 </td>
                 <td style="white-space:nowrap"> 
-                  <a class="btn btn-default btn-sm" href="{{ route('news-detail', [$item->cate->slug, $item->slug, $item->id ]) }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Xem</a>                 
-                  <a href="{{ route( 'articles.edit', [ 'id' => $item->id ]) }}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span></a>                 
+                  <a class="btn btn-default btn-sm" href="{{ route('news-detail', [$item->cate->slug_vi, $item->slug_vi, $item->articles_id]) }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Xem</a>                 
+                  <a href="{{ route( 'articles.edit', [ 'id' => $item->articles_id ]) }}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span></a>                 
                   
-                  <a onclick="return callDelete('{{ $item->title }}','{{ route( 'articles.destroy', [ 'id' => $item->id ]) }}');" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
+                  <a onclick="return callDelete('{{ $item->title_vi }}','{{ route( 'articles.destroy', [ 'id' => $item->articles_id ]) }}');" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
                   
                 </td>
               </tr> 

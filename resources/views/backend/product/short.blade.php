@@ -4,11 +4,11 @@
 @if(Auth::user()->email != "huongll@icho.vn")
 <section class="content-header">
   <h1>
-    Sản phẩm
+    Bất động sản
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-    <li><a href="{{ route( 'product.short' ) }}">Sản phẩm</a></li>
+    <li><a href="{{ route( 'product.short' ) }}">Bất động sản</a></li>
     <li class="active">Danh sách</li>
   </ol>
 </section>

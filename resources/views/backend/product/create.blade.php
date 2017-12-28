@@ -3,11 +3,11 @@
 <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Sản phẩm    
+      Bất động sản    
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-      <li><a href="{{ route('product.index') }}">Sản phẩm</a></li>
+      <li><a href="{{ route('product.index') }}">Bất động sản</a></li>
       <li class="active">Thêm mới</li>
     </ol>
   </section>
@@ -44,24 +44,23 @@
 
                   <!-- Nav tabs -->
                   <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Thông tin chi tiết</a></li>
-                    <li role="presentation"><a href="#lien-he" aria-controls="tien-ich" role="tab" data-toggle="tab">Thông tin liên hệ</a></li>
-                    <li role="presentation"><a href="#tien-ich" aria-controls="tien-ich" role="tab" data-toggle="tab">Tiện ích</a></li>
+                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Thông tin tiếng Việt</a></li>   
+                    <li role="presentation"><a href="#home2" aria-controls="home2" role="tab" data-toggle="tab">Thông tin tiếng Anh</a></li>                                      
                     <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Hình ảnh</a></li>                    
                   </ul>
 
                   <!-- Tab panes -->
                   <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="home">
-                      <div class="form-group col-md-4 pleft-5">
+                      <div class="form-group col-md-6 pleft-5">
                           <label for="email">Loại <span class="red-star">*</span></label>
                             <select class="form-control" name="type" id="type">
                                 <option value="1" {{ old('type', $type) == 1 ? "selected" : "" }}>Bán</option>
                                 <option value="2" {{ old('type', $type) == 2 ? "selected" : "" }}>Cho thuê</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-4 none-padding">
-                          <label for="email">Danh mục cha<span class="red-star">*</span></label>
+                        <div class="form-group col-md-6 none-padding">
+                          <label for="email">Loại bất động sản<span class="red-star">*</span></label>
                           <select class="form-control" name="estate_type_id" id="estate_type_id">
                             <option value="">--Chọn--</option>
                             @foreach( $estateTypeArr as $value )
@@ -71,25 +70,7 @@
                             @endforeach
                           </select>
                         </div>
-                        <div class="form-group col-md-4">
-                          <label for="email">Danh mục con</label>
-                          <?php 
-                          $cateList = (object) [];
-                          $estate_type_id = old('estate_type_id', $estate_type_id);
-                          if($estate_type_id > 0){
-                            $cateList = DB::table('cate')->where('estate_type_id', $estate_type_id)->get();
-                          }
-                          ?>
-                          <select class="form-control" name="cate_id" id="cate_id">
-                            <option value="">--Chọn--</option>
-                            @foreach( $cateList as $value )
-                            <option value="{{ $value->id }}"
-                            {{ old('cate_id') == $value->id ? "selected" : "" }}                           
-
-                            >{{ $value->name }}</option>
-                            @endforeach
-                          </select>
-                        </div>
+                       
                         <div class="form-group col-md-4  pleft-5">
                           <label for="email">Tỉnh/TP <span class="red-star">*</span></label>
                             <select class="form-control" name="city_id" id="city_id">
@@ -134,116 +115,44 @@
                             @endforeach
                           </select>
                         </div>
-                        <div class="form-group col-md-6  pleft-5">
+                        <div class="form-group col-md-4  pleft-5">
+                          <label for="email">Số nhà</label>
+                           <input type="text" name="street_num" class="form-control" placeholder="Số nhà" value="{{ old('street_num') }}">
+                        </div>
+                        <div class="form-group col-md-8 none-padding">
                           <label for="email">Đường</label>
-                            <select class="form-control" name="street_id" id="street_id">
-                            <option value="">--Chọn--</option>
-                            <?php 
-                            $streetList = App\Models\Street::where('district_id', $district_id)->get();
-                            ?>
-                                @foreach( $streetList as $value )
-                                <option value="{{ $value->id }}"
-                                {{ old('street_id') == $value->id ? "selected" : "" }}                           
-
-                                >{{ $value->name }}</option>
-                                @endforeach
-                            </select>
+                           <input type="text" name="street_name" class="form-control" placeholder="Tên đường" value="{{ old('street') }}">
                         </div>
-                        <div class="form-group col-md-6 none-padding">
-                          <label for="email">Dự án</label>
-                          <select class="form-control" name="project_id" id="project_id">
-                            <option value="">--Chọn--</option>
-                            @foreach( $projectList as $value )
-                            <option value="{{ $value->id }}"
-                            {{ old('project_id') == $value->id ? "selected" : "" }}
-                            >{{ $value->name }}</option>
-                            @endforeach
-                          </select>
-                        </div>
-                        <div class="form-group" >                  
-                          <label>Tên <span class="red-star">*</span></label>
-                          <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}">
-                        </div>
-                        <div class="form-group">                  
-                          <label>Slug <span class="red-star">*</span></label>                  
-                          <input type="text" class="form-control" name="slug" id="slug" value="{{ old('slug') }}">
-                        </div>
-                        <div class="form-group col-md-6 none-padding" >                  
+                       
+                        <div class="form-group pleft-5" >                  
+                          <label>Tiêu đề <span class="red-star">*</span></label>
+                          <input type="text" class="form-control" name="title_vi" id="title_vi" value="{{ old('title_vi') }}">
+                        </div>                        
+                        <div class="form-group col-md-4 pleft-5 none-padding" >                  
                             <label>Giá<span class="red-star">*</span></label>
-                            <input type="text" class="form-control" name="price" id="price" value="{{ old('price') }}">
-                        </div>
-                        <div class="form-group col-md-6 none-padding pleft-5" >                  
-                            <label>Đơn vị giá<span class="red-star">*</span></label>
-                            <select class="form-control" name="price_unit_id" id="price_unit_id">
-                              <option value="">--Chọn--</option>
-                              @foreach( $priceUnitList as $value )
-                              <option value="{{ $value->id }}"
-                              {{ old('price_unit_id') == $value->id ? "selected" : "" }}                           
-
-                              >{{ $value->name }}</option>
-                              @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6  pleft-5">
-                          <label for="email">Khoảng giá<span class="red-star">*</span></label>
-                            <select class="form-control" name="price_id" id="price_id">
-                              <option value="">--Chọn--</option>
-                                @foreach( $priceList as $value )
-                                <option value="{{ $value->id }}"
-                                {{ old('price_id') == $value->id ? "selected" : "" }}
-                                >{{ $value->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6 none-padding">
-                          <label for="email">Khoảng diện tích<span class="red-star">*</span></label>
-                          <select class="form-control" name="area_id" id="area_id">
-                            <option value="">--Chọn--</option>
-                            @foreach( $areaList as $value )
-                            <option value="{{ $value->id }}"
-                            {{ old('area_id') == $value->id ? "selected" : "" }}
-                            >{{ $value->name }}</option>
-                            @endforeach
-                          </select>
-                        </div>
-                        <div class="form-group col-md-12 none-padding">
-                            <label>Địa chỉ</label>
-                             <input type="text" class="form-control" name="full_address" id="full_address" value="{{ old('full_address') }}">  
-                        </div>
-                        <div class="form-group col-md-4 none-padding">
+                            <input type="text" class="form-control number" name="price" id="price" value="{{ old('price') }}">
+                        </div>                                                                        
+                        <div class="form-group col-md-4 pleft-5 none-padding">
                           <label>Diện tích <span class="red-star">*</span></label>                  
                           <input type="text" class="form-control" name="area" id="area" value="{{ old('area') }}">                        
-                        </div>                        
-                        <div class=" form-group col-md-4 none-padding pleft-5">
-                          <label>Mặt tiền</label>                  
-                          <input type="text" class="form-control" name="front_face" id="front_face" value="{{ old('front_face') }}">                        
-                        </div>
-                        <div class="form-group col-md-4 none-padding pleft-5">
-                          <label>Đường trước nhà</label>                  
-                          <input type="text" class="form-control" name="street_wide" id="street_wide" value="{{ old('street_wide') }}">                        
-                        </div>
-                        <div class="form-group col-md-3 none-padding">
-                          <label>Số tầng</label>                  
-                          <input type="text" class="form-control" name="no_floor" id="no_floor" value="{{ old('no_floor') }}">                        
-                        </div>
-                        <div class="form-group col-md-3 none-padding pleft-5">
-                          <label>Số phòng</label>                  
+                        </div>  
+                        <div class="form-group col-md-4 pleft-5 none-padding" >                  
+                            <label>Điện thoại liên hệ</label>
+                            <input type="text" class="form-control" name="contact_phone" id="contact_phone" value="{{ old('contact_phone') }}">
+                        </div>                                             
+                        <div class="form-group col-md-4 pleft-5 none-padding">
+                          <label>Số phòng ngủ</label>                  
                           <input type="text" class="form-control" name="no_room" id="no_room" value="{{ old('no_room') }}">                        
                         </div>
-                        <div class="form-group col-md-3 none-padding pleft-5">
+                        <div class="form-group col-md-4 none-padding pleft-5">
                           <label>Số WC</label>                  
                           <input type="text" class="form-control" name="no_wc" id="no_wc" value="{{ old('no_wc') }}">                        
                         </div>
-                        <div class="form-group col-md-3 none-padding pleft-5">
-                          <label>Hướng</label>                  
-                          <select class="form-control" name="direction_id" id="direction_id">
-                            @if( $directionArr->count() > 0)
-                              @foreach( $directionArr as $value )
-                              <option value="{{ $value->id }}" {{ old('direction_id') == $value->id  ? "selected" : "" }}>{{ $value->name }}</option>
-                              @endforeach
-                            @endif
-                          </select>                       
+                        <div class="form-group col-md-4 none-padding pleft-5">
+                          <label>Số garages</label>                  
+                          <input type="text" class="form-control" name="no_garages" id="no_garages" value="{{ old('no_garages') }}">                        
                         </div>
+                       
                         <div class="form-group col-md-12">
                           <div class="checkbox">
                             <label style="font-weight:bold;color:red">
@@ -251,49 +160,15 @@
                               Tin HOT
                             </label>
                           </div>               
-                        </div>
-                        <div class="form-group col-md-4 none-padding" >
-                            <div class="checkbox">
-                              <label>
-                                <input type="checkbox" name="cart_status" value="1" {{ old('cart_status') == 1 || old('cart_status') == NULL ? "checked" : "" }}>
-                                {{ $type == 1 ? "Chưa bán" : "Còn trống" }}
-                              </label>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-4 none-padding" >
-                            <div class="checkbox">
-                              <label>
-                                <input type="checkbox" name="cart_status" value="2" {{ old('cart_status') == 2 ? "checked" : "" }}>
-                                {{ $type == 1 ? "Đã bán" : "Đã thuê" }}
-                              </label>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-4 none-padding" >
-                            <div class="checkbox">
-                              <label>
-                                <input type="checkbox" name="cart_status" value="3" {{ old('cart_status') == 3 ? "checked" : "" }}>
-                                Đã cọc
-                              </label>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                          <label>Tags</label>
-                          <select class="form-control select2" name="tags[]" id="tags" multiple="multiple">                  
-                            @if( $tagArr->count() > 0)
-                              @foreach( $tagArr as $value )
-                              <option value="{{ $value->id }}" {{ (old('tags') && in_array($value->id, old('tags'))) ? "selected" : "" }}>{{ $value->name }}</option>
-                              @endforeach
-                            @endif
-                          </select>
-                          <span class="input-group-btn">
-                            <button style="margin-top:24px" class="btn btn-primary btn-sm" id="btnAddTag" type="button" data-value="3">
-                              Tạo mới
-                            </button>
-                          </span>
-                        </div>
-                        <div class="form-group form-group col-md-12 none-padding" style="margin-top:10px">
-                            <label>Mô tả</label>
-                            <textarea class="form-control" rows="4" name="description" id="description">{{ old('description') }}</textarea>
+                        </div>                        
+                        
+                        <div class="form-group form-group col-md-12 pleft-5 none-padding" style="margin-top:10px">
+                            <label>Mô tả ngắn</label>
+                            <textarea class="form-control" rows="4" name="description_vi" id="description_vi">{{ old('description_vi') }}</textarea>
+                          </div>
+                          <div class="form-group form-group pleft-5 col-md-12 none-padding" style="margin-top:10px">
+                            <label>Chi tiết</label>
+                            <textarea class="form-control" rows="4" name="content_vi" id="content_vi">{{ old('content_vi') }}</textarea>
                           </div>
                           <input type="hidden" id="editor" value="description">
                           <div class="clearfix"></div>
@@ -302,48 +177,29 @@
                           <div id="map-abc"></div>
                       </div>
                         <div class="clearfix"></div>
-                    </div><!--end thong tin co ban-->   
-                    <div role="tabpanel" class="tab-pane" id="lien-he">
-                        <div class="form-group col-md-6 " >                  
-                            <label>Họ tên <span class="red-star">*</span></label>
-                            <input type="text" class="form-control" name="contact_name" id="contact_name" value="{{ old('contact_name') }}">
-                        </div>
-                        <div class="form-group col-md-6 none-padding pleft-5" >                  
-                            <label>Địa chỉ</label>
-                            <input type="text" class="form-control" name="contact_address" id="contact_address" value="{{ old('contact_address') }}">
+                    </div><!--end thong tin co ban-->
+                    <div role="tabpanel" class="tab-pane" id="home2">
+                      
+                     
+                       
+                        
+                      
+                        <div class="form-group pleft-5" >                  
+                          <label>Title <span class="red-star">*</span></label>
+                          <input type="text" class="form-control" name="title_en" id="title_en" value="{{ old('title_en') }}">
                         </div>                        
-                        <div class="form-group col-md-6 " >                  
-                            <label>Điện thoại</label>
-                            <input type="text" class="form-control" name="contact_phone" id="contact_phone" value="{{ old('contact_phone') }}">
-                        </div>
-                        <div class="form-group col-md-6 none-padding pleft-5" >                  
-                            <label>Di động <span class="red-star">*</span></label>
-                            <input type="text" class="form-control" name="contact_mobile" id="contact_mobile" value="{{ old('contact_mobile') }}">
-                        </div>
-                        <div class="form-group col-md-12 " >                  
-                            <label>Email</label>
-                            <input type="text" class="form-control" name="contact_email" id="contact_email" value="{{ old('contact_email') }}">
-                        </div>
+                       
+                        
+                        <div class="form-group form-group col-md-12 pleft-5 none-padding" style="margin-top:10px">
+                            <label>Short description</label>
+                            <textarea class="form-control" rows="4" name="description_en" id="description_en">{{ old('description_en') }}</textarea>
+                          </div>
+                          <div class="form-group form-group pleft-5 col-md-12 none-padding" style="margin-top:10px">
+                            <label>Detail</label>
+                            <textarea class="form-control" rows="4" name="content_en" id="content_en">{{ old('content_en') }}</textarea>
+                          </div>                        
                         <div class="clearfix"></div>
-                     </div><!--end lien he -->                  
-                     <div role="tabpanel" class="tab-pane" id="tien-ich">
-                        <div class="form-group" style="margin-top:10px;margin-bottom:10px" id="load-tien-ich"> 
-                              @if($tienIchLists)
-                                <?php $i_ti = 0; ?>
-                                @foreach($tienIchLists as $ti)
-                                <?php $i_ti++; ?>
-                                <div class="col-md-4">
-                                  <input type="checkbox" value="{{ $ti->id }}" name="tien_ich[]" id="tien_ich_{{ $i_ti }}"> 
-                                  <label style="cursor:poiter;text-transform:uppercase; font-weight:normal" for="tien_ich_{{ $i_ti }}">{{ $ti->name }}</label>
-                                </div>
-                                @endforeach 
-                              @else
-                              <p>Chưa có tiện ích nào.</p>
-                              @endif
-                              <div class="clearfix"></div>
-                        </div>
-
-                     </div><!--end tien ich--> 
+                    </div><!--end thong tin co ban-->
                      <div role="tabpanel" class="tab-pane" id="settings">
                         <div class="form-group" style="margin-top:10px;margin-bottom:10px">  
                          
@@ -386,24 +242,64 @@
 
           <!-- /.box-header -->
             <div class="box-body">
-              <div class="form-group">
-                <label>Meta title </label>
-                <input type="text" class="form-control" name="meta_title" id="meta_title" value="{{ old('meta_title') }}">
-              </div>
-              <!-- textarea -->
-              <div class="form-group">
-                <label>Meta desciption</label>
-                <textarea class="form-control" rows="6" name="meta_description" id="meta_description">{{ old('meta_description') }}</textarea>
-              </div>  
 
-              <div class="form-group">
-                <label>Meta keywords</label>
-                <textarea class="form-control" rows="4" name="meta_keywords" id="meta_keywords">{{ old('meta_keywords') }}</textarea>
-              </div>  
-              <div class="form-group">
-                <label>Custom text</label>
-                <textarea class="form-control" rows="6" name="custom_text" id="custom_text">{{ old('custom_text') }}</textarea>
-              </div>
+               <div>
+
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#seoVi" aria-controls="seoVi" role="tab" data-toggle="tab">VN</a></li>
+                    <li role="presentation"><a href="#seoEn" aria-controls="seoEn" role="tab" data-toggle="tab">EN</a></li>                    
+                  </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="seoVi">
+                         <div class="form-group">
+                            <label>Thẻ title </label>
+                            <input type="text" class="form-control" name="meta_title_vi" id="meta_title_vi" value="{{ old('meta_title_vi') }}">
+                          </div>
+                          <!-- textarea -->
+                          <div class="form-group">
+                            <label>Thẻ desciption</label>
+                            <textarea class="form-control" rows="6" name="meta_description_vi" id="meta_description_vi">{{ old('meta_description_vi') }}</textarea>
+                          </div>  
+
+                          <div class="form-group">
+                            <label>Thẻ keywords</label>
+                            <textarea class="form-control" rows="4" name="meta_keywords_vi" id="meta_keywords_vi">{{ old('meta_keywords_vi') }}</textarea>
+                          </div>  
+                          <div class="form-group">
+                            <label>Nội dung tùy chỉnh</label>
+                            <textarea class="form-control" rows="6" name="custom_text_vi" id="custom_text_vi">{{ old('custom_text_vi') }}</textarea>
+                          </div>
+                    </div><!--end thong tin co ban--> 
+                    <div role="tabpanel" class="tab-pane" id="seoEn">                        
+                        <div class="form-group">
+                            <label>Meta title </label>
+                            <input type="text" class="form-control" name="meta_title_en" id="meta_title_en" value="{{ old('meta_title_en') }}">
+                          </div>
+                          <!-- textarea -->
+                          <div class="form-group">
+                            <label>Meta desciption</label>
+                            <textarea class="form-control" rows="6" name="meta_description_en" id="meta_description_en">{{ old('meta_description_en') }}</textarea>
+                          </div>  
+
+                          <div class="form-group">
+                            <label>Meta keywords</label>
+                            <textarea class="form-control" rows="4" name="meta_keywords_en" id="meta_keywords_en">{{ old('meta_keywords_en') }}</textarea>
+                          </div>  
+                          <div class="form-group">
+                            <label>Custom text</label>
+                            <textarea class="form-control" rows="6" name="custom_text_en" id="custom_text_en">{{ old('custom_text_en') }}</textarea>
+                          </div>
+                    </div><!--end thong tin co ban--> 
+                   
+                  </div>
+
+                </div>
+
+
+             
             
         </div>
         <!-- /.box -->     
@@ -711,9 +607,21 @@ $(document).on('click', '#btnSaveTagAjax', function(){
         $('#btnLoading').show();
       });
       
-      var editor3 = CKEDITOR.replace( 'description',{
+      var editor3 = CKEDITOR.replace( 'content_vi',{
           language : 'vi',
-          height : 300,
+          height : 200,
+          toolbarGroups : [
+            
+            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+            { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+            { name: 'links', groups: [ 'links' ] },           
+            '/',
+            
+          ]
+      });
+      var editor3 = CKEDITOR.replace( 'content_en',{
+          language : 'vi',
+          height : 200,
           toolbarGroups : [
             
             { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },

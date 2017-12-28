@@ -3,7 +3,7 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Tin tức  
+      Bài viết  
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -56,7 +56,7 @@
                             <option value="">-- chọn --</option>
                             @if( $cateArr->count() > 0)
                               @foreach( $cateArr as $value )
-                              <option value="{{ $value->id }}" {{ old('cate_id', $detail->cate_id) == $value->id ? "selected" : "" }} >{{ $value->name }}</option>
+                              <option value="{{ $value->id }}" {{ old('cate_id', $detail->cate_id) == $value->id ? "selected" : "" }} >{{ $value->name_vi }}</option>
                               @endforeach
                             @endif
                           </select>

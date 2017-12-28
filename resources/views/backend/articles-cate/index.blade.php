@@ -94,8 +94,7 @@ function callDelete(name, url){
     confirmButtonText: 'Yes'
   }).then(function() {
     location.href= url;
-  })
-  return flag;
+  })  
 }
 $(document).ready(function(){
   $('#table-list-data tbody').sortable({

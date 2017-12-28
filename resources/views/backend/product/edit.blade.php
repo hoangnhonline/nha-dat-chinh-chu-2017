@@ -3,11 +3,11 @@
 <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Sản phẩm    
+      Bất động sản    
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-      <li><a href="{{ route('product.index') }}">Sản phẩm</a></li>
+      <li><a href="{{ route('product.index') }}">Bất động sản</a></li>
       <li class="active"><span class="glyphicon glyphicon-pencil"></span></li>
     </ol>
   </section>
